@@ -1,5 +1,5 @@
 {
-  "name": "ecommerce-application2",
+  "name": "ecommerce-application",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -21,7 +21,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "lint": "eslint src",
-    "lint-fix": "eslint src --quiet --fix"
+    "lint-fix": "eslint src --quiet --fix",
+    "prepare": "husky install"
   },
   "eslintConfig": {
     "extends": [
@@ -52,6 +53,7 @@
     "eslint-plugin-prettier": "^5.0.0",
     "eslint-plugin-react": "^7.28.0",
     "eslint-plugin-react-hooks": "^4.3.0",
+    "husky": "^8.0.0",
     "prettier": "^3.0.0"
   }
 }
