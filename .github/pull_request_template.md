@@ -1,9 +1,21 @@
-1. Sprint: [link](https://github.com/rolling-scopes-school/tasks/blob/master/tasks/eCommerce-Application/Sprints/Sprint%231.md)
-2. Sprint task - Repository Setup (29 points)
-3. Done 02.08.2023 / deadline 08.08.2023
-4. Score: 29 / 29
+#### 🤔 This is a ...
 
-- [x] Create a GitHub repository for the project, complete with a README file, .gitignore, and necessary dependencies.
-- [x] Set up a clear and organized folder structure within the repository, ensuring a maintainable and scalable codebase.
-- [x] Invite all team members and the mentor as collaborators, ensuring everyone has access to contribute to the repository.
-- [x] Create a pull request template with a clear structure for describing proposed changes and the rationale behind them.
+- [ ] New feature
+- [ ] Bug fix
+- [ ] Refactoring
+- [ ] Documentation update
+- [ ] Other
+
+#### 🔗 Task description or description of the problem
+
+_Link to the task, item number, task name, description of the problem_
+
+#### 💡 Background and solution
+
+_Describe the big picture of your changes here_
+
+⚠️ Please check all items below before review. ⚠️
+
+- [ ] Add reviewers
+- [ ] Documentation is updated/provided or not needed
+- [ ] Trello board updated or not needed
