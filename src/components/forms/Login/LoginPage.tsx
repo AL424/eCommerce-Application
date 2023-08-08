@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 
 type LoginInputs = {
@@ -8,6 +8,9 @@ type LoginInputs = {
 };
 
 const LoginPage = () => {
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -20,6 +23,13 @@ const LoginPage = () => {
   const onSubmit: SubmitHandler<LoginInputs> = (data) => {
     console.log(data);
     reset();
+  };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+  const toggleConfirmPasswordVisibility = () => {
+    setShowConfirmPassword(!showConfirmPassword);
   };
 
   console.log(watch()); // watch input value by passing the name of it
@@ -70,26 +80,37 @@ const LoginPage = () => {
       {/* include validation with required or other standard HTML validation rules */}
       <p>{errors.login && <span>{errors.login.message}</span>}</p>
 
-      <input
-        placeholder="Password"
-        type="password"
-        {...register('password', passwordValidation)}
-      />
+      <div>
+        <input
+          placeholder="Password"
+          type={showPassword ? 'text' : 'password'}
+          {...register('password', passwordValidation)}
+        />
+        <button type="button" onClick={togglePasswordVisibility}>
+          {showPassword ? 'Hide' : 'Show'}
+        </button>
+      </div>
       {/* errors will return when field validation fails  */}
       <p>{errors.password && <span>{errors.password.message}</span>}</p>
 
-      <input
-        placeholder="Confirm Password"
-        type="password"
-        {...register('confirm_password', {
-          required: true,
-          validate: (val: string) => {
-            if (watch('password') != val) {
-              return 'Your passwords do no match';
+      <div>
+        <input
+          placeholder="Confirm Password"
+          type={showConfirmPassword ? 'text' : 'password'}
+          {...register('confirm_password', {
+            required: true,
+            validate: (val: string) => {
+              if (watch('password') != val) {
+                return 'Your passwords do no match';
+              }
             }
-          }
-        })}
-      />
+          })}
+        />
+        <button type="button" onClick={toggleConfirmPasswordVisibility}>
+          {showConfirmPassword ? 'Hide' : 'Show'}
+        </button>
+      </div>
+
       <p>
         {errors.confirm_password && (
           <span>{errors.confirm_password.message}</span>
