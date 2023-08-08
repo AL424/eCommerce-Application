@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 
+import './LoginPage.css';
+
 type LoginInputs = {
   login: string;
   password: string;
@@ -73,52 +75,55 @@ const LoginPage = () => {
 
   return (
     /* "handleSubmit" will validate your inputs before invoking "onSubmit" onSubmit={handleSubmit(onSubmit)} */
-    <form onSubmit={handleSubmit(onSubmit)}>
-      {/* register your input into the hook by invoking the "register" function */}
-      <input placeholder="Login" {...register('login', emailValidation)} />
+    <div className="form-container">
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <label>Login</label>
+        <div>
+          <input placeholder="Login" {...register('login', emailValidation)} />
+          <p>{errors.login && <span>{errors.login.message}</span>}</p>
+        </div>
 
-      {/* include validation with required or other standard HTML validation rules */}
-      <p>{errors.login && <span>{errors.login.message}</span>}</p>
+        <label>Password</label>
+        <div style={{ display: 'flex' }}>
+          <input
+            placeholder="Password"
+            type={showPassword ? 'text' : 'password'}
+            {...register('password', passwordValidation)}
+          />
+          <button type="button" onClick={togglePasswordVisibility}>
+            {showPassword ? 'Hide' : 'Show'}
+          </button>
+        </div>
+        <p>{errors.password && <span>{errors.password.message}</span>}</p>
 
-      <div>
-        <input
-          placeholder="Password"
-          type={showPassword ? 'text' : 'password'}
-          {...register('password', passwordValidation)}
-        />
-        <button type="button" onClick={togglePasswordVisibility}>
-          {showPassword ? 'Hide' : 'Show'}
-        </button>
-      </div>
-      {/* errors will return when field validation fails  */}
-      <p>{errors.password && <span>{errors.password.message}</span>}</p>
-
-      <div>
-        <input
-          placeholder="Confirm Password"
-          type={showConfirmPassword ? 'text' : 'password'}
-          {...register('confirm_password', {
-            required: true,
-            validate: (val: string) => {
-              if (watch('password') != val) {
-                return 'Your passwords do no match';
+        <label>Confirm Password</label>
+        <div style={{ display: 'flex' }}>
+          <input
+            placeholder="Confirm Password"
+            type={showConfirmPassword ? 'text' : 'password'}
+            {...register('confirm_password', {
+              required: true,
+              validate: (val: string) => {
+                if (watch('password') != val) {
+                  return 'Your passwords do no match';
+                }
               }
-            }
-          })}
-        />
-        <button type="button" onClick={toggleConfirmPasswordVisibility}>
-          {showConfirmPassword ? 'Hide' : 'Show'}
-        </button>
-      </div>
+            })}
+          />
+          <button type="button" onClick={toggleConfirmPasswordVisibility}>
+            {showConfirmPassword ? 'Hide' : 'Show'}
+          </button>
+        </div>
 
-      <p>
-        {errors.confirm_password && (
-          <span>{errors.confirm_password.message}</span>
-        )}
-      </p>
+        <p>
+          {errors.confirm_password && (
+            <span>{errors.confirm_password.message}</span>
+          )}
+        </p>
 
-      <input type="submit" disabled={!isValid} />
-    </form>
+        <input type="submit" disabled={!isValid} />
+      </form>
+    </div>
   );
 };
 
