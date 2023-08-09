@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { emailValidation } from '../../../utils/validation/emailValidation';
 import { passwordValidation } from '../../../utils/validation/passwordValidation';
-import EmailField from './LoginFields/EmailField';
-import PasswordField from './LoginFields/PasswordField';
+import Input from '../../common/Input/Input';
+import PasswordField from '../../common/PasswordInput/PasswordInput';
 
 import './LoginForm.css';
 
@@ -40,7 +40,7 @@ const LoginForm: React.FC = () => {
   return (
     <div className="form-container">
       <form onSubmit={handleSubmit(onSubmit)}>
-        <EmailField
+        <Input
           label="Login"
           placeholder="Login"
           inputProps={register('login', emailValidation)}

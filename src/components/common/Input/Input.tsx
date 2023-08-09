@@ -1,22 +1,28 @@
 import React from 'react';
 import { FieldError } from 'react-hook-form';
 
-interface DateFieldProps {
+interface InputProps {
   label: string;
+  placeholder: string;
   inputProps: React.InputHTMLAttributes<HTMLInputElement>;
   error: FieldError | undefined;
 }
 
-const DateField: React.FC<DateFieldProps> = ({ label, inputProps, error }) => {
+const Input: React.FC<InputProps> = ({
+  label,
+  placeholder,
+  inputProps,
+  error
+}) => {
   return (
     <div>
       <label>{label}</label>
       <div>
-        <input type="date" {...inputProps} />
+        <input placeholder={placeholder} {...inputProps} />
         <p>{error && <span>{error.message}</span>}</p>
       </div>
     </div>
   );
 };
 
-export default DateField;
+export default Input;
