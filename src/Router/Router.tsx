@@ -1,6 +1,7 @@
 import React from 'react';
 import { createBrowserRouter, RouteObject } from 'react-router-dom';
 import { Root } from '../pages/Root/Root';
+import { Error } from '../pages/Error/Error';
 
 export const routesConfig: RouteObject[] = [
   {
@@ -21,7 +22,7 @@ export const routesConfig: RouteObject[] = [
       },
       {
         path: '*',
-        element: <h1>404</h1>
+        element: <Error />
       }
     ]
   }

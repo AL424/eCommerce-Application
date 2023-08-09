@@ -2,13 +2,13 @@ import userEvent from '@testing-library/user-event';
 import React from 'react';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { act, render, screen } from '@testing-library/react';
-import { routeConfig } from './Router';
+import { routesConfig } from './Router';
 
 const renderWithRouter = (route = '/') => {
   window.history.pushState({}, 'Test page', route);
   return {
     user: userEvent,
-    ...render(<RouterProvider router={createBrowserRouter(routeConfig)} />)
+    ...render(<RouterProvider router={createBrowserRouter(routesConfig)} />)
   };
 };
 
