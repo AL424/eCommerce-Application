@@ -13,7 +13,7 @@ type LoginInputs = {
   confirm_password: string;
 };
 
-const LoginForm = () => {
+const LoginForm: React.FC = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const {

@@ -16,7 +16,7 @@ type RegistrationInputs = {
   confirm_password: string;
 };
 
-const RegistrationForm = () => {
+const RegistrationForm: React.FC = () => {
   const {
     register,
     handleSubmit,
