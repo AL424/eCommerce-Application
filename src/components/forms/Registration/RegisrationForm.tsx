@@ -4,7 +4,7 @@ import { emailValidation } from '../../../utils/validation/emailValidation';
 import { passwordValidation } from '../../../utils/validation/passwordValidation';
 import { nameValidation } from '../../../utils/validation/nameValidation';
 import { ageValidation } from '../../../utils/validation/ageValidation';
-import EmailField from '../Login/LoginFields/EmailFiled';
+import EmailField from '../Login/LoginFields/EmailField';
 import PasswordField from '../Login/LoginFields/PasswordField';
 import NameField from './RegistrationFields/NameField';
 import DateField from './RegistrationFields/DateField';
@@ -76,11 +76,6 @@ const RegistrationForm: React.FC = () => {
           inputProps={register('date', ageValidation)}
           error={errors.date}
         />
-        {/* <input
-          type="date"
-          placeholder="Date of Birth"
-          {...register('dateOfBirth', ageValidation)}
-        /> */}
 
         <input type="submit" disabled={!isValid} />
       </form>

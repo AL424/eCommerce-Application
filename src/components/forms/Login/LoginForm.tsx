@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { emailValidation } from '../../../utils/validation/emailValidation';
 import { passwordValidation } from '../../../utils/validation/passwordValidation';
-import EmailField from './LoginFields/EmailFiled';
+import EmailField from './LoginFields/EmailField';
 import PasswordField from './LoginFields/PasswordField';
 
 import './LoginForm.css';
