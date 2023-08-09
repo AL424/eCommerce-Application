@@ -3,9 +3,11 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { emailValidation } from '../../../utils/validation/emailValidation';
 import { passwordValidation } from '../../../utils/validation/passwordValidation';
 import { nameValidation } from '../../../utils/validation/nameValidation';
+import { ageValidation } from '../../../utils/validation/ageValidation';
 import EmailField from '../Login/LoginFields/EmailFiled';
 import PasswordField from '../Login/LoginFields/PasswordField';
 import NameField from './RegistrationFields/NameField';
+import DateField from './RegistrationFields/DateField';
 
 import '../Login/LoginForm.css';
 
@@ -14,6 +16,8 @@ type RegistrationInputs = {
   password: string;
   name: string;
   surname: string;
+  dateOfBirth: string;
+  date: string;
 };
 
 const RegistrationForm: React.FC = () => {
@@ -66,6 +70,17 @@ const RegistrationForm: React.FC = () => {
           })}
           error={errors.surname}
         />
+
+        <DateField
+          label="Date of Birth"
+          inputProps={register('date', ageValidation)}
+          error={errors.date}
+        />
+        {/* <input
+          type="date"
+          placeholder="Date of Birth"
+          {...register('dateOfBirth', ageValidation)}
+        /> */}
 
         <input type="submit" disabled={!isValid} />
       </form>
