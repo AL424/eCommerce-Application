@@ -1,13 +1,13 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import LoginPage from './components/forms/Login/LoginPage';
+import LoginForm from './components/forms/Login/LoginForm';
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <LoginPage />
+        <LoginForm />
         <img src={logo} className="App-logo" alt="logo" />
         <p>
           Edit <code>src/App.tsx</code> and save to reload.
