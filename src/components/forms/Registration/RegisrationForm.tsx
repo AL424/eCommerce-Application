@@ -13,7 +13,7 @@ type RegistrationInputs = {
   login: string;
   password: string;
   name: string;
-  confirm_password: string;
+  surname: string;
 };
 
 const RegistrationForm: React.FC = () => {
@@ -55,6 +55,16 @@ const RegistrationForm: React.FC = () => {
           placeholder="John"
           inputProps={register('name', nameValidation)}
           error={errors.name}
+        />
+
+        <NameField
+          label="Surname"
+          placeholder="Doe"
+          inputProps={register('surname', {
+            ...nameValidation,
+            required: 'Surname is required'
+          })}
+          error={errors.surname}
         />
 
         <input type="submit" disabled={!isValid} />
