@@ -9,7 +9,6 @@ import { streetValidation } from '../../../utils/validation/streetValidation';
 import Select from '../../common/Select/Select';
 import PasswordInput from '../../common/PasswordInput/PasswordInput';
 import Input from '../../common/Input/Input';
-import DateInput from '../../common/DateInput/DateInput';
 
 import '../Login/LoginForm.css';
 import './RegistrationForm.css';
@@ -78,8 +77,9 @@ const RegistrationForm: React.FC = () => {
           error={errors.surname}
         />
 
-        <DateInput
+        <Input
           label="Date of Birth"
+          type="date"
           inputProps={register('date', ageValidation)}
           error={errors.date}
         />
