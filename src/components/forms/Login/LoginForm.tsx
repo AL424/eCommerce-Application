@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { emailValidation } from '../../../utils/validation/emailValidation';
 import { passwordValidation } from '../../../utils/validation/passwordValidation';
@@ -14,13 +14,13 @@ type LoginInputs = {
 };
 
 const LoginForm: React.FC = () => {
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  // const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const {
     register,
     handleSubmit,
     reset,
-    watch,
+    // watch,
     formState: { errors, isValid }
   } = useForm<LoginInputs>({
     mode: 'onChange'
@@ -31,9 +31,9 @@ const LoginForm: React.FC = () => {
     reset();
   };
 
-  const toggleConfirmPasswordVisibility = () => {
-    setShowConfirmPassword(!showConfirmPassword);
-  };
+  // const toggleConfirmPasswordVisibility = () => {
+  //   setShowConfirmPassword(!showConfirmPassword);
+  // };
 
   // console.log(watch());
 
@@ -54,7 +54,7 @@ const LoginForm: React.FC = () => {
           error={errors.password}
         />
 
-        <label>Confirm Password</label>
+        {/* <label>Confirm Password</label>
         <div style={{ display: 'flex' }}>
           <input
             placeholder="Confirm Password"
@@ -77,7 +77,7 @@ const LoginForm: React.FC = () => {
           {errors.confirm_password && (
             <span>{errors.confirm_password.message}</span>
           )}
-        </p>
+        </p> */}
 
         <input type="submit" disabled={!isValid} />
       </form>
