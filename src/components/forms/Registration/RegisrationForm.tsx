@@ -1,18 +1,18 @@
 import React from 'react';
-import { useForm, UseFormRegister, SubmitHandler } from 'react-hook-form';
+import { useForm, SubmitHandler } from 'react-hook-form';
 import { emailValidation } from '../../../utils/validation/emailValidation';
 import { passwordValidation } from '../../../utils/validation/passwordValidation';
 import { nameValidation } from '../../../utils/validation/nameValidation';
 import { ageValidation } from '../../../utils/validation/ageValidation';
 import { postalCodeValidation } from '../../../utils/validation/postalCodeValidation';
 import { streetValidation } from '../../../utils/validation/streetValidation';
-import PasswordField from '../../common/PasswordInput/PasswordInput';
-// import AddressField from './RegistrationFields/AddressField';
+import Select from '../../common/Select/Select';
+import PasswordInput from '../../common/PasswordInput/PasswordInput';
+import Input from '../../common/Input/Input';
+import DateInput from '../../common/DateInput/DateInput';
 
 import '../Login/LoginForm.css';
 import './RegistrationForm.css';
-import Input from '../../common/Input/Input';
-import DateInput from '../../common/DateInput/DateInput';
 
 type RegistrationInputs = {
   login: string;
@@ -26,42 +26,6 @@ type RegistrationInputs = {
   postalcode: string;
   street: string;
 };
-
-// const [selectedCountry, setSelectedCountry] = useState<string | null>(null);
-// const countries = ['Belarus', 'Russia'];
-
-// const citiesByCountry: Record<string, string[]> = {
-//   Belarus: ['Minsk', 'Grodno'],
-//   Russia: ['Moscow', 'Saint Petersburg'],
-// };
-
-const SelectCountry = React.forwardRef<
-  HTMLSelectElement,
-  { label: string } & ReturnType<UseFormRegister<RegistrationInputs>>
->(({ onChange, name, label }, ref) => (
-  <>
-    <label>{label}</label>
-    <select name={name} ref={ref} onChange={onChange}>
-      <option value="Belarus">Belarus</option>
-      <option value="Russia">Russia</option>
-    </select>
-  </>
-));
-
-const SelectCity = React.forwardRef<
-  HTMLSelectElement,
-  { label: string } & ReturnType<UseFormRegister<RegistrationInputs>>
->(({ onChange, name, label }, ref) => (
-  <>
-    <label>{label}</label>
-    <select name={name} ref={ref} onChange={onChange}>
-      <option value="Saint-Petersburg">Saint-Petersburg</option>
-      <option value="Moscow">Moscow</option>
-      <option value="Minsk">Minsk</option>
-      <option value="Grodno">Grodno</option>
-    </select>
-  </>
-));
 
 const RegistrationForm: React.FC = () => {
   const {
@@ -90,7 +54,7 @@ const RegistrationForm: React.FC = () => {
           error={errors.login}
         />
 
-        <PasswordField
+        <PasswordInput
           label="Password"
           placeholder="Password"
           inputProps={register('password', passwordValidation)}
@@ -120,13 +84,17 @@ const RegistrationForm: React.FC = () => {
           error={errors.date}
         />
 
-        <SelectCountry label="Country" {...register('country')} />
-        <SelectCity label="City" {...register('city')} />
+        <Select
+          label="Country"
+          options={['Belarus', 'Russia']}
+          registerProps={register('country')}
+        />
 
-        {/* <AddressField
-          countryProps={register('country')}
-          cityProps={register('city')}
-        /> */}
+        <Select
+          label="City"
+          options={['Saint-Petersburg', 'Moscow', 'Minsk', 'Grodno']}
+          registerProps={register('city')}
+        />
 
         <Input
           label="Postal Code"

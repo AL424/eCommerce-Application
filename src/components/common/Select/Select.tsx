@@ -1,17 +1,29 @@
 import React from 'react';
-import { UseFormRegister, Path, FieldValues } from 'react-hook-form';
+import { UseFormRegisterReturn } from 'react-hook-form';
 
-interface SelectProps<T extends FieldValues> {
-  label: Path<T>;
-  register: UseFormRegister<T>;
-}
+type SelectFieldProps = {
+  label: string;
+  options: string[];
+  registerProps: UseFormRegisterReturn;
+};
 
-const Select = <T extends FieldValues>({ label, register }: SelectProps<T>) => (
+const Select: React.FC<SelectFieldProps> = ({
+  label,
+  options,
+  registerProps
+}) => (
   <>
     <label>{label}</label>
-    <select {...register(label)} defaultValue="">
-      <option value="20">20</option>
-      <option value="30">30</option>
+    <select
+      name={registerProps.name}
+      ref={registerProps.ref}
+      onChange={registerProps.onChange}
+    >
+      {options.map((option) => (
+        <option key={option} value={option}>
+          {option}
+        </option>
+      ))}
     </select>
   </>
 );

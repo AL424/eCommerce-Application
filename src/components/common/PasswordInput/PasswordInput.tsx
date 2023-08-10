@@ -8,7 +8,7 @@ interface PasswordFieldProps {
   error: FieldError | undefined;
 }
 
-const PasswordField: React.FC<PasswordFieldProps> = ({
+const PasswordInput: React.FC<PasswordFieldProps> = ({
   label,
   placeholder,
   inputProps,
@@ -38,4 +38,4 @@ const PasswordField: React.FC<PasswordFieldProps> = ({
   );
 };
 
-export default PasswordField;
+export default PasswordInput;
