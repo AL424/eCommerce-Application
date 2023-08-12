@@ -79,7 +79,7 @@ const LoginForm: React.FC = () => {
           )}
         </p> */}
 
-        <input type="submit" disabled={!isValid} />
+        <input type="submit" value="Sing in" disabled={!isValid} />
       </form>
     </div>
   );

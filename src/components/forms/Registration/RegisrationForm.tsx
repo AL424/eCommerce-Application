@@ -110,7 +110,7 @@ const RegistrationForm: React.FC = () => {
           error={errors.street}
         />
 
-        <input type="submit" disabled={!isValid} />
+        <input type="submit" value="Sing up" disabled={!isValid} />
       </form>
     </div>
   );
