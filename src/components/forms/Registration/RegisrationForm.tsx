@@ -26,15 +26,20 @@ type RegistrationInputs = {
   street: string;
 };
 
+const citiesByCountry: Record<string, string[]> = {
+  Belarus: ['Minsk', 'Grodno'],
+  Russia: ['Saint-Petersburg', 'Moscow']
+};
+
 const RegistrationForm: React.FC = () => {
   const {
     register,
     handleSubmit,
     reset,
-    // watch,
-    formState: { errors, isValid }
+    watch,
+    formState: { errors }
   } = useForm<RegistrationInputs>({
-    mode: 'onChange'
+    // mode: 'onChange'
   });
   const onSubmit: SubmitHandler<RegistrationInputs> = (data) => {
     console.log(data);
@@ -42,13 +47,14 @@ const RegistrationForm: React.FC = () => {
   };
 
   // console.log(watch());
+  const selectedCountry = watch('country');
 
   return (
     <div className="form-container">
       <form onSubmit={handleSubmit(onSubmit)}>
         <Input
           label="Login"
-          placeholder="Login"
+          placeholder="email@example.com"
           inputProps={register('login', emailValidation)}
           error={errors.login}
         />
@@ -92,7 +98,7 @@ const RegistrationForm: React.FC = () => {
 
         <Select
           label="City"
-          options={['Saint-Petersburg', 'Moscow', 'Minsk', 'Grodno']}
+          options={citiesByCountry[selectedCountry] || ['Minsk', 'Grodno']}
           registerProps={register('city')}
         />
 
@@ -110,7 +116,7 @@ const RegistrationForm: React.FC = () => {
           error={errors.street}
         />
 
-        <input type="submit" disabled={!isValid} />
+        <input value="Sign up" type="submit" />
       </form>
     </div>
   );

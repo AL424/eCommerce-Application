@@ -21,10 +21,11 @@ const LoginForm: React.FC = () => {
     handleSubmit,
     reset,
     // watch,
-    formState: { errors, isValid }
+    formState: { errors }
   } = useForm<LoginInputs>({
-    mode: 'onChange'
+    // mode: 'onBlur'
   });
+
   const onSubmit: SubmitHandler<LoginInputs> = (data) => {
     const { login, password } = data;
     console.log({ login, password });
@@ -42,7 +43,7 @@ const LoginForm: React.FC = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <Input
           label="Login"
-          placeholder="Login"
+          placeholder="email@example.com"
           inputProps={register('login', emailValidation)}
           error={errors.login}
         />
@@ -79,7 +80,7 @@ const LoginForm: React.FC = () => {
           )}
         </p> */}
 
-        <input type="submit" disabled={!isValid} />
+        <input value="Log in" type="submit" />
       </form>
     </div>
   );

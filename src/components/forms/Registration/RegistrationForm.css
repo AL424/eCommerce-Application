@@ -5,4 +5,10 @@
 select {
   min-width: 290px;
   height: 40px;
+  padding: 8px;
+}
+
+select option:checked {
+  background-color: #007bff;
+  color: white;
 }

@@ -36,6 +36,12 @@ label {
   font-weight: 200;
 }
 
+label:after {
+  content: '*';
+  color: #bf1650;
+  margin-left: 4px;
+}
+
 button[type="submit"],
 input[type="submit"] {
   background: #ec5990;

@@ -5,7 +5,7 @@ interface PasswordFieldProps {
   label: string;
   placeholder: string;
   inputProps: React.InputHTMLAttributes<HTMLInputElement>;
-  error: FieldError | undefined;
+  error?: FieldError;
 }
 
 const PasswordInput: React.FC<PasswordFieldProps> = ({

@@ -6,7 +6,7 @@ interface InputProps {
   placeholder?: string;
   type?: string;
   inputProps: React.InputHTMLAttributes<HTMLInputElement>;
-  error: FieldError | undefined;
+  error?: FieldError;
 }
 
 const Input: React.FC<InputProps> = ({
