@@ -1,4 +1,5 @@
 export const passwordValidation = {
+  required: 'Password is required',
   validate: (value: string) => {
     if (!/^[^\s]+$/.test(value)) {
       return 'Password should not contain spaces';
