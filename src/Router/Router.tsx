@@ -2,6 +2,8 @@ import React from 'react';
 import { createBrowserRouter, RouteObject } from 'react-router-dom';
 import { Root } from '../pages/Root/Root';
 import { Error } from '../pages/Error/Error';
+import { Login } from '../pages/Login/Login';
+import { Registration } from '../pages/Registration/Registration';
 
 export const routesConfig: RouteObject[] = [
   {
@@ -14,11 +16,11 @@ export const routesConfig: RouteObject[] = [
       },
       {
         path: '/login',
-        element: <h1 className="login-page">Login page</h1>
+        element: <Login />
       },
       {
         path: '/registration',
-        element: <h1 className="registration-page">Registration page</h1>
+        element: <Registration />
       },
       {
         path: '*',
