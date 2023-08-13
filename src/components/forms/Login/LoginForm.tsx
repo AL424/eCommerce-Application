@@ -7,6 +7,9 @@ import PasswordField from '../../common/PasswordInput/PasswordInput';
 
 import './LoginForm.css';
 
+const buttonClass = 'button';
+const inputClass = 'form-input';
+
 type LoginInputs = {
   login: string;
   password: string;
@@ -39,23 +42,22 @@ const LoginForm: React.FC = () => {
   // console.log(watch());
 
   return (
-    <div className="form-container">
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <Input
-          label="Login"
-          placeholder="email@example.com"
-          inputProps={register('login', emailValidation)}
-          error={errors.login}
-        />
+    <form onSubmit={handleSubmit(onSubmit)} className="form-container">
+      <Input
+        label="Login"
+        placeholder="email@example.com"
+        inputProps={register('login', emailValidation)}
+        error={errors.login}
+      />
 
-        <PasswordField
-          label="Password"
-          placeholder="Password"
-          inputProps={register('password', passwordValidation)}
-          error={errors.password}
-        />
+      <PasswordField
+        label="Password"
+        placeholder="Password"
+        inputProps={register('password', passwordValidation)}
+        error={errors.password}
+      />
 
-        {/* <label>Confirm Password</label>
+      {/* <label>Confirm Password</label>
         <div style={{ display: 'flex' }}>
           <input
             placeholder="Confirm Password"
@@ -80,9 +82,12 @@ const LoginForm: React.FC = () => {
           )}
         </p> */}
 
-        <input value="Log in" type="submit" />
-      </form>
-    </div>
+      <input
+        className={`${inputClass} ${buttonClass}`}
+        value="Log in"
+        type="submit"
+      />
+    </form>
   );
 };
 

@@ -1,5 +1,9 @@
 import React from 'react';
 import { UseFormRegisterReturn } from 'react-hook-form';
+import './Select.css';
+
+const labelClass = 'form-label';
+const selectClass = 'form-select';
 
 type SelectFieldProps = {
   label: string;
@@ -13,8 +17,9 @@ const Select: React.FC<SelectFieldProps> = ({
   registerProps
 }) => (
   <>
-    <label>{label}</label>
+    <label className={labelClass}>{label}</label>
     <select
+      className={selectClass}
       name={registerProps.name}
       ref={registerProps.ref}
       onChange={registerProps.onChange}

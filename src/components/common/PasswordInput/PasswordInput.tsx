@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import { FieldError } from 'react-hook-form';
 
+const errorMessageClass = 'error-message';
+const labelClass = 'form-label';
+const inputClass = 'form-input';
+
 interface PasswordFieldProps {
   label: string;
   placeholder: string;
@@ -8,6 +12,7 @@ interface PasswordFieldProps {
   error?: FieldError;
 }
 
+const buttonClass = 'button-switch';
 const PasswordInput: React.FC<PasswordFieldProps> = ({
   label,
   placeholder,
@@ -22,18 +27,22 @@ const PasswordInput: React.FC<PasswordFieldProps> = ({
 
   return (
     <div>
-      <label>{label}</label>
+      <label className={labelClass}>{label}</label>
       <div style={{ display: 'flex' }}>
         <input
+          className={inputClass}
           placeholder={placeholder}
+          autoComplete="on"
           type={showPassword ? 'text' : 'password'}
           {...inputProps}
         />
-        <button type="button" onClick={togglePasswordVisibility}>
+        <button className={buttonClass} onClick={togglePasswordVisibility}>
           {showPassword ? 'Hide' : 'Show'}
         </button>
       </div>
-      <p>{error && <span>{error.message}</span>}</p>
+      <p className={errorMessageClass}>
+        {error && <span>{error.message}</span>}
+      </p>
     </div>
   );
 };
