@@ -1,26 +1,16 @@
 import React from 'react';
-import { Outlet, Link } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
+import { Header } from '../../components/Header/Header';
+import { Footer } from '../../components/Footer/Footer';
 
 export function Root() {
   return (
     <>
-      <header>
-        <Link to="/" className="logo">
-          Logo
-        </Link>
-        <span>
-          <Link to="/login" className="button">
-            Log in
-          </Link>
-          <Link to="/registration" className="button">
-            Registration
-          </Link>
-        </span>
-      </header>
+      <Header />
       <main>
         <Outlet />
       </main>
-      <footer>Footer</footer>
+      <Footer />
     </>
   );
 }

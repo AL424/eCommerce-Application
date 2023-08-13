@@ -26,6 +26,8 @@ type RegistrationInputs = {
   street: string;
 };
 
+const buttonClass = 'button';
+const inputClass = 'form-input';
 const citiesByCountry: Record<string, string[]> = {
   Belarus: ['Minsk', 'Grodno'],
   Russia: ['Saint-Petersburg', 'Moscow']
@@ -50,75 +52,77 @@ const RegistrationForm: React.FC = () => {
   const selectedCountry = watch('country');
 
   return (
-    <div className="form-container">
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <Input
-          label="Login"
-          placeholder="email@example.com"
-          inputProps={register('login', emailValidation)}
-          error={errors.login}
-        />
+    <form onSubmit={handleSubmit(onSubmit)} className="form-container">
+      <Input
+        label="Login"
+        placeholder="email@example.com"
+        inputProps={register('login', emailValidation)}
+        error={errors.login}
+      />
 
-        <PasswordInput
-          label="Password"
-          placeholder="Password"
-          inputProps={register('password', passwordValidation)}
-          error={errors.password}
-        />
+      <PasswordInput
+        label="Password"
+        placeholder="Password"
+        inputProps={register('password', passwordValidation)}
+        error={errors.password}
+      />
 
-        <Input
-          label="Name"
-          placeholder="John"
-          inputProps={register('name', nameValidation)}
-          error={errors.name}
-        />
+      <Input
+        label="Name"
+        placeholder="John"
+        inputProps={register('name', nameValidation)}
+        error={errors.name}
+      />
 
-        <Input
-          label="Surname"
-          placeholder="Doe"
-          inputProps={register('surname', {
-            ...nameValidation,
-            required: 'Surname is required'
-          })}
-          error={errors.surname}
-        />
+      <Input
+        label="Surname"
+        placeholder="Doe"
+        inputProps={register('surname', {
+          ...nameValidation,
+          required: 'Surname is required'
+        })}
+        error={errors.surname}
+      />
 
-        <Input
-          label="Date of Birth"
-          type="date"
-          inputProps={register('date', ageValidation)}
-          error={errors.date}
-        />
+      <Input
+        label="Date of Birth"
+        type="date"
+        inputProps={register('date', ageValidation)}
+        error={errors.date}
+      />
 
-        <Select
-          label="Country"
-          options={['Belarus', 'Russia']}
-          registerProps={register('country')}
-        />
+      <Select
+        label="Country"
+        options={['Belarus', 'Russia']}
+        registerProps={register('country')}
+      />
 
-        <Select
-          label="City"
-          options={citiesByCountry[selectedCountry] || ['Minsk', 'Grodno']}
-          registerProps={register('city')}
-        />
+      <Select
+        label="City"
+        options={citiesByCountry[selectedCountry] || ['Minsk', 'Grodno']}
+        registerProps={register('city')}
+      />
 
-        <Input
-          label="Postal Code"
-          placeholder="Postal Code"
-          inputProps={register('postalcode', postalCodeValidation)}
-          error={errors.postalcode}
-        />
+      <Input
+        label="Postal Code"
+        placeholder="Postal Code"
+        inputProps={register('postalcode', postalCodeValidation)}
+        error={errors.postalcode}
+      />
 
-        <Input
-          label="Street"
-          placeholder="Street name"
-          inputProps={register('street', streetValidation)}
-          error={errors.street}
-        />
+      <Input
+        label="Street"
+        placeholder="Street name"
+        inputProps={register('street', streetValidation)}
+        error={errors.street}
+      />
 
-        <input value="Sign up" type="submit" />
-      </form>
-    </div>
+      <input
+        className={`${inputClass} ${buttonClass}`}
+        value="Sign up"
+        type="submit"
+      />
+    </form>
   );
 };
 

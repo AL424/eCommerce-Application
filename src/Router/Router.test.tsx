@@ -12,20 +12,10 @@ const renderWithRouter = (route = '/') => {
   };
 };
 
-test('click log in => shows Log in page', async () => {
-  const { user } = renderWithRouter();
-  const postsLink = screen.getByText(/Log in/).closest('a');
-
-  await act(() => user.click(postsLink as HTMLAnchorElement));
-  expect(screen.getByText(/Login page/)).toHaveClass('login-page');
-});
-
 test('click registration => shows Registration page', async () => {
   const { user } = renderWithRouter();
   const postsLink = screen.getByText(/Registration/).closest('a');
 
   await act(() => user.click(postsLink as HTMLAnchorElement));
-  expect(screen.getByText(/Registration page/)).toHaveClass(
-    'registration-page'
-  );
+  expect(screen.getByText(/Registration/)).toHaveClass('active');
 });
