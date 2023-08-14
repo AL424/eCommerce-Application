@@ -6,8 +6,6 @@ import Input from '../../common/Input/Input';
 import PasswordField from '../../common/PasswordInput/PasswordInput';
 
 import './LoginForm.css';
-import { CustomerSignin } from '@commercetools/platform-sdk';
-import { singin } from '../../../services/eCommerceService/Client';
 
 type LoginInputs = {
   login: string;
@@ -28,11 +26,7 @@ const LoginForm: React.FC = () => {
   });
 
   const onSubmit: SubmitHandler<LoginInputs> = (data) => {
-    const dataSingin: CustomerSignin = {
-      email: data.login,
-      password: data.password
-    };
-    singin(dataSingin);
+    console.log(data);
   };
 
   // const toggleConfirmPasswordVisibility = () => {

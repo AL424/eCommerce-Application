@@ -1,44 +1,52 @@
-import { ctpClient } from './BuildClient';
+import { CustomerDraft, CustomerSignin } from '@commercetools/platform-sdk';
 import {
-  CustomerDraft,
-  CustomerSignin,
-  createApiBuilderFromCtpClient
-} from '@commercetools/platform-sdk';
+  // ctpAnonymClient,
+  createApiRoot,
+  createPasswordFlowClient
+} from './BuildClient';
 
-// Create apiRoot from the imported ClientBuilder and include your Project key
-const apiRoot = createApiBuilderFromCtpClient(ctpClient).withProjectKey({
-  projectKey: 'ecommerce-app-simple-team'
-});
-
+const apiRoot = createApiRoot(
+  createPasswordFlowClient('user1@test.com', 'Qwert?1234')
+);
+// const apiRoot = createApiRoot(ctpAnonymClient);
 // Example call to return Product list
-export const getProduct = () => {
-  return apiRoot.productProjections().get().execute();
+export const getProducts = () => {
+  return apiRoot
+    .productProjections()
+    .get()
+    .execute()
+    .then(({ body }) => {
+      console.log(JSON.stringify(body));
+    })
+    .catch(console.error);
 };
 
 // singin
 // Добавить функцию для выполнения входа в систему
-export const singin = (dataCustomer: CustomerSignin) => {
-  apiRoot
+const dataCustomer: CustomerSignin = {
+  email: 'user1@test.com',
+  password: 'Qwert?1234'
+};
+
+export const singin = () => {
+  return apiRoot
     .login()
     .post({
       body: dataCustomer
     })
     .execute()
-    .then((resp) => resp.body)
-    .then((data) =>
-      console.log(
-        `Welcome, ${data.customer.firstName} ${data.customer.lastName}!!!`
-      )
-    )
-    .catch(() => console.log('Wrong e-mail or password'));
+    .then(({ body }) => {
+      console.log(JSON.stringify(body));
+    })
+    .catch(console.error);
 };
 
 // create user
 // Добавить функцию для выполнения входа в систему
-export const singup = (dataCustomer: CustomerDraft) => {
+export const singup = (dataCust: CustomerDraft) => {
   apiRoot
     .customers()
-    .post({ body: dataCustomer })
+    .post({ body: dataCust })
     .execute()
     .then((resp) => resp.body)
     .then((data) =>
@@ -47,6 +55,17 @@ export const singup = (dataCustomer: CustomerDraft) => {
       )
     )
     .catch(() => console.log('User not registered'));
+};
+
+export const getCustomer = () => {
+  apiRoot
+    .me()
+    .get()
+    .execute()
+    .then(({ body }) => {
+      console.log(JSON.stringify(body));
+    })
+    .catch(console.error);
 };
 
 // getProduct()
