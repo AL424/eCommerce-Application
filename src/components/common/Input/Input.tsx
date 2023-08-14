@@ -1,12 +1,17 @@
 import React from 'react';
 import { FieldError } from 'react-hook-form';
 
+const errorMessageClass = 'error-message';
+const labelClass = 'form-label';
+const inputClass = 'form-input';
+
 interface InputProps {
   label: string;
   placeholder?: string;
   type?: string;
   inputProps: React.InputHTMLAttributes<HTMLInputElement>;
   error?: FieldError;
+  value?: string;
 }
 
 const Input: React.FC<InputProps> = ({
@@ -18,10 +23,17 @@ const Input: React.FC<InputProps> = ({
 }) => {
   return (
     <div>
-      <label>{label}</label>
+      <label className={labelClass}>{label}</label>
       <div>
-        <input type={type} placeholder={placeholder} {...inputProps} />
-        <p>{error && <span>{error.message}</span>}</p>
+        <input
+          className={inputClass}
+          type={type}
+          placeholder={placeholder}
+          {...inputProps}
+        />
+        <p className={errorMessageClass}>
+          {error && <span>{error.message}</span>}
+        </p>
       </div>
     </div>
   );
