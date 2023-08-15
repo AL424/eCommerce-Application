@@ -4,9 +4,14 @@ import {
   type HttpMiddlewareOptions,
   type PasswordAuthMiddlewareOptions,
   type AnonymousAuthMiddlewareOptions,
-  Client
+  Client,
+  AuthMiddlewareOptions
 } from '@commercetools/sdk-client-v2';
-import { createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
+import {
+  CustomerSignin,
+  createApiBuilderFromCtpClient
+} from '@commercetools/platform-sdk';
+import { tokenCache } from './TokenCache';
 
 const host = 'https://auth.europe-west1.gcp.commercetools.com';
 const projectKey = 'ecommerce-app-simple-team';
@@ -22,10 +27,27 @@ const httpMiddlewareOptions: HttpMiddlewareOptions = {
   fetch
 };
 
+const options: AuthMiddlewareOptions = {
+  host: host,
+  projectKey: projectKey,
+  credentials: {
+    clientId: clientId,
+    clientSecret: clientSecret
+  },
+  scopes: scopes,
+  fetch,
+  tokenCache: tokenCache
+};
+
+export const ctpClient = new ClientBuilder()
+  .withClientCredentialsFlow(options)
+  .withHttpMiddleware(httpMiddlewareOptions)
+  .withLoggerMiddleware()
+  .build();
+
 // withPasswordFlow client
 export const setPasswordAuthMiddlewareOptions = (
-  username: string,
-  password: string
+  dataCustomer: CustomerSignin
 ): PasswordAuthMiddlewareOptions => {
   return {
     host: host,
@@ -34,21 +56,19 @@ export const setPasswordAuthMiddlewareOptions = (
       clientId: clientId,
       clientSecret: clientSecret,
       user: {
-        username: username,
-        password: password
+        username: dataCustomer.email,
+        password: dataCustomer.password
       }
     },
     scopes: scopes,
-    fetch
+    fetch,
+    tokenCache: tokenCache
   };
 };
 
-export const createPasswordFlowClient = (
-  username: string,
-  password: string
-) => {
+export const createPasswordFlowClient = (dataCustomer: CustomerSignin) => {
   return new ClientBuilder()
-    .withPasswordFlow(setPasswordAuthMiddlewareOptions(username, password))
+    .withPasswordFlow(setPasswordAuthMiddlewareOptions(dataCustomer))
     .withHttpMiddleware(httpMiddlewareOptions)
     .withLoggerMiddleware()
     .build();
@@ -63,7 +83,8 @@ const anonymOptions: AnonymousAuthMiddlewareOptions = {
     clientSecret: clientSecret
   },
   scopes: scopes,
-  fetch
+  fetch,
+  tokenCache: tokenCache
 };
 
 export const ctpAnonymClient = new ClientBuilder()
@@ -71,6 +92,15 @@ export const ctpAnonymClient = new ClientBuilder()
   .withHttpMiddleware(httpMiddlewareOptions)
   .withLoggerMiddleware()
   .build();
+
+// withExistingTokenFlow
+export const createExistingTokenFlowClient = (token: string) => {
+  return new ClientBuilder()
+    .withExistingTokenFlow(token, { force: true })
+    .withHttpMiddleware(httpMiddlewareOptions)
+    .withLoggerMiddleware()
+    .build();
+};
 
 export const createApiRoot = (client: Client) => {
   return createApiBuilderFromCtpClient(client).withProjectKey({
