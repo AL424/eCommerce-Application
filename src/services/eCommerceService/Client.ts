@@ -1,17 +1,9 @@
 import { CustomerDraft, CustomerSignin } from '@commercetools/platform-sdk';
-import {
-  // ctpAnonymClient,
-  createApiRoot,
-  createPasswordFlowClient
-} from './BuildClient';
+import { getApiRoot } from './ApiRoot';
 
-const apiRoot = createApiRoot(
-  createPasswordFlowClient('user1@test.com', 'Qwert?1234')
-);
-// const apiRoot = createApiRoot(ctpAnonymClient);
 // Example call to return Product list
 export const getProducts = () => {
-  return apiRoot
+  return getApiRoot()
     .productProjections()
     .get()
     .execute()
@@ -23,28 +15,26 @@ export const getProducts = () => {
 
 // singin
 // Добавить функцию для выполнения входа в систему
-const dataCustomer: CustomerSignin = {
-  email: 'user1@test.com',
-  password: 'Qwert?1234'
-};
-
-export const singin = () => {
-  return apiRoot
-    .login()
-    .post({
-      body: dataCustomer
-    })
-    .execute()
-    .then(({ body }) => {
-      console.log(JSON.stringify(body));
-    })
-    .catch(console.error);
+export const singin = async (dataCustomer: CustomerSignin) => {
+  try {
+    const resp = await getApiRoot()
+      .login()
+      .post({
+        body: dataCustomer
+      })
+      .execute();
+    const data = resp.body;
+    const customerId = data.customer.id;
+    return customerId;
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 // create user
 // Добавить функцию для выполнения входа в систему
 export const singup = (dataCust: CustomerDraft) => {
-  apiRoot
+  getApiRoot()
     .customers()
     .post({ body: dataCust })
     .execute()
@@ -58,7 +48,7 @@ export const singup = (dataCust: CustomerDraft) => {
 };
 
 export const getCustomer = () => {
-  apiRoot
+  getApiRoot()
     .me()
     .get()
     .execute()

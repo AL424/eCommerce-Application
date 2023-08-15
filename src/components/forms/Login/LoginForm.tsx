@@ -6,15 +6,12 @@ import Input from '../../common/Input/Input';
 import PasswordField from '../../common/PasswordInput/PasswordInput';
 
 import './LoginForm.css';
+import { singin } from '../../../services/eCommerceService/Client';
+import { CustomerSignin } from '@commercetools/platform-sdk';
+import { LocalStorage } from '../../../services/localStorage/LocalStorage.service';
 
 const buttonClass = 'button';
 const inputClass = 'form-input';
-
-type LoginInputs = {
-  login: string;
-  password: string;
-  confirm_password: string;
-};
 
 const LoginForm: React.FC = () => {
   // const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -24,12 +21,17 @@ const LoginForm: React.FC = () => {
     handleSubmit,
     // watch,
     formState: { errors }
-  } = useForm<LoginInputs>({
+  } = useForm<CustomerSignin>({
     // mode: 'onBlur'
   });
 
-  const onSubmit: SubmitHandler<LoginInputs> = (data) => {
-    console.log(data);
+  const onSubmit: SubmitHandler<CustomerSignin> = async (data) => {
+    // блокировать форму на время обращения к серверу
+    const customerId = await singin(data);
+    if (customerId) {
+      LocalStorage.set('customer-id', customerId);
+      // добавить переход на главную страницу
+    } else console.log('Wrong e-mail or password');
   };
 
   // const toggleConfirmPasswordVisibility = () => {
@@ -43,8 +45,8 @@ const LoginForm: React.FC = () => {
       <Input
         label="Login"
         placeholder="email@example.com"
-        inputProps={register('login', emailValidation)}
-        error={errors.login}
+        inputProps={register('email', emailValidation)}
+        error={errors.email}
       />
 
       <PasswordField
