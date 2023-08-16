@@ -18,7 +18,7 @@ const inputClass = 'form-input';
 const LoginForm: React.FC = () => {
   // const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [loginError, setLoginError] = useState(false);
-  // const [disableForm, setDisableForm] = useState(false);
+  const [formDisabled, setFormDisabled] = useState(false);
   const navigate = useNavigate();
 
   const {
@@ -31,7 +31,7 @@ const LoginForm: React.FC = () => {
   });
 
   const onSubmit: SubmitHandler<CustomerSignin> = async (data) => {
-    // setDisableForm(true);
+    setFormDisabled(true);
     const customerId = await singin(data);
     if (customerId) {
       // при переходе на главнкю рендерится не авторизованная главная
@@ -39,7 +39,7 @@ const LoginForm: React.FC = () => {
       setInterval(() => navigate(Route.main), 2000);
     } else {
       setLoginError(true);
-      // setDisableForm(false);
+      setFormDisabled(false);
       // удалять сообщение при вводе пароля или майла
     }
   };
@@ -57,6 +57,7 @@ const LoginForm: React.FC = () => {
         placeholder="email@example.com"
         inputProps={register('email', emailValidation)}
         error={errors.email}
+        formDisabled={formDisabled}
       />
 
       <PasswordField
@@ -64,6 +65,7 @@ const LoginForm: React.FC = () => {
         placeholder="Password"
         inputProps={register('password', passwordValidation)}
         error={errors.password}
+        formDisabled={formDisabled}
       />
 
       {/* <label>Confirm Password</label>
@@ -95,6 +97,7 @@ const LoginForm: React.FC = () => {
         className={`${inputClass} ${buttonClass}`}
         value="Log in"
         type="submit"
+        disabled={formDisabled}
       />
 
       <p className="error-message">
