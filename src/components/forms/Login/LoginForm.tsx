@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { emailValidation } from '../../../utils/validation/emailValidation';
 import { passwordValidation } from '../../../utils/validation/passwordValidation';
@@ -9,12 +9,17 @@ import './LoginForm.css';
 import { singin } from '../../../services/eCommerceService/Client';
 import { CustomerSignin } from '@commercetools/platform-sdk';
 import { LocalStorage } from '../../../services/localStorage/LocalStorage.service';
+import { useNavigate } from 'react-router-dom';
+import { Route } from '../../../Router/Router';
 
 const buttonClass = 'button';
 const inputClass = 'form-input';
 
 const LoginForm: React.FC = () => {
   // const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [loginError, setLoginError] = useState(false);
+  // const [disableForm, setDisableForm] = useState(false);
+  const navigate = useNavigate();
 
   const {
     register,
@@ -26,12 +31,16 @@ const LoginForm: React.FC = () => {
   });
 
   const onSubmit: SubmitHandler<CustomerSignin> = async (data) => {
-    // блокировать форму на время обращения к серверу
+    // setDisableForm(true);
     const customerId = await singin(data);
     if (customerId) {
       LocalStorage.set('customer-id', customerId);
-      // добавить переход на главную страницу
-    } else console.log('Wrong e-mail or password');
+      navigate(Route.main);
+    } else {
+      setLoginError(true);
+      // setDisableForm(false);
+      // удалять сообщение при вводе пароля или майла
+    }
   };
 
   // const toggleConfirmPasswordVisibility = () => {
@@ -86,6 +95,10 @@ const LoginForm: React.FC = () => {
         value="Log in"
         type="submit"
       />
+
+      <p className="error-message">
+        {loginError && 'Wrong e-mail or password'}
+      </p>
     </form>
   );
 };
