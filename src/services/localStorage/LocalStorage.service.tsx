@@ -6,7 +6,7 @@ export const LocalStorage = {
     localStorage.setItem(key, value);
   },
   remove(key: string) {
-    localStorage.remove(key);
+    localStorage.removeItem(key);
   },
   clear() {
     localStorage.clear();
