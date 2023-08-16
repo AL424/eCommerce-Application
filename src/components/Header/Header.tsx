@@ -5,16 +5,17 @@ import { Route } from '../../Router/Router';
 import { Menu } from '../Menu/Menu';
 import { LogIn } from '../LogIn/LogIn';
 import { LogOut } from '../Logout/Logout';
+import { LocalStorage } from '../../services/localStorage/LocalStorage.service';
 
 export const Header: React.FC = () => {
-  const auth = false;
+  const auth = LocalStorage.get('customer-id') ? true : false;
   return (
     <header className="header">
       <Link to={Route.main} className="logo">
         Logo
       </Link>
       <Menu />
-      {auth ? <LogOut userName="user@bk.com" /> : <LogIn />}
+      {auth ? <LogOut /> : <LogIn />}
     </header>
   );
 };

@@ -3,15 +3,11 @@ import './logout.css';
 import { NavLink } from 'react-router-dom';
 import { Route } from '../../Router/Router';
 
-interface FormatProps {
-  userName: string;
-}
-
-export const LogOut: React.FC<FormatProps> = (props) => {
+export const LogOut: React.FC = () => {
   return (
     <span className="logout">
-      <NavLink to={Route.profile}>
-        <i>{props.userName}</i>
+      <NavLink to={Route.profile} className="menu__link">
+        Profile
       </NavLink>
       <button className="button"></button>
     </span>
