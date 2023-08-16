@@ -36,7 +36,11 @@ const PasswordInput: React.FC<PasswordFieldProps> = ({
           type={showPassword ? 'text' : 'password'}
           {...inputProps}
         />
-        <button className={buttonClass} onClick={togglePasswordVisibility}>
+        <button
+          type="button"
+          className={buttonClass}
+          onClick={togglePasswordVisibility}
+        >
           {showPassword ? 'Hide' : 'Show'}
         </button>
       </div>

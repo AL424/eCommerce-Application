@@ -26,7 +26,7 @@ const LoginForm: React.FC = () => {
     // watch,
     formState: { errors }
   } = useForm<LoginInputs>({
-    // mode: 'onBlur'
+    mode: 'onChange'
   });
 
   const onSubmit: SubmitHandler<LoginInputs> = (data) => {
