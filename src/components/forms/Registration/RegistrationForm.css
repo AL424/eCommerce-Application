@@ -1,0 +1,26 @@
+.addresses {
+  display: flex;
+}
+.shipping,
+.billing {
+  width: 100%;
+}
+p {
+  color: white;
+}
+
+.shipping select,
+.billing select {
+  width: 90%;
+}
+.shipping input,
+.billing input {
+  width: 90%;
+}
+
+.addressSettings {
+  color: white;
+  margin-bottom: 10px;
+}
+
+
