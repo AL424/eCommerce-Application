@@ -36,7 +36,7 @@ const LoginForm: React.FC = () => {
     if (customerId) {
       // при переходе на главнкю рендерится не авторизованная главная
       LocalStorage.set('customer-id', customerId);
-      setInterval(() => navigate(Route.main), 2000);
+      navigate(Route.main);
     } else {
       setLoginError(true);
       setFormDisabled(false);

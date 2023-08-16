@@ -9,7 +9,7 @@ export const LogOut: React.FC = () => {
 
   const onClick = () => {
     LocalStorage.remove('customer-id');
-    setInterval(() => navigate(Route.main), 2000);
+    navigate(Route.main);
   };
 
   return (
