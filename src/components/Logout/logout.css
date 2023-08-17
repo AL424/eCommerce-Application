@@ -6,9 +6,11 @@
     margin-left: 0.5em;
 }
 .logout > .button {
-    height: 1em;
+    height: 100%;
+    width: 1.2em;
+    padding: 0;
     background: url('../../assets/logout.svg') no-repeat center;
-    background-size: cover;
+    background-size: contain;
     border: none;
     opacity: 0.6;
 }

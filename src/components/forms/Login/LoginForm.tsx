@@ -11,6 +11,8 @@ import { CustomerSignin } from '@commercetools/platform-sdk';
 import { LocalStorage } from '../../../services/localStorage/LocalStorage.service';
 import { useNavigate } from 'react-router-dom';
 import { Route } from '../../../Router/Router';
+import { useDispatch } from 'react-redux';
+import { authOn } from '../../../services/store/authSlice';
 
 const buttonClass = 'button';
 const inputClass = 'form-input';
@@ -20,6 +22,7 @@ const LoginForm: React.FC = () => {
   const [loginError, setLoginError] = useState(false);
   const [formDisabled, setFormDisabled] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   type LoginInputs = {
     email: string;
@@ -31,7 +34,7 @@ const LoginForm: React.FC = () => {
     handleSubmit,
     // watch,
     formState: { errors }
-  } = useForm<LoginInputs>({
+  } = useForm<CustomerSignin>({
     mode: 'onChange'
   });
 
@@ -41,6 +44,7 @@ const LoginForm: React.FC = () => {
     if (customerId) {
       // при переходе на главнкю рендерится не авторизованная главная
       LocalStorage.set('customer-id', customerId);
+      dispatch(authOn());
       navigate(Route.main);
     } else {
       setLoginError(true);
