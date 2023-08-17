@@ -27,10 +27,9 @@ type RegistrationInputs = {
   lastName: string;
   dateOfBirth: string;
   date: string;
-  addresses: {
-    shipping: Address;
-    billing: Address;
-  };
+  addresses: [Address, Address];
+  defaultBillingAddress: number;
+  defaultShippingAddress: number;
 };
 
 const buttonClass = 'button';
@@ -48,7 +47,12 @@ const RegistrationForm: React.FC = () => {
     // mode: 'onChange'
   });
   const onSubmit: SubmitHandler<RegistrationInputs> = (data) => {
-    console.log(data);
+    const registrationData: RegistrationInputs = {
+      ...data,
+      defaultBillingAddress: data.defaultBillingAddress || 0,
+      defaultShippingAddress: data.defaultShippingAddress || 1
+    };
+    console.log(registrationData);
     reset();
   };
 
@@ -56,17 +60,14 @@ const RegistrationForm: React.FC = () => {
   // console.log(watch());
   // const selectedCountry = watch('country');
   const updateBillingFields = () => {
-    setValue(
-      'addresses.billing.postalCode',
-      watch('addresses.shipping.postalCode')
-    );
-    setValue(
-      'addresses.billing.streetName',
-      watch('addresses.shipping.streetName')
-    );
-    setValue('addresses.billing.country', watch('addresses.shipping.country'));
-    setValue('addresses.billing.city', watch('addresses.shipping.city'));
+    setValue('addresses.0.postalCode', watch('addresses.1.postalCode'));
+    setValue('addresses.0.streetName', watch('addresses.1.streetName'));
+    setValue('addresses.0.country', watch('addresses.1.country'));
+    setValue('addresses.0.city', watch('addresses.1.city'));
   };
+
+  // register('defaultBillinngAddress');
+  // register('defaultShippingAddress');
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="form-container">
@@ -118,35 +119,32 @@ const RegistrationForm: React.FC = () => {
             label="Country"
             options={Object.keys(citiesByCountry)}
             // registerProps={register('shippingCountry')}
-            registerProps={register('addresses.shipping.country')}
+            registerProps={register('addresses.1.country')}
           />
 
           <Select
             label="City"
             options={
-              citiesByCountry[watch('addresses.shipping.country')] ||
+              citiesByCountry[watch('addresses.1.country')] ||
               citiesByCountry.BY
             }
-            registerProps={register('addresses.shipping.city')}
+            registerProps={register('addresses.1.city')}
           />
           <Input
             label="Postal Code"
             placeholder="Postal Code"
             inputProps={register(
-              'addresses.shipping.postalCode',
+              'addresses.1.postalCode',
               postalCodeValidation
             )}
-            error={errors.addresses?.shipping?.postalCode}
+            error={errors.addresses?.[1]?.postalCode}
           />
 
           <Input
             label="Street"
             placeholder="Street name"
-            inputProps={register(
-              'addresses.shipping.streetName',
-              streetValidation
-            )}
-            error={errors.addresses?.shipping?.streetName}
+            inputProps={register('addresses.1.streetName', streetValidation)}
+            error={errors.addresses?.[1]?.streetName}
           />
         </div>
         {/* billing********************* */}
@@ -157,36 +155,33 @@ const RegistrationForm: React.FC = () => {
               label="Country"
               options={Object.keys(citiesByCountry)}
               // registerProps={register('country')}
-              registerProps={register('addresses.billing.country')}
+              registerProps={register('addresses.0.country')}
             />
 
             <Select
               label="City"
               options={
-                citiesByCountry[watch('addresses.billing.country')] ||
+                citiesByCountry[watch('addresses.0.country')] ||
                 citiesByCountry.BY
               }
-              registerProps={register('addresses.billing.city')}
+              registerProps={register('addresses.0.city')}
             />
 
             <Input
               label="Postal Code"
               placeholder="Postal Code"
               inputProps={register(
-                'addresses.billing.postalCode',
+                'addresses.0.postalCode',
                 postalCodeValidation
               )}
-              error={errors.addresses?.billing?.postalCode}
+              error={errors.addresses?.[0]?.postalCode}
             />
 
             <Input
               label="Street"
               placeholder="Street name"
-              inputProps={register(
-                'addresses.billing.streetName',
-                streetValidation
-              )}
-              error={errors.addresses?.billing?.streetName}
+              inputProps={register('addresses.0.streetName', streetValidation)}
+              error={errors.addresses?.[0]?.streetName}
             />
           </div>
         )}
