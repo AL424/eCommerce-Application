@@ -6,6 +6,7 @@ import { nameValidation } from '../../../utils/validation/nameValidation';
 import { ageValidation } from '../../../utils/validation/ageValidation';
 import { postalCodeValidation } from '../../../utils/validation/postalCodeValidation';
 import { streetValidation } from '../../../utils/validation/streetValidation';
+import { singup } from '../../../services/eCommerceService/Client';
 import Select from '../../common/Select/Select';
 import PasswordInput from '../../common/PasswordInput/PasswordInput';
 import Input from '../../common/Input/Input';
@@ -21,7 +22,7 @@ type Address = {
   streetName: string;
 };
 type RegistrationInputs = {
-  login: string;
+  email: string;
   password: string;
   firstName: string;
   lastName: string;
@@ -46,13 +47,14 @@ const RegistrationForm: React.FC = () => {
   } = useForm<RegistrationInputs>({
     // mode: 'onChange'
   });
-  const onSubmit: SubmitHandler<RegistrationInputs> = (data) => {
+  const onSubmit: SubmitHandler<RegistrationInputs> = async (data) => {
     const registrationData: RegistrationInputs = {
       ...data,
       defaultBillingAddress: data.defaultBillingAddress || 0,
       defaultShippingAddress: data.defaultShippingAddress || 1
     };
     console.log(registrationData);
+    await singup(registrationData);
     reset();
   };
 
@@ -74,8 +76,8 @@ const RegistrationForm: React.FC = () => {
       <Input
         label="Login"
         placeholder="email@example.com"
-        inputProps={register('login', emailValidation)}
-        error={errors.login}
+        inputProps={register('email', emailValidation)}
+        error={errors.email}
       />
 
       <PasswordInput
