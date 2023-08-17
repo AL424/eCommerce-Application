@@ -1,16 +1,17 @@
 .logout {
     margin-left: auto;
+    display: flex;
 }
 .logout > *+* {
     margin-left: 0.5em;
-}
-.logout > a {
-    font-size: .8rem;
-    font-weight: 300;
 }
 .logout > .button {
     height: 1em;
     background: url('../../assets/logout.svg') no-repeat center;
     background-size: cover;
     border: none;
+    opacity: 0.6;
+}
+.logout > .button:hover {
+    opacity: 1;
 }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { emailValidation } from '../../../utils/validation/emailValidation';
 import { passwordValidation } from '../../../utils/validation/passwordValidation';
@@ -6,33 +6,42 @@ import Input from '../../common/Input/Input';
 import PasswordField from '../../common/PasswordInput/PasswordInput';
 
 import './LoginForm.css';
+import { singin } from '../../../services/eCommerceService/Client';
+import { CustomerSignin } from '@commercetools/platform-sdk';
+import { LocalStorage } from '../../../services/localStorage/LocalStorage.service';
+import { useNavigate } from 'react-router-dom';
+import { Route } from '../../../Router/Router';
 
 const buttonClass = 'button';
 const inputClass = 'form-input';
 
-type LoginInputs = {
-  login: string;
-  password: string;
-  confirm_password: string;
-};
-
 const LoginForm: React.FC = () => {
   // const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [loginError, setLoginError] = useState(false);
+  const [formDisabled, setFormDisabled] = useState(false);
+  const navigate = useNavigate();
 
   const {
     register,
     handleSubmit,
-    reset,
     // watch,
     formState: { errors }
   } = useForm<LoginInputs>({
     mode: 'onChange'
   });
 
-  const onSubmit: SubmitHandler<LoginInputs> = (data) => {
-    const { login, password } = data;
-    console.log({ login, password });
-    reset();
+  const onSubmit: SubmitHandler<CustomerSignin> = async (data) => {
+    setFormDisabled(true);
+    const customerId = await singin(data);
+    if (customerId) {
+      // при переходе на главнкю рендерится не авторизованная главная
+      LocalStorage.set('customer-id', customerId);
+      navigate(Route.main);
+    } else {
+      setLoginError(true);
+      setFormDisabled(false);
+      // удалять сообщение при вводе пароля или майла
+    }
   };
 
   // const toggleConfirmPasswordVisibility = () => {
@@ -46,8 +55,9 @@ const LoginForm: React.FC = () => {
       <Input
         label="Login"
         placeholder="email@example.com"
-        inputProps={register('login', emailValidation)}
-        error={errors.login}
+        inputProps={register('email', emailValidation)}
+        error={errors.email}
+        formDisabled={formDisabled}
       />
 
       <PasswordField
@@ -55,6 +65,7 @@ const LoginForm: React.FC = () => {
         placeholder="Password"
         inputProps={register('password', passwordValidation)}
         error={errors.password}
+        formDisabled={formDisabled}
       />
 
       {/* <label>Confirm Password</label>
@@ -86,7 +97,12 @@ const LoginForm: React.FC = () => {
         className={`${inputClass} ${buttonClass}`}
         value="Log in"
         type="submit"
+        disabled={formDisabled}
       />
+
+      <p className="error-message">
+        {loginError && 'Wrong e-mail or password'}
+      </p>
     </form>
   );
 };
