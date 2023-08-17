@@ -10,6 +10,7 @@ import { singup } from '../../../services/eCommerceService/Client';
 import Select from '../../common/Select/Select';
 import PasswordInput from '../../common/PasswordInput/PasswordInput';
 import Input from '../../common/Input/Input';
+import CheckboxInput from '../../common/checkboxInput/CheckboxInput';
 import citiesByCountry from '../../../utils/constants/countries.constants';
 
 import '../Login/LoginForm.css';
@@ -67,9 +68,6 @@ const RegistrationForm: React.FC = () => {
     setValue('addresses.0.country', watch('addresses.1.country'));
     setValue('addresses.0.city', watch('addresses.1.city'));
   };
-
-  // register('defaultBillinngAddress');
-  // register('defaultShippingAddress');
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="form-container">
@@ -190,9 +188,8 @@ const RegistrationForm: React.FC = () => {
       </div>
 
       <div className="addressSettings">
-        <input
-          type="checkbox"
-          id="hideBillingCheckbox"
+        <CheckboxInput
+          label="Set as address for billing and shipping"
           checked={hideBilling}
           onChange={() => {
             setHideBilling(!hideBilling);
@@ -201,9 +198,6 @@ const RegistrationForm: React.FC = () => {
             }
           }}
         />
-        <label htmlFor="hideBillingCheckbox">
-          Set as address for billing and shipping
-        </label>
       </div>
 
       <input
