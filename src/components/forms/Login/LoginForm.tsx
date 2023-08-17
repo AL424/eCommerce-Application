@@ -21,6 +21,11 @@ const LoginForm: React.FC = () => {
   const [formDisabled, setFormDisabled] = useState(false);
   const navigate = useNavigate();
 
+  type LoginInputs = {
+    email: string;
+    password: string;
+  };
+
   const {
     register,
     handleSubmit,
