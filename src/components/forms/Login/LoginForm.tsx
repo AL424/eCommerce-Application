@@ -26,8 +26,8 @@ const LoginForm: React.FC = () => {
     handleSubmit,
     // watch,
     formState: { errors }
-  } = useForm<CustomerSignin>({
-    // mode: 'onBlur'
+  } = useForm<LoginInputs>({
+    mode: 'onChange'
   });
 
   const onSubmit: SubmitHandler<CustomerSignin> = async (data) => {
