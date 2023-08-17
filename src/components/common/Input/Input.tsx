@@ -12,6 +12,7 @@ interface InputProps {
   inputProps: React.InputHTMLAttributes<HTMLInputElement>;
   error?: FieldError;
   value?: string;
+  formDisabled?: boolean;
 }
 
 const Input: React.FC<InputProps> = ({
@@ -19,7 +20,8 @@ const Input: React.FC<InputProps> = ({
   type,
   placeholder,
   inputProps,
-  error
+  error,
+  formDisabled
 }) => {
   return (
     <div>
@@ -29,6 +31,7 @@ const Input: React.FC<InputProps> = ({
           className={inputClass}
           type={type}
           placeholder={placeholder}
+          disabled={formDisabled}
           {...inputProps}
         />
         <p className={errorMessageClass}>

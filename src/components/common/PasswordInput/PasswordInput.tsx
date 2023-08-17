@@ -10,6 +10,7 @@ interface PasswordFieldProps {
   placeholder: string;
   inputProps: React.InputHTMLAttributes<HTMLInputElement>;
   error?: FieldError;
+  formDisabled?: boolean;
 }
 
 const buttonClass = 'button-switch';
@@ -17,7 +18,8 @@ const PasswordInput: React.FC<PasswordFieldProps> = ({
   label,
   placeholder,
   inputProps,
-  error
+  error,
+  formDisabled
 }) => {
   const [showPassword, setShowPassword] = useState(false);
 
@@ -34,9 +36,14 @@ const PasswordInput: React.FC<PasswordFieldProps> = ({
           placeholder={placeholder}
           autoComplete="on"
           type={showPassword ? 'text' : 'password'}
+          disabled={formDisabled}
           {...inputProps}
         />
-        <button className={buttonClass} onClick={togglePasswordVisibility}>
+        <button
+          type="button"
+          className={buttonClass}
+          onClick={togglePasswordVisibility}
+        >
           {showPassword ? 'Hide' : 'Show'}
         </button>
       </div>
