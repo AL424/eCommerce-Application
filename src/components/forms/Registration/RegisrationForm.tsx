@@ -115,7 +115,7 @@ const RegistrationForm: React.FC = () => {
         error={errors.date}
       />
 
-      <h4 style={{ color: 'white' }}>Addresses</h4>
+      <h4 style={{ color: 'white', marginBottom: '0' }}>Addresses</h4>
 
       <div className="addresses">
         {/* shipping******************** */}
