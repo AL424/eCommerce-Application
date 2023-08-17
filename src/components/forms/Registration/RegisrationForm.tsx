@@ -60,13 +60,19 @@ const RegistrationForm: React.FC = () => {
   };
 
   const [hideBilling, setHideBilling] = useState(false);
+  const [addressTitle, setAddressTitle] = useState('Shipping Address');
   // console.log(watch());
   // const selectedCountry = watch('country');
   const updateBillingFields = () => {
-    setValue('addresses.0.postalCode', watch('addresses.1.postalCode'));
-    setValue('addresses.0.streetName', watch('addresses.1.streetName'));
-    setValue('addresses.0.country', watch('addresses.1.country'));
-    setValue('addresses.0.city', watch('addresses.1.city'));
+    if (hideBilling) {
+      setValue('addresses.0.postalCode', watch('addresses.1.postalCode'));
+      setValue('addresses.0.streetName', watch('addresses.1.streetName'));
+      setValue('addresses.0.country', watch('addresses.1.country'));
+      setValue('addresses.0.city', watch('addresses.1.city'));
+      setAddressTitle('Shipping Address');
+    } else {
+      setAddressTitle('Shipping/Billing Address');
+    }
   };
 
   return (
@@ -114,7 +120,8 @@ const RegistrationForm: React.FC = () => {
       <div className="addresses">
         {/* shipping******************** */}
         <div className="shipping">
-          <p>Shipping Address</p>
+          {/* <p>Shipping Address</p> */}
+          <p>{addressTitle}</p>
           <Select
             label="Country"
             options={Object.keys(citiesByCountry)}
@@ -193,9 +200,7 @@ const RegistrationForm: React.FC = () => {
           checked={hideBilling}
           onChange={() => {
             setHideBilling(!hideBilling);
-            if (hideBilling) {
-              updateBillingFields();
-            }
+            updateBillingFields();
           }}
         />
       </div>
