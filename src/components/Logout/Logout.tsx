@@ -1,19 +1,23 @@
 import React from 'react';
 import './logout.css';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { Route } from '../../Router/Router';
+import { LocalStorage } from '../../services/localStorage/LocalStorage.service';
 
-interface FormatProps {
-  userName: string;
-}
+export const LogOut: React.FC = () => {
+  const navigate = useNavigate();
 
-export const LogOut: React.FC<FormatProps> = (props) => {
+  const onClick = () => {
+    LocalStorage.remove('customer-id');
+    navigate(Route.main);
+  };
+
   return (
     <span className="logout">
-      <NavLink to={Route.profile}>
-        <i>{props.userName}</i>
+      <NavLink to={Route.profile} className="menu__link">
+        Profile
       </NavLink>
-      <button className="button"></button>
+      <button className="button" onClick={onClick}></button>
     </span>
   );
 };

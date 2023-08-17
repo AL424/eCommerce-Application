@@ -8,7 +8,7 @@ const userName = 'user@gmail.com';
 test('renders logout', () => {
   render(
     <BrowserRouter>
-      <LogOut userName={userName} />
+      <LogOut />
     </BrowserRouter>
   );
   const user = screen.getByText(userName);
