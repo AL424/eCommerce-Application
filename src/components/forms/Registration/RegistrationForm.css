@@ -1,26 +1,25 @@
 .addresses {
   display: flex;
+  gap: .5em;
 }
+
 .shipping,
 .billing {
   width: 100%;
 }
-p {
+
+.addressTitle {
   color: white;
 }
 
 .shipping select,
 .billing select {
-  width: 90%;
-}
-.shipping input,
-.billing input {
-  width: 90%;
+  width: 100%;
 }
 
 .addressSettings {
   color: white;
-  margin-bottom: 10px;
+  margin-bottom: 0.5em;
 }
 
 

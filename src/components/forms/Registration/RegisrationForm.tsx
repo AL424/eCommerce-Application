@@ -121,7 +121,7 @@ const RegistrationForm: React.FC = () => {
         {/* shipping******************** */}
         <div className="shipping">
           {/* <p>Shipping Address</p> */}
-          <p>{addressTitle}</p>
+          <p className="addressTitle">{addressTitle}</p>
           <Select
             label="Country"
             options={Object.keys(citiesByCountry)}
@@ -157,7 +157,7 @@ const RegistrationForm: React.FC = () => {
         {/* billing********************* */}
         {hideBilling ? null : (
           <div className="billing">
-            <p>Billing Address</p>
+            <p className="addressTitle">Billing Address</p>
             <Select
               label="Country"
               options={Object.keys(citiesByCountry)}
