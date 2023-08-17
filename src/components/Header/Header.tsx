@@ -15,7 +15,7 @@ interface RootState {
 
 export const Header: React.FC = () => {
   const auth = useSelector((state: RootState) => state.auth.value);
-    
+
   return (
     <header className="header">
       <Link to={Route.main} className="logo">
