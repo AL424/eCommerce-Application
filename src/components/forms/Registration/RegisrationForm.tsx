@@ -10,7 +10,7 @@ import { singup } from '../../../services/eCommerceService/Client';
 import Select from '../../common/Select/Select';
 import PasswordInput from '../../common/PasswordInput/PasswordInput';
 import Input from '../../common/Input/Input';
-import CheckboxInput from '../../common/checkboxInput/CheckboxInput';
+import CheckboxInput from '../../common/CheckboxInput/CheckboxInput';
 import citiesByCountry from '../../../utils/constants/countries.constants';
 
 import '../Login/LoginForm.css';
