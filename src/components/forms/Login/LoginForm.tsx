@@ -26,7 +26,7 @@ const LoginForm: React.FC = () => {
     handleSubmit,
     // watch,
     formState: { errors }
-  } = useForm<LoginInputs>({
+  } = useForm<CustomerSignin>({
     mode: 'onChange'
   });
 
