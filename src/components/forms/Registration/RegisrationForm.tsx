@@ -7,7 +7,7 @@ import { ageValidation } from '../../../utils/validation/ageValidation';
 import { postalCodeValidation } from '../../../utils/validation/postalCodeValidation';
 import { streetValidation } from '../../../utils/validation/streetValidation';
 import { buildingValidation } from '../../../utils/validation/buildingValidation';
-// import { singup } from '../../../services/eCommerceService/Client';
+import { singup } from '../../../services/eCommerceService/Client';
 import Select from '../../common/Select/Select';
 import PasswordInput from '../../common/PasswordInput/PasswordInput';
 import Input from '../../common/Input/Input';
@@ -70,7 +70,7 @@ const RegistrationForm: React.FC = () => {
 
     console.log(registrationData);
     reset();
-    // await singup(registrationData);
+    await singup(registrationData);
     reset();
   };
 
