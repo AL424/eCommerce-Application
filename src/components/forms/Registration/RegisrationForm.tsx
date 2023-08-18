@@ -39,6 +39,11 @@ const buttonClass = 'button';
 const inputClass = 'form-input';
 
 const RegistrationForm: React.FC = () => {
+  const [hideBilling, setHideBilling] = useState(false);
+  const [addressTitle, setAddressTitle] = useState('Shipping Address');
+  const [defaultShippingAddress, setDefaultShippingAddress] = useState(false);
+  const [defaultBillingAddress, setDefaultBillingAddress] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -50,27 +55,29 @@ const RegistrationForm: React.FC = () => {
     // mode: 'onChange'
   });
   const onSubmit: SubmitHandler<CustomerDraft> = async (data) => {
-    // const registrationData: CustomerDraft = {
-    //   ...data,
-    //   defaultBillingAddress: data.defaultBillingAddress || 0,
-    //   defaultShippingAddress: data.defaultShippingAddress || 1
-    // };
-    // console.log(registrationData);
+    const registrationData: CustomerDraft = {
+      ...data,
+      defaultShippingAddress: defaultShippingAddress ? 0 : undefined,
+      defaultBillingAddress: defaultBillingAddress ? 1 : undefined,
+      shippingAddresses: data.shippingAddresses
+        ? [...data.shippingAddresses, 0]
+        : [0],
+      billingAddresses: data.billingAddresses
+        ? [...data.billingAddresses, 1]
+        : [1]
+    };
+
+    console.log(registrationData);
+    reset();
     // await singup(registrationData);
-    console.log(data);
-    // await singup(data);
     reset();
   };
 
-  const [hideBilling, setHideBilling] = useState(false);
-  const [addressTitle, setAddressTitle] = useState('Shipping Address');
-  // console.log(watch());
-  // const selectedCountry = watch('country');
   const updateBillingFields = () => {
-    setValue('addresses.0.postalCode', watch('addresses.1.postalCode'));
-    setValue('addresses.0.streetName', watch('addresses.1.streetName'));
-    setValue('addresses.0.country', watch('addresses.1.country'));
-    setValue('addresses.0.city', watch('addresses.1.city'));
+    setValue('addresses.1.postalCode', watch('addresses.0.postalCode'));
+    setValue('addresses.1.streetName', watch('addresses.0.streetName'));
+    setValue('addresses.1.country', watch('addresses.0.country'));
+    setValue('addresses.1.city', watch('addresses.0.city'));
     if (hideBilling) {
       setAddressTitle('Shipping Address');
     } else {
@@ -87,12 +94,6 @@ const RegistrationForm: React.FC = () => {
         error={errors.email}
       />
 
-      {/* <PasswordInput
-        label="Password"
-        placeholder="Password"
-        inputProps={register('password', passwordValidation)}
-        error={errors.password}
-      /> */}
       <PasswordInput
         label="Password"
         placeholder="Password"
@@ -139,12 +140,6 @@ const RegistrationForm: React.FC = () => {
         })}
         error={errors.dateOfBirth}
       />
-      {/* <Input
-        label="Date of Birth"
-        type="date"
-        inputProps={register('dateOfBirth', ageValidation)}
-        error={errors.dateOfBirth}
-      /> */}
 
       <h4 style={{ color: 'white', marginBottom: '0' }}>Addresses</h4>
 
@@ -156,33 +151,32 @@ const RegistrationForm: React.FC = () => {
           <Select
             label="Country"
             options={Object.keys(citiesByCountry)}
-            // registerProps={register('shippingCountry')}
-            registerProps={register('addresses.1.country')}
+            registerProps={register('addresses.0.country')}
           />
 
           <Select
             label="City"
             options={
-              citiesByCountry[watch('addresses.1.country')] ||
+              citiesByCountry[watch('addresses.0.country')] ||
               citiesByCountry.BY
             }
-            registerProps={register('addresses.1.city')}
+            registerProps={register('addresses.0.city')}
           />
           <Input
             label="Postal Code"
             placeholder="Postal Code"
             inputProps={register(
-              'addresses.1.postalCode',
+              'addresses.0.postalCode',
               postalCodeValidation
             )}
-            error={errors.addresses?.[1]?.postalCode}
+            error={errors.addresses?.[0]?.postalCode}
           />
 
           <Input
             label="Street"
             placeholder="Street name"
-            inputProps={register('addresses.1.streetName', streetValidation)}
-            error={errors.addresses?.[1]?.streetName}
+            inputProps={register('addresses.0.streetName', streetValidation)}
+            error={errors.addresses?.[0]?.streetName}
           />
         </div>
         {/* billing********************* */}
@@ -192,40 +186,53 @@ const RegistrationForm: React.FC = () => {
             <Select
               label="Country"
               options={Object.keys(citiesByCountry)}
-              // registerProps={register('country')}
-              registerProps={register('addresses.0.country')}
+              registerProps={register('addresses.1.country')}
             />
 
             <Select
               label="City"
               options={
-                citiesByCountry[watch('addresses.0.country')] ||
+                citiesByCountry[watch('addresses.1.country')] ||
                 citiesByCountry.BY
               }
-              registerProps={register('addresses.0.city')}
+              registerProps={register('addresses.1.city')}
             />
 
             <Input
               label="Postal Code"
               placeholder="Postal Code"
               inputProps={register(
-                'addresses.0.postalCode',
+                'addresses.1.postalCode',
                 postalCodeValidation
               )}
-              error={errors.addresses?.[0]?.postalCode}
+              error={errors.addresses?.[1]?.postalCode}
             />
 
             <Input
               label="Street"
               placeholder="Street name"
-              inputProps={register('addresses.0.streetName', streetValidation)}
-              error={errors.addresses?.[0]?.streetName}
+              inputProps={register('addresses.1.streetName', streetValidation)}
+              error={errors.addresses?.[1]?.streetName}
             />
           </div>
         )}
       </div>
 
       <div className="addressSettings">
+        <CheckboxInput
+          label="Set as default shipping address"
+          checked={defaultShippingAddress}
+          onChange={() => {
+            setDefaultShippingAddress(!defaultShippingAddress);
+          }}
+        />
+        <CheckboxInput
+          label="Set as default billing address"
+          checked={defaultBillingAddress}
+          onChange={() => {
+            setDefaultBillingAddress(!defaultBillingAddress);
+          }}
+        />
         <CheckboxInput
           label="Set as address for billing and shipping"
           checked={hideBilling}
