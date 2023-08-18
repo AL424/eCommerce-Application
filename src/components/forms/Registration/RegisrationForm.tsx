@@ -6,6 +6,7 @@ import { nameValidation } from '../../../utils/validation/nameValidation';
 import { ageValidation } from '../../../utils/validation/ageValidation';
 import { postalCodeValidation } from '../../../utils/validation/postalCodeValidation';
 import { streetValidation } from '../../../utils/validation/streetValidation';
+import { buildingValidation } from '../../../utils/validation/buildingValidation';
 // import { singup } from '../../../services/eCommerceService/Client';
 import Select from '../../common/Select/Select';
 import PasswordInput from '../../common/PasswordInput/PasswordInput';
@@ -78,6 +79,7 @@ const RegistrationForm: React.FC = () => {
     setValue('addresses.1.streetName', watch('addresses.0.streetName'));
     setValue('addresses.1.country', watch('addresses.0.country'));
     setValue('addresses.1.city', watch('addresses.0.city'));
+    setValue('addresses.1.building', watch('addresses.0.building'));
     if (hideBilling) {
       setAddressTitle('Shipping Address');
     } else {
@@ -178,6 +180,21 @@ const RegistrationForm: React.FC = () => {
             inputProps={register('addresses.0.streetName', streetValidation)}
             error={errors.addresses?.[0]?.streetName}
           />
+          <Input
+            label="Building"
+            placeholder="Building"
+            inputProps={{
+              ...register('addresses.0.building', {
+                required: buildingValidation.required,
+                validate: (value) => {
+                  if (typeof value === 'string' && value.trim() !== value) {
+                    return 'Building should not have leading or trailing spaces';
+                  }
+                }
+              })
+            }}
+            error={errors.addresses?.[0]?.building}
+          />
         </div>
         {/* billing********************* */}
         {hideBilling ? null : (
@@ -213,6 +230,22 @@ const RegistrationForm: React.FC = () => {
               placeholder="Street name"
               inputProps={register('addresses.1.streetName', streetValidation)}
               error={errors.addresses?.[1]?.streetName}
+            />
+
+            <Input
+              label="Building"
+              placeholder="Building"
+              inputProps={{
+                ...register('addresses.1.building', {
+                  required: buildingValidation.required,
+                  validate: (value) => {
+                    if (typeof value === 'string' && value.trim() !== value) {
+                      return 'Building should not have leading or trailing spaces';
+                    }
+                  }
+                })
+              }}
+              error={errors.addresses?.[1]?.building}
             />
           </div>
         )}
