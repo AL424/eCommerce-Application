@@ -6,7 +6,7 @@ import { nameValidation } from '../../../utils/validation/nameValidation';
 import { ageValidation } from '../../../utils/validation/ageValidation';
 import { postalCodeValidation } from '../../../utils/validation/postalCodeValidation';
 import { streetValidation } from '../../../utils/validation/streetValidation';
-import { singup } from '../../../services/eCommerceService/Client';
+// import { singup } from '../../../services/eCommerceService/Client';
 import Select from '../../common/Select/Select';
 import PasswordInput from '../../common/PasswordInput/PasswordInput';
 import Input from '../../common/Input/Input';
@@ -15,24 +15,25 @@ import citiesByCountry from '../../../utils/constants/countries.constants';
 
 import '../Login/LoginForm.css';
 import './RegistrationForm.css';
+import { CustomerDraft } from '@commercetools/platform-sdk';
 
-type Address = {
-  city: string;
-  country: string;
-  postalCode: string;
-  streetName: string;
-};
-type RegistrationInputs = {
-  email: string;
-  password: string;
-  firstName: string;
-  lastName: string;
-  dateOfBirth: string;
-  date: string;
-  addresses: [Address, Address];
-  defaultBillingAddress: number;
-  defaultShippingAddress: number;
-};
+// type Address = {
+//   city: string;
+//   country: string;
+//   postalCode: string;
+//   streetName: string;
+// };
+// type RegistrationInputs = {
+//   email: string;
+//   password: string;
+//   firstName: string;
+//   lastName: string;
+//   dateOfBirth: string;
+//   date: string;
+//   addresses: [Address, Address];
+//   defaultBillingAddress: number;
+//   defaultShippingAddress: number;
+// };
 
 const buttonClass = 'button';
 const inputClass = 'form-input';
@@ -45,17 +46,19 @@ const RegistrationForm: React.FC = () => {
     setValue,
     watch,
     formState: { errors }
-  } = useForm<RegistrationInputs>({
+  } = useForm<CustomerDraft>({
     // mode: 'onChange'
   });
-  const onSubmit: SubmitHandler<RegistrationInputs> = async (data) => {
-    const registrationData: RegistrationInputs = {
-      ...data,
-      defaultBillingAddress: data.defaultBillingAddress || 0,
-      defaultShippingAddress: data.defaultShippingAddress || 1
-    };
-    console.log(registrationData);
-    await singup(registrationData);
+  const onSubmit: SubmitHandler<CustomerDraft> = async (data) => {
+    // const registrationData: CustomerDraft = {
+    //   ...data,
+    //   defaultBillingAddress: data.defaultBillingAddress || 0,
+    //   defaultShippingAddress: data.defaultShippingAddress || 1
+    // };
+    // console.log(registrationData);
+    // await singup(registrationData);
+    console.log(data);
+    // await singup(data);
     reset();
   };
 
@@ -64,11 +67,11 @@ const RegistrationForm: React.FC = () => {
   // console.log(watch());
   // const selectedCountry = watch('country');
   const updateBillingFields = () => {
+    setValue('addresses.0.postalCode', watch('addresses.1.postalCode'));
+    setValue('addresses.0.streetName', watch('addresses.1.streetName'));
+    setValue('addresses.0.country', watch('addresses.1.country'));
+    setValue('addresses.0.city', watch('addresses.1.city'));
     if (hideBilling) {
-      setValue('addresses.0.postalCode', watch('addresses.1.postalCode'));
-      setValue('addresses.0.streetName', watch('addresses.1.streetName'));
-      setValue('addresses.0.country', watch('addresses.1.country'));
-      setValue('addresses.0.city', watch('addresses.1.city'));
       setAddressTitle('Shipping Address');
     } else {
       setAddressTitle('Shipping/Billing Address');
@@ -84,10 +87,24 @@ const RegistrationForm: React.FC = () => {
         error={errors.email}
       />
 
-      <PasswordInput
+      {/* <PasswordInput
         label="Password"
         placeholder="Password"
         inputProps={register('password', passwordValidation)}
+        error={errors.password}
+      /> */}
+      <PasswordInput
+        label="Password"
+        placeholder="Password"
+        inputProps={register('password', {
+          required: passwordValidation.required,
+          validate: (value) => {
+            if (typeof value !== 'string') {
+              return 'Password should be a string';
+            }
+            return passwordValidation.validate(value);
+          }
+        })}
         error={errors.password}
       />
 
@@ -111,9 +128,23 @@ const RegistrationForm: React.FC = () => {
       <Input
         label="Date of Birth"
         type="date"
-        inputProps={register('date', ageValidation)}
-        error={errors.date}
+        inputProps={register('dateOfBirth', {
+          required: passwordValidation.required,
+          validate: (value) => {
+            if (typeof value !== 'string') {
+              return 'dateOfBirth should be a string';
+            }
+            return ageValidation.validate(value);
+          }
+        })}
+        error={errors.dateOfBirth}
       />
+      {/* <Input
+        label="Date of Birth"
+        type="date"
+        inputProps={register('dateOfBirth', ageValidation)}
+        error={errors.dateOfBirth}
+      /> */}
 
       <h4 style={{ color: 'white', marginBottom: '0' }}>Addresses</h4>
 
