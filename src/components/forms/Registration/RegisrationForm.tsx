@@ -18,24 +18,6 @@ import '../Login/LoginForm.css';
 import './RegistrationForm.css';
 import { CustomerDraft } from '@commercetools/platform-sdk';
 
-// type Address = {
-//   city: string;
-//   country: string;
-//   postalCode: string;
-//   streetName: string;
-// };
-// type RegistrationInputs = {
-//   email: string;
-//   password: string;
-//   firstName: string;
-//   lastName: string;
-//   dateOfBirth: string;
-//   date: string;
-//   addresses: [Address, Address];
-//   defaultBillingAddress: number;
-//   defaultShippingAddress: number;
-// };
-
 const buttonClass = 'button';
 const inputClass = 'form-input';
 
