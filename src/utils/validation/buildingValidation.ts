@@ -5,7 +5,7 @@ export const buildingValidation = {
     if (value.trim() !== value) {
       return 'Building should not have leading or trailing spaces';
     }
-    if (!/\d\w\/.\s/.test(value)) {
+    if (!/^[\d\w\/.\s]/.test(value)) {
       return 'Use numbers, letters, symbol /';
     }
     return true;
