@@ -24,6 +24,11 @@ const LoginForm: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  // type LoginInputs = {
+  //   email: string;
+  //   password: string;
+  // };
+
   const {
     register,
     handleSubmit,
