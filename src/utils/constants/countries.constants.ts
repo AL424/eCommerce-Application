@@ -1,5 +1,5 @@
 const citiesByCountry: Record<string, string[]> = {
-  Belarus: [
+  BY: [
     'Baranovichi',
     'Brest',
     'Gomel',
@@ -11,7 +11,7 @@ const citiesByCountry: Record<string, string[]> = {
     'Pinsk',
     'Vitebsk'
   ],
-  Russia: [
+  RU: [
     'Chelyabinsk',
     'Ekaterinburg',
     'Kazan',

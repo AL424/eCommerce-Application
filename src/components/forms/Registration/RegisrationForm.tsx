@@ -126,7 +126,7 @@ const RegistrationForm: React.FC = () => {
             label="City"
             options={
               citiesByCountry[watch('addresses.0.country')] ||
-              citiesByCountry.Belarus
+              citiesByCountry.BY
             }
             registerProps={register('addresses.0.city')}
           />
@@ -167,7 +167,7 @@ const RegistrationForm: React.FC = () => {
               label="City"
               options={
                 citiesByCountry[watch('addresses.1.country')] ||
-                citiesByCountry.Belarus
+                citiesByCountry.BY
               }
               registerProps={register('addresses.1.city')}
             />
