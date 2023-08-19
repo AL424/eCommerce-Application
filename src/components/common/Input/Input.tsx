@@ -13,6 +13,7 @@ interface InputProps {
   error?: FieldError;
   value?: string;
   formDisabled?: boolean;
+  onInput?: () => void;
 }
 
 const Input: React.FC<InputProps> = ({
@@ -21,7 +22,8 @@ const Input: React.FC<InputProps> = ({
   placeholder,
   inputProps,
   error,
-  formDisabled
+  formDisabled,
+  onInput
 }) => {
   return (
     <div>
@@ -33,6 +35,7 @@ const Input: React.FC<InputProps> = ({
           placeholder={placeholder}
           disabled={formDisabled}
           {...inputProps}
+          onInput={onInput}
         />
         <p className={errorMessageClass}>
           {error && <span>{error.message}</span>}

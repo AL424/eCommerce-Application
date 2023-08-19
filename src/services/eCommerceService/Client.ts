@@ -33,18 +33,19 @@ export const singin = async (dataCustomer: CustomerSignin) => {
 
 // create user
 // Добавить функцию для выполнения входа в систему
-export const singup = (dataCust: CustomerDraft) => {
-  getApiRoot()
-    .customers()
-    .post({ body: dataCust })
-    .execute()
-    .then((resp) => resp.body)
-    .then((data) =>
-      console.log(
-        `Welcome, ${data.customer.firstName} ${data.customer.lastName}!!!`
-      )
-    )
-    .catch(() => console.log('User not registered'));
+export const singup = async (dataCust: CustomerDraft) => {
+  try {
+    const resp = await getApiRoot()
+      .customers()
+      .post({ body: dataCust })
+      .execute();
+
+    const data = resp.body;
+    const customerId = data.customer.id;
+    return customerId;
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 export const getCustomer = () => {

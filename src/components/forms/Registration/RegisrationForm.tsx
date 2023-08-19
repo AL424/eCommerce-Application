@@ -17,6 +17,11 @@ import citiesByCountry from '../../../utils/constants/countries.constants';
 import '../Login/LoginForm.css';
 import './RegistrationForm.css';
 import { CustomerDraft } from '@commercetools/platform-sdk';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { authOn } from '../../../services/store/authSlice';
+import { LocalStorage } from '../../../services/localStorage/LocalStorage.service';
+import { Route } from '../../../Router/Router';
 
 const buttonClass = 'button';
 const inputClass = 'form-input';
@@ -26,6 +31,9 @@ const RegistrationForm: React.FC = () => {
   const [addressTitle, setAddressTitle] = useState('Shipping Address');
   const [defaultShippingAddress, setDefaultShippingAddress] = useState(false);
   const [defaultBillingAddress, setDefaultBillingAddress] = useState(false);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [registrationError, setRegistrationError] = useState(false);
 
   const {
     register,
@@ -37,6 +45,7 @@ const RegistrationForm: React.FC = () => {
   } = useForm<CustomerDraft>({
     // mode: 'onChange'
   });
+
   const onSubmit: SubmitHandler<CustomerDraft> = async (data) => {
     const registrationData: CustomerDraft = {
       ...data,
@@ -50,10 +59,18 @@ const RegistrationForm: React.FC = () => {
         : [1]
     };
 
-    console.log(registrationData);
-    // reset();
-    await singup(registrationData);
-    // reset();
+    const customerId = await singup(registrationData);
+    if (customerId) {
+      LocalStorage.set('customer-id', customerId);
+      dispatch(authOn());
+      navigate(Route.main);
+    } else {
+      setRegistrationError(true);
+    }
+  };
+
+  const onInput = () => {
+    setRegistrationError(false);
   };
 
   const updateBillingFields = () => {
@@ -72,10 +89,11 @@ const RegistrationForm: React.FC = () => {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="form-container">
       <Input
-        label="Login"
+        label="E-mail"
         placeholder="email@example.com"
         inputProps={register('email', emailValidation)}
         error={errors.email}
+        onInput={onInput}
       />
 
       <PasswordInput
@@ -229,6 +247,11 @@ const RegistrationForm: React.FC = () => {
         value="Sign up"
         type="submit"
       />
+
+      <p className="error-message">
+        {registrationError &&
+          'There is already an existing customer with the provided email'}
+      </p>
     </form>
   );
 };
