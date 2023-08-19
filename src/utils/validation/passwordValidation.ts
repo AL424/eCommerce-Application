@@ -1,6 +1,7 @@
 export const passwordValidation = {
   required: 'Password is required',
-  validate: (value: string) => {
+  validate: (value: string | undefined) => {
+    if (!value) return;
     if (!/^[^\s]+$/.test(value)) {
       return 'Password should not contain spaces';
     }
@@ -23,5 +24,6 @@ export const passwordValidation = {
     if (value.length < 8) {
       return 'Password must be at least 8 characters long';
     }
+    return true;
   }
 };

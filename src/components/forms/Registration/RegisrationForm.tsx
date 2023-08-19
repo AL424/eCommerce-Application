@@ -30,7 +30,7 @@ const RegistrationForm: React.FC = () => {
   const {
     register,
     handleSubmit,
-    reset,
+    // reset,
     setValue,
     watch,
     formState: { errors }
@@ -51,9 +51,9 @@ const RegistrationForm: React.FC = () => {
     };
 
     console.log(registrationData);
-    reset();
+    // reset();
     await singup(registrationData);
-    reset();
+    // reset();
   };
 
   const updateBillingFields = () => {
@@ -81,15 +81,7 @@ const RegistrationForm: React.FC = () => {
       <PasswordInput
         label="Password"
         placeholder="Password"
-        inputProps={register('password', {
-          required: passwordValidation.required,
-          validate: (value) => {
-            if (typeof value !== 'string') {
-              return 'Password should be a string';
-            }
-            return passwordValidation.validate(value);
-          }
-        })}
+        inputProps={register('password', passwordValidation)}
         error={errors.password}
       />
 
@@ -113,15 +105,7 @@ const RegistrationForm: React.FC = () => {
       <Input
         label="Date of Birth"
         type="date"
-        inputProps={register('dateOfBirth', {
-          required: passwordValidation.required,
-          validate: (value) => {
-            if (typeof value !== 'string') {
-              return 'dateOfBirth should be a string';
-            }
-            return ageValidation.validate(value);
-          }
-        })}
+        inputProps={register('dateOfBirth', ageValidation)}
         error={errors.dateOfBirth}
       />
 
@@ -142,7 +126,7 @@ const RegistrationForm: React.FC = () => {
             label="City"
             options={
               citiesByCountry[watch('addresses.0.country')] ||
-              citiesByCountry.BY
+              citiesByCountry.Belarus
             }
             registerProps={register('addresses.0.city')}
           />
@@ -165,16 +149,7 @@ const RegistrationForm: React.FC = () => {
           <Input
             label="Building"
             placeholder="Building"
-            inputProps={{
-              ...register('addresses.0.building', {
-                required: buildingValidation.required,
-                validate: (value) => {
-                  if (typeof value === 'string' && value.trim() !== value) {
-                    return 'Building should not have leading or trailing spaces';
-                  }
-                }
-              })
-            }}
+            inputProps={register('addresses.0.building', buildingValidation)}
             error={errors.addresses?.[0]?.building}
           />
         </div>
@@ -192,7 +167,7 @@ const RegistrationForm: React.FC = () => {
               label="City"
               options={
                 citiesByCountry[watch('addresses.1.country')] ||
-                citiesByCountry.BY
+                citiesByCountry.Belarus
               }
               registerProps={register('addresses.1.city')}
             />
@@ -217,16 +192,7 @@ const RegistrationForm: React.FC = () => {
             <Input
               label="Building"
               placeholder="Building"
-              inputProps={{
-                ...register('addresses.1.building', {
-                  required: buildingValidation.required,
-                  validate: (value) => {
-                    if (typeof value === 'string' && value.trim() !== value) {
-                      return 'Building should not have leading or trailing spaces';
-                    }
-                  }
-                })
-              }}
+              inputProps={register('addresses.1.building', buildingValidation)}
               error={errors.addresses?.[1]?.building}
             />
           </div>

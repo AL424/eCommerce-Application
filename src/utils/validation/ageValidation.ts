@@ -1,6 +1,8 @@
 export const ageValidation = {
   required: 'Date of birth is required',
-  validate: (value: string) => {
+  validate: (value: string | undefined) => {
+    if (!value) return;
+
     const currentDate = new Date();
     const inputDate = new Date(value);
     const minAgeDate = new Date();
