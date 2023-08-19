@@ -53,6 +53,10 @@ const LoginForm: React.FC = () => {
     }
   };
 
+  const onInput = () => {
+    setLoginError(false);
+  };
+
   // const toggleConfirmPasswordVisibility = () => {
   //   setShowConfirmPassword(!showConfirmPassword);
   // };
@@ -67,6 +71,7 @@ const LoginForm: React.FC = () => {
         inputProps={register('email', emailValidation)}
         error={errors.email}
         formDisabled={formDisabled}
+        onInput={onInput}
       />
 
       <PasswordField
@@ -75,6 +80,7 @@ const LoginForm: React.FC = () => {
         inputProps={register('password', passwordValidation)}
         error={errors.password}
         formDisabled={formDisabled}
+        onInput={onInput}
       />
 
       {/* <label>Confirm Password</label>
