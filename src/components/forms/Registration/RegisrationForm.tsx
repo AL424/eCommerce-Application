@@ -250,7 +250,7 @@ const RegistrationForm: React.FC = () => {
 
       <p className="error-message">
         {registrationError &&
-          'There is already an existing customer with the provided emai'}
+          'There is already an existing customer with the provided email'}
       </p>
     </form>
   );
