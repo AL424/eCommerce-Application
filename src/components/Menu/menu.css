@@ -13,7 +13,7 @@
     transition: all 0.5s;
 }
 .menu__link:hover, .menu__link.active {
-    color: #DF6951;
+    color: var(--active-color);
 }
 .menu__link:hover:after, .menu__link.active:after {
     width: 100%;
@@ -27,6 +27,6 @@
     width: 0%;
     content: ".";
     color: transparent;
-    background: #DF6951;
+    background: var(--active-color);
     height: 1px;
 }

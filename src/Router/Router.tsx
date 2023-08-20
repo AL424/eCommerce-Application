@@ -4,6 +4,7 @@ import { Root } from '../pages/Root/Root';
 import { Error } from '../pages/Error/Error';
 import { Login } from '../pages/Login/Login';
 import { Registration } from '../pages/Registration/Registration';
+import { Main } from '../pages/Main/Main';
 
 export enum Route {
   main = '/',
@@ -23,7 +24,7 @@ export const routesConfig: RouteObject[] = [
     children: [
       {
         path: Route.main,
-        element: <h1>Main</h1>
+        element: <Main />
       },
       {
         path: Route.catalog,
