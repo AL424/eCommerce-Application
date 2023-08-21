@@ -17,11 +17,10 @@ import citiesByCountry from '../../../utils/constants/countries.constants';
 import '../Login/LoginForm.css';
 import './RegistrationForm.css';
 import { CustomerDraft } from '@commercetools/platform-sdk';
-import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { authOn } from '../../../services/store/authSlice';
 import { LocalStorage } from '../../../services/localStorage/LocalStorage.service';
-import { Route } from '../../../Router/Router';
+import { modalRegOn } from '../../../services/store/modalRegSlice';
 
 const buttonClass = 'button';
 const inputClass = 'form-input';
@@ -31,7 +30,6 @@ const RegistrationForm: React.FC = () => {
   const [addressTitle, setAddressTitle] = useState('Shipping Address');
   const [defaultShippingAddress, setDefaultShippingAddress] = useState(false);
   const [defaultBillingAddress, setDefaultBillingAddress] = useState(false);
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [registrationError, setRegistrationError] = useState(false);
 
@@ -63,7 +61,7 @@ const RegistrationForm: React.FC = () => {
     if (customerId) {
       LocalStorage.set('customer-id', customerId);
       dispatch(authOn());
-      navigate(Route.main);
+      dispatch(modalRegOn());
     } else {
       setRegistrationError(true);
     }
