@@ -53,6 +53,9 @@
             opacity: .5;
         }
     }
+    & .login > *+*{
+        margin-top: 0.5em;
+    }
     & .logout {
         display: flex;
         justify-content: center;

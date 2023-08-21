@@ -10,6 +10,8 @@ const popupClass = 'popup';
 const popupShowClass = 'popup__show';
 const mobileMenuClass = 'mobile-menu';
 const closedButtonClass = 'button__close';
+const linkClass = 'menu__link';
+const buttonClass = 'button';
 
 export const MobileMenu: React.FC = () => {
   const auth = useSelector((state: RootState) => state.auth.value);
@@ -19,7 +21,9 @@ export const MobileMenu: React.FC = () => {
     if (
       element instanceof HTMLElement &&
       (element.classList.contains(closedButtonClass) ||
-        element.classList.contains(popupClass))
+        element.classList.contains(popupClass) ||
+        element.classList.contains(linkClass) ||
+        element.classList.contains(buttonClass))
     ) {
       event.currentTarget.classList.remove(popupShowClass);
     }
