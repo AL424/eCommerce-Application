@@ -5,6 +5,7 @@ import { Route } from '../../Router/Router';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../services/store/authSlice';
 
+const containerClass = 'registration-page';
 const descriptionClass = 'description-message';
 
 export function Registration() {
@@ -16,7 +17,7 @@ export function Registration() {
   });
 
   return (
-    <div className="registration-page">
+    <div className={containerClass}>
       <RegistrationForm />
       <p className={descriptionClass}>
         Already have an account?<Link to={Route.login}>Sign in</Link>{' '}

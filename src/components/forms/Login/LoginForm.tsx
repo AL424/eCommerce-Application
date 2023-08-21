@@ -5,7 +5,6 @@ import { passwordValidation } from '../../../utils/validation/passwordValidation
 import Input from '../../common/Input/Input';
 import PasswordField from '../../common/PasswordInput/PasswordInput';
 
-import './LoginForm.css';
 import { singin } from '../../../services/eCommerceService/Client';
 import { CustomerSignin } from '@commercetools/platform-sdk';
 import { LocalStorage } from '../../../services/localStorage/LocalStorage.service';

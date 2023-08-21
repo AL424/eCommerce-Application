@@ -14,8 +14,7 @@ import Input from '../../common/Input/Input';
 import CheckboxInput from '../../common/CheckboxInput/CheckboxInput';
 import citiesByCountry from '../../../utils/constants/countries.constants';
 
-import '../Login/LoginForm.css';
-import './RegistrationForm.css';
+import './RegistrationForm.scss';
 import { CustomerDraft } from '@commercetools/platform-sdk';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';

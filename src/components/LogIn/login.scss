@@ -1,0 +1,6 @@
+.login {
+    margin-left: auto;
+    & > *+* {
+        margin-left: 0.5em;
+    }
+}

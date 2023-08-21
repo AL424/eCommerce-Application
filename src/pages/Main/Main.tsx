@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react';
 import { Link } from 'react-router-dom';
 import { Route } from '../../Router/Router';
-import './main.css';
+import './main.scss';
 
 export const Main = (): ReactElement => {
   return (
