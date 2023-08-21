@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { emailValidation } from '../../../utils/validation/emailValidation';
 import { passwordValidation } from '../../../utils/validation/passwordValidation';
@@ -67,24 +67,42 @@ const RegistrationForm: React.FC = () => {
     } else {
       setRegistrationError(true);
     }
+    // console.log(registrationData);
   };
 
   const onInput = () => {
     setRegistrationError(false);
   };
 
-  const updateBillingFields = () => {
-    setValue('addresses.1.postalCode', watch('addresses.0.postalCode'));
-    setValue('addresses.1.streetName', watch('addresses.0.streetName'));
-    setValue('addresses.1.country', watch('addresses.0.country'));
-    setValue('addresses.1.city', watch('addresses.0.city'));
-    setValue('addresses.1.building', watch('addresses.0.building'));
+  const postalCodeWatcher = watch('addresses.0.postalCode');
+  const streetNameWatcher = watch('addresses.0.streetName');
+  const countryWatcher = watch('addresses.0.country');
+  const cityWatcher = watch('addresses.0.city');
+  const buildingWatcher = watch('addresses.0.building');
+
+  const updateBillingFields = useCallback(() => {
+    setValue('addresses.1.postalCode', postalCodeWatcher);
+    setValue('addresses.1.streetName', streetNameWatcher);
+    setValue('addresses.1.country', countryWatcher);
+    setValue('addresses.1.city', cityWatcher);
+    setValue('addresses.1.building', buildingWatcher);
+  }, [
+    postalCodeWatcher,
+    streetNameWatcher,
+    countryWatcher,
+    cityWatcher,
+    buildingWatcher,
+    setValue
+  ]);
+
+  useEffect(() => {
     if (hideBilling) {
-      setAddressTitle('Shipping Address');
-    } else {
       setAddressTitle('Shipping/Billing Address');
+      updateBillingFields();
+    } else {
+      setAddressTitle('Shipping Address');
     }
-  };
+  }, [hideBilling, updateBillingFields]);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="form-container">
@@ -136,18 +154,28 @@ const RegistrationForm: React.FC = () => {
           <p className="addressTitle">{addressTitle}</p>
           <Select
             label="Country"
-            options={Object.keys(citiesByCountry)}
+            options={citiesByCountry}
             registerProps={register('addresses.0.country')}
           />
 
-          <Select
+          {/* <Select
             label="City"
             options={
               citiesByCountry[watch('addresses.0.country')] ||
               citiesByCountry.BY
             }
             registerProps={register('addresses.0.city')}
+          /> */}
+          <Input
+            label="City"
+            placeholder="Enter your city"
+            inputProps={register('addresses.0.city', {
+              ...nameValidation,
+              required: 'City is required'
+            })}
+            error={errors.addresses?.[0]?.city}
           />
+
           <Input
             label="Postal Code"
             placeholder="Postal Code"
@@ -177,17 +205,26 @@ const RegistrationForm: React.FC = () => {
             <p className="addressTitle">Billing Address</p>
             <Select
               label="Country"
-              options={Object.keys(citiesByCountry)}
+              options={citiesByCountry}
               registerProps={register('addresses.1.country')}
             />
 
-            <Select
+            {/* <Select
               label="City"
               options={
                 citiesByCountry[watch('addresses.1.country')] ||
                 citiesByCountry.BY
               }
               registerProps={register('addresses.1.city')}
+            /> */}
+            <Input
+              label="City"
+              placeholder="Enter your city"
+              inputProps={register('addresses.1.city', {
+                ...nameValidation,
+                required: 'City is required'
+              })}
+              error={errors.addresses?.[1]?.city}
             />
 
             <Input
