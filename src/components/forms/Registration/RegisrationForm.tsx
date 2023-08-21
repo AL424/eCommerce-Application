@@ -7,6 +7,7 @@ import { ageValidation } from '../../../utils/validation/ageValidation';
 import { postalCodeValidation } from '../../../utils/validation/postalCodeValidation';
 import { streetValidation } from '../../../utils/validation/streetValidation';
 import { buildingValidation } from '../../../utils/validation/buildingValidation';
+import { cityValidation } from '../../../utils/validation/cityValidation';
 import { singup } from '../../../services/eCommerceService/Client';
 import Select from '../../common/Select/Select';
 import PasswordInput from '../../common/PasswordInput/PasswordInput';
@@ -169,10 +170,7 @@ const RegistrationForm: React.FC = () => {
           <Input
             label="City"
             placeholder="Enter your city"
-            inputProps={register('addresses.0.city', {
-              ...nameValidation,
-              required: 'City is required'
-            })}
+            inputProps={register('addresses.0.city', cityValidation)}
             error={errors.addresses?.[0]?.city}
           />
 
@@ -220,10 +218,7 @@ const RegistrationForm: React.FC = () => {
             <Input
               label="City"
               placeholder="Enter your city"
-              inputProps={register('addresses.1.city', {
-                ...nameValidation,
-                required: 'City is required'
-              })}
+              inputProps={register('addresses.1.city', cityValidation)}
               error={errors.addresses?.[1]?.city}
             />
 
