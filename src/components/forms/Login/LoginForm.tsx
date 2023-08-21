@@ -8,10 +8,9 @@ import PasswordField from '../../common/PasswordInput/PasswordInput';
 import { singin } from '../../../services/eCommerceService/Client';
 import { CustomerSignin } from '@commercetools/platform-sdk';
 import { LocalStorage } from '../../../services/localStorage/LocalStorage.service';
-import { useNavigate } from 'react-router-dom';
-import { Route } from '../../../Router/Router';
 import { useDispatch } from 'react-redux';
 import { authOn } from '../../../services/store/authSlice';
+import { modalLoginOn } from '../../../services/store/modalLoginSlice';
 
 const buttonClass = 'button';
 const inputClass = 'form-input';
@@ -20,7 +19,6 @@ const LoginForm: React.FC = () => {
   // const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [loginError, setLoginError] = useState(false);
   const [formDisabled, setFormDisabled] = useState(false);
-  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   // type LoginInputs = {
@@ -41,14 +39,12 @@ const LoginForm: React.FC = () => {
     setFormDisabled(true);
     const customerId = await singin(data);
     if (customerId) {
-      // при переходе на главнкю рендерится не авторизованная главная
       LocalStorage.set('customer-id', customerId);
       dispatch(authOn());
-      navigate(Route.main);
+      dispatch(modalLoginOn());
     } else {
       setLoginError(true);
       setFormDisabled(false);
-      // удалять сообщение при вводе пароля или майла
     }
   };
 

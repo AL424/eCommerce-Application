@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import RegistrationForm from '../../components/forms/Registration/RegisrationForm';
 import { Route } from '../../Router/Router';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../services/store/authSlice';
+import { RootState } from '../../services/store/store';
 
 const containerClass = 'registration-page';
 const descriptionClass = 'description-message';

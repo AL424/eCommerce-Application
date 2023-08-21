@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import LoginForm from '../../components/forms/Login/LoginForm';
 import { Route } from '../../Router/Router';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../services/store/authSlice';
+import { RootState } from '../../services/store/store';
 
 const descriptionClass = 'description-message';
 
