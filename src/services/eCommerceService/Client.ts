@@ -27,7 +27,7 @@ export const singin = async (dataCustomer: CustomerSignin) => {
     const customerId = data.customer.id;
     return customerId;
   } catch (err) {
-    console.log(err);
+    // console.log(err);
   }
 };
 
@@ -44,7 +44,7 @@ export const singup = async (dataCust: CustomerDraft) => {
     const customerId = data.customer.id;
     return customerId;
   } catch (err) {
-    console.log(err);
+    // console.log(err);
   }
 };
 
