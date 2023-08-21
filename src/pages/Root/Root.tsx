@@ -9,7 +9,6 @@ import { modalLoginOff } from '../../services/store/modalLoginSlice';
 import { RootState } from '../../services/store/store';
 import { modalRegOff } from '../../services/store/modalRegSlice';
 
-
 export function Root() {
   const modalLoginActive = useSelector(
     (state: RootState) => state.modalLogin.active
