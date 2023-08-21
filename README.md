@@ -10,6 +10,14 @@ API integration using [eCommerce](https://docs.commercetools.com/docs/) (authori
 
 The project also uses: [TypeScript](https://www.typescriptlang.org/docs/), [ESLint](https://eslint.org/), [Prettier](https://prettier.io/), [Husky](https://typicode.github.io/husky/getting-started.html)
 
+
+## Installation
+ Clone the Repository:
+### `git clone git@github.com:AL424/eCommerce-Application.git`
+ Navigate to the Project Directory
+### `cd eCommerce-Application`
+ Install Dependencies:
+### `npm install`
 ## Available Scripts
 
 ### `npm run start`
@@ -49,6 +57,25 @@ Runs prettier automatic formatting of the code in the project.
 ### `npm prepare`
 
 Installs Husky, a tool used to set up Git hooks, during the preparation step. This is useful for configuring Git hooks, such as pre-commit hooks, to run tasks like linting or tests before committing changes
+
+## User Registration and Authentication
+### Registration
+To create an account and start using our platform, follow these steps:
+#### 1. Visit the Registration Page:
+Navigate to our website and locate the "Registration" button. Click on it to access the registration page.
+#### 2. Provide Your Information:
+Fill out the registration form with the required information.
+#### 3. Complete Registration:
+Once all fields are filled in correctly, you recieve success message and wil be redirected to the main page.
+
+### Authentication
+To log in and access your account, follow these steps:
+#### 1. Visit the Login Page:
+Go to our website and locate the "Login" button. Click on it to access the login page.
+#### 2. Enter Credentials:
+On the login page, enter your registered email address and password in the respective fields.
+#### 3. Authenticate:
+Click the 'Log In' button to authenticate. If your credentials are correct, you will receive a success message, be redirected to the main page, and gain access to your account.
 
 ## Learn More
 
