@@ -7,6 +7,11 @@ export const Menu: React.FC = () => {
   return (
     <ul className="menu">
       <li className="menu__item">
+        <NavLink to={Route.main} className="menu__link">
+          Main
+        </NavLink>
+      </li>
+      <li className="menu__item">
         <NavLink to={Route.catalog} className="menu__link">
           Catalog
         </NavLink>
