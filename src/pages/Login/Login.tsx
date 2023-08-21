@@ -14,7 +14,7 @@ export function Login() {
   useEffect(() => {
     if (auth) navigate(Route.main, { replace: true });
   });
-
+  if (auth) return null;
   return (
     <div className="login-page">
       <LoginForm />

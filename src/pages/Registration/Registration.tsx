@@ -15,7 +15,7 @@ export function Registration() {
   useEffect(() => {
     if (auth) navigate(Route.main, { replace: true });
   });
-
+  if (auth) return null;
   return (
     <div className={containerClass}>
       <RegistrationForm />

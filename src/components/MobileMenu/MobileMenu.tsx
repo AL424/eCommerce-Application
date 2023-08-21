@@ -1,5 +1,5 @@
 import React from 'react';
-import { RootState } from '../../services/store/authSlice';
+import { RootState } from '../../services/store/store';
 import { useSelector } from 'react-redux';
 import { LogOut } from '../Logout/Logout';
 import { LogIn } from '../LogIn/LogIn';
