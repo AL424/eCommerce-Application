@@ -1,6 +1,6 @@
 import React from 'react';
 import { UseFormRegisterReturn } from 'react-hook-form';
-import './Select.css';
+import './Select.scss';
 
 const labelClass = 'form-label';
 const selectClass = 'form-select';

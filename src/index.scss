@@ -16,6 +16,7 @@ body{
   margin: 0;
   font-family: 'Roboto', sans-serif;
   color: var(--dark-blue-color);
+  min-width: 320px;
 }
 .button {
   font-family: 'Roboto', sans-serif;
@@ -27,8 +28,8 @@ body{
 
 .form-container {
     padding: 1rem;
-    width: 320px;
-    max-width: 320px;
+    width: 100%;
+    max-width: 500px;
     background: var(--dark-blue-color);
     margin: 0 auto;
     border: 1px solid var(--white-color);
@@ -36,19 +37,16 @@ body{
 }
 .description-message {
   font-size: .8rem;
-    color: var(--dark-blue-color);
-}
-
-.description-message > a {
-  margin-left: 0.5em;
   color: var(--dark-blue-color);
-  transition: .3s;
+  & > a {
+    margin-left: 0.5em;
+    color: var(--dark-blue-color);
+    transition: .3s;
+    &:hover {
+      color: var(--hover-color);
+    }
+  }
 }
-
-.description-message > a:hover {
-  color: var(--hover-color);
-}
-
 .error-message {
   margin-top: 0.2em;
   color: var(--active-color);
@@ -61,14 +59,12 @@ body{
   color: var(--white-color);
   font-size: .9rem;
   font-weight: 200;
+  &:after {
+    content: '*';
+    color: var(--active-color);
+    margin-left: .3em;
+  }
 }
-
-.form-label:after {
-  content: '*';
-  color: var(--active-color);
-  margin-left: .3em;
-}
-
 .form-input {
   display: block;
   width: 100%;
@@ -77,13 +73,11 @@ body{
   padding: .5em .8em;
   font-size: .8rem;
   outline: none;
+  &:disabled {
+    opacity: 0.4;
+    cursor: context-menu;
+  }
 }
-
-.form-input:disabled {
-  opacity: 0.4;
-  cursor: context-menu;
-}
-
 .button {
   background: var(--active-color);
   color: var(--white-color);
@@ -93,16 +87,14 @@ body{
   font-size: 1rem;
   font-weight: 500;
   transition: 0.3s all;
-}
-
-.button:hover {
-  background: var(--hover-color);
   cursor: pointer;
-}
-
-.button:active {
-  transform: translateY(3px);
-  opacity: 0.8;
+  &:hover {
+    background: var(--hover-color);
+  }
+  &:active {
+    transform: translateY(3px);
+    opacity: 0.8;
+  }
 }
 
 .button-switch {
@@ -117,16 +109,17 @@ body{
   border-radius: 4px;
   cursor: pointer;
   transition: 0.3s background;
+  &:hover {
+    background: var(--hover-color);
+  }
 }
-.button-switch:hover {
-  background: var(--hover-color);
-}
-
 .login-page,
 .registration-page{
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 1em;
+}
+.login-page .form-container{
+  max-width: 320px;
 }

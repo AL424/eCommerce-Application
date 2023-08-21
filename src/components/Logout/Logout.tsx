@@ -1,10 +1,13 @@
 import React from 'react';
-import './logout.css';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { Route } from '../../Router/Router';
 import { LocalStorage } from '../../services/localStorage/LocalStorage.service';
 import { useDispatch } from 'react-redux';
 import { authOff } from '../../services/store/authSlice';
+import './logout.scss';
+
+const containerClass = 'logout';
+const menuLinkClass = 'menu__link';
 
 export const LogOut: React.FC = () => {
   const navigate = useNavigate();
@@ -16,8 +19,8 @@ export const LogOut: React.FC = () => {
   };
 
   return (
-    <span className="logout">
-      <NavLink to={Route.profile} className="menu__link">
+    <span className={containerClass}>
+      <NavLink to={Route.profile} className={menuLinkClass}>
         Profile
       </NavLink>
       <button className="button" onClick={onClick}></button>
