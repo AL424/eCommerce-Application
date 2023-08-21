@@ -4,7 +4,7 @@ import LoginForm from '../../components/forms/Login/LoginForm';
 import './login.css';
 import { Route } from '../../Router/Router';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../services/store/authSlice';
+import { RootState } from '../../services/store/store';
 
 const descriptionClass = 'description-message';
 

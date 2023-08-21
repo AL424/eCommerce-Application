@@ -1,12 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { LocalStorage } from '../localStorage/LocalStorage.service';
 
-export interface RootState {
-  auth: {
-    value: boolean;
-  };
-}
-
 export const authSlice = createSlice({
   name: 'auth',
   initialState: { value: LocalStorage.get('customer-id') ? true : false },
