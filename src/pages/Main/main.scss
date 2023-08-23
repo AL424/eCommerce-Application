@@ -1,0 +1,16 @@
+main{
+    padding: 1em .7em;
+    text-align: center;
+}
+.main__menu{
+    padding: 0;
+    list-style: none;
+    & .button{
+        width: 100%;
+        max-width: 300px;
+        display: inline-block;
+        border-bottom: 1px solid var(--white-color);
+        text-align: center;
+        text-decoration: none;
+    }
+}
