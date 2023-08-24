@@ -42,7 +42,7 @@ const options: AuthMiddlewareOptions = {
 export const ctpClient = new ClientBuilder()
   .withClientCredentialsFlow(options)
   .withHttpMiddleware(httpMiddlewareOptions)
-  // .withLoggerMiddleware()
+  .withLoggerMiddleware()
   .build();
 
 // withPasswordFlow client
@@ -67,13 +67,11 @@ export const setPasswordAuthMiddlewareOptions = (
 };
 
 export const createPasswordFlowClient = (dataCustomer: CustomerSignin) => {
-  return (
-    new ClientBuilder()
-      .withPasswordFlow(setPasswordAuthMiddlewareOptions(dataCustomer))
-      .withHttpMiddleware(httpMiddlewareOptions)
-      // .withLoggerMiddleware()
-      .build()
-  );
+  return new ClientBuilder()
+    .withPasswordFlow(setPasswordAuthMiddlewareOptions(dataCustomer))
+    .withHttpMiddleware(httpMiddlewareOptions)
+    .withLoggerMiddleware()
+    .build();
 };
 
 // withAnonymousSessionFlow client
@@ -85,25 +83,23 @@ const anonymOptions: AnonymousAuthMiddlewareOptions = {
     clientSecret: clientSecret
   },
   scopes: scopes,
-  fetch,
-  tokenCache: tokenCache
+  fetch
+  // tokenCache: tokenCache
 };
 
 export const ctpAnonymClient = new ClientBuilder()
   .withAnonymousSessionFlow(anonymOptions)
   .withHttpMiddleware(httpMiddlewareOptions)
-  // .withLoggerMiddleware()
+  .withLoggerMiddleware()
   .build();
 
 // withExistingTokenFlow
 export const createExistingTokenFlowClient = (token: string) => {
-  return (
-    new ClientBuilder()
-      .withExistingTokenFlow(token, { force: true })
-      .withHttpMiddleware(httpMiddlewareOptions)
-      // .withLoggerMiddleware()
-      .build()
-  );
+  return new ClientBuilder()
+    .withExistingTokenFlow(token, { force: true })
+    .withHttpMiddleware(httpMiddlewareOptions)
+    .withLoggerMiddleware()
+    .build();
 };
 
 export const createApiRoot = (client: Client) => {

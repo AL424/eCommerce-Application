@@ -14,6 +14,7 @@ export const LogOut: React.FC = () => {
   const dispatch = useDispatch();
   const onClick = () => {
     LocalStorage.remove('customer-id');
+    LocalStorage.remove('token-cache');
     dispatch(authOff());
     navigate(Route.main);
   };

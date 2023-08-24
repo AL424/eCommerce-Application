@@ -8,7 +8,7 @@ import { postalCodeValidation } from '../../../utils/validation/postalCodeValida
 import { streetValidation } from '../../../utils/validation/streetValidation';
 import { buildingValidation } from '../../../utils/validation/buildingValidation';
 import { cityValidation } from '../../../utils/validation/cityValidation';
-import { singup } from '../../../services/eCommerceService/Client';
+import { singup } from '../../../services/eCommerceService/Customer';
 import Select from '../../common/Select/Select';
 import PasswordInput from '../../common/PasswordInput/PasswordInput';
 import Input from '../../common/Input/Input';
@@ -19,7 +19,6 @@ import './RegistrationForm.scss';
 import { CustomerDraft } from '@commercetools/platform-sdk';
 import { useDispatch } from 'react-redux';
 import { authOn } from '../../../services/store/authSlice';
-import { LocalStorage } from '../../../services/localStorage/LocalStorage.service';
 import { modalRegOn } from '../../../services/store/modalRegSlice';
 
 const buttonClass = 'button';
@@ -57,15 +56,13 @@ const RegistrationForm: React.FC = () => {
         : [1]
     };
 
-    const customerId = await singup(registrationData);
-    if (customerId) {
-      LocalStorage.set('customer-id', customerId);
+    const customer = await singup(registrationData);
+    if (customer) {
       dispatch(authOn());
       dispatch(modalRegOn());
     } else {
       setRegistrationError(true);
     }
-    // console.log(registrationData);
   };
 
   const onInput = () => {
