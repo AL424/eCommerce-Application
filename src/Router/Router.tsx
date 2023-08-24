@@ -5,6 +5,7 @@ import { Error } from '../pages/Error/Error';
 import { Login } from '../pages/Login/Login';
 import { Registration } from '../pages/Registration/Registration';
 import { Main } from '../pages/Main/Main';
+import { Profile } from '../pages/Profile/Profile';
 
 export enum Route {
   main = '/',
@@ -40,7 +41,7 @@ export const routesConfig: RouteObject[] = [
       },
       {
         path: Route.profile,
-        element: <h1>Profile</h1>
+        element: <Profile />
       },
       {
         path: Route.login,
