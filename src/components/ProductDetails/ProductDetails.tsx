@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { getProductById } from '../../services/eCommerceService/Client';
 import { ProductData } from '@commercetools/platform-sdk';
+import Slider from 'react-slick';
 
 const id = '12236346-a8dd-40b5-ba11-6077e197f5e0';
 // const id2 = '30eb4525-39a5-4982-b4ab-9b0ea5c7c5a1';
