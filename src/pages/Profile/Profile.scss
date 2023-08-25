@@ -1,0 +1,21 @@
+.button-wrap {
+  margin-top: 10px;
+  .button:not(:last-child) {
+    margin-right: 10px;
+  }
+}
+
+.button {
+  &_cancel {
+    background: #76696e;
+  }
+  &_cancel:hover {
+    background: #a27f8c;
+  }
+  &_save {
+    background: #14AD14;
+  }
+  &_save:hover {
+    background: #48D648;
+  }
+}
