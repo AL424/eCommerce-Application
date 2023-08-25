@@ -1,0 +1,26 @@
+.personal-info {
+  color: var(--white-color);
+  border-radius: 10px;
+
+  legend {
+    font-size: 1.2rem;
+    text-align: start;
+    padding: 0 10px;
+    opacity: 0.8;
+    letter-spacing: 0.05em;
+  }
+}
+
+fieldset:disabled {
+  .form-label::after {
+    display: none;
+  }
+  .form-input {
+    background: none;
+    border: none;
+    opacity: 1;
+    font-size: 1rem;
+    padding: 0;
+    color: var(--active-color);
+  }
+}
