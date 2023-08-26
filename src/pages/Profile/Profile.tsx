@@ -4,6 +4,7 @@ import { PersonalInfo } from '../../components/forms/PersonalInfo/PersonalInfo';
 import { Customer } from '@commercetools/platform-sdk';
 import { getMe } from '../../services/eCommerceService/Customer';
 import { getApiRoot } from '../../services/eCommerceService/ApiRoot';
+import { PasswordInfo } from '../../components/forms/PasswordInfo/PaswordInfo';
 
 export const Profile = (): ReactElement => {
   const [customer, setCustomer] = useState({} as Customer);
@@ -20,8 +21,9 @@ export const Profile = (): ReactElement => {
   return (
     <div className="profile-page">
       <h1>Profile</h1>
-      <form className="form-container">
+      <form className="form-container profile-page__form">
         <PersonalInfo customer={customer} />
+        <PasswordInfo />
       </form>
     </div>
   );
