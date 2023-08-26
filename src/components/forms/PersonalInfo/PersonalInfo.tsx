@@ -1,4 +1,3 @@
-import './PersonalInfo.scss';
 import React, { useState } from 'react';
 import { Customer } from '@commercetools/platform-sdk';
 import Input from '../../common/Input/Input';
