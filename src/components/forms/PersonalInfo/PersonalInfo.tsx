@@ -23,7 +23,9 @@ export const PersonalInfo: React.FC<PersonalInfoProps> = ({ customer }) => {
   const {
     register,
     formState: { errors }
-  } = useForm<PersonalInfoChange>();
+  } = useForm<PersonalInfoChange>({
+    mode: 'onChange'
+  });
 
   return (
     <>
