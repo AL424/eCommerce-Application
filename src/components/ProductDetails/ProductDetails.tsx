@@ -5,9 +5,10 @@ import Slider, { Settings } from 'react-slick';
 import Modal from '../common/Modal/Modal';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import './ProductDetails.scss';
 
-const id = '12236346-a8dd-40b5-ba11-6077e197f5e0';
-// const id = '30eb4525-39a5-4982-b4ab-9b0ea5c7c5a1';
+// const id = '12236346-a8dd-40b5-ba11-6077e197f5e0';
+const id = '30eb4525-39a5-4982-b4ab-9b0ea5c7c5a1';
 
 export const ProductDetails = () => {
   const [product, setProduct] = useState<ProductData | null>(null);
@@ -80,24 +81,8 @@ export const ProductDetails = () => {
   return (
     <div>
       {product ? (
-        <div>
-          <h2>{product.name['en-US']}</h2>
-          <p>{product.description?.['en-US']}</p>
-          <div>
-            <p>SKU: {product.masterVariant.sku}</p>
-            <p>
-              Price: {product.masterVariant.prices?.[0].value.centAmount}{' '}
-              {product.masterVariant.prices?.[0].value.currencyCode}
-            </p>
-            {/* {product.masterVariant.images?.map((image, index) => (
-              <img
-                key={index}
-                src={image.url}
-                alt={image.label}
-                // style={{ width: '350px', height: '350px' }}
-              />
-            ))} */}
-
+        <div className="product__wrapper">
+          <div className="product__slider">
             <Slider
               {...largeSliderSettings}
               ref={(slider) => (largeSliderRef.current = slider)}
@@ -137,7 +122,25 @@ export const ProductDetails = () => {
               </Slider>
             ) : null}
           </div>
-          {/* {product.variants.map((variant) => (
+          <div className="product__info">
+            <h2>{product.name['en-US']}</h2>
+            <p>{product.description?.['en-US']}</p>
+            <div>
+              <p>SKU: {product.masterVariant.sku}</p>
+              <p>
+                Price: {product.masterVariant.prices?.[0].value.centAmount}{' '}
+                {product.masterVariant.prices?.[0].value.currencyCode}
+              </p>
+              {/* {product.masterVariant.images?.map((image, index) => (
+              <img
+                key={index}
+                src={image.url}
+                alt={image.label}
+                // style={{ width: '350px', height: '350px' }}
+              />
+            ))} */}
+            </div>
+            {/* {product.variants.map((variant) => (
             <div key={variant.id}>
               <p>SKU: {variant.sku}</p>
               <p>
@@ -149,6 +152,7 @@ export const ProductDetails = () => {
               ))}
             </div>
           ))} */}
+          </div>
         </div>
       ) : (
         <p>Loading...</p>
