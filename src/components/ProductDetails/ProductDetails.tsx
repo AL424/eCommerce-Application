@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { getProductById } from '../../services/eCommerceService/Client';
 import { ProductData } from '@commercetools/platform-sdk';
 import Slider, { Settings } from 'react-slick';
+import Modal from '../common/Modal/Modal';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
@@ -10,9 +11,16 @@ const id = '12236346-a8dd-40b5-ba11-6077e197f5e0';
 
 export const ProductDetails = () => {
   const [product, setProduct] = useState<ProductData | null>(null);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedImage, setSelectedImage] = useState('');
 
   const largeSliderRef = useRef<Slider | null>(null);
   const smallSliderRef = useRef<Slider | null>(null);
+
+  const handleImageClick = (imageUrl: string) => {
+    setSelectedImage(imageUrl);
+    setModalOpen(true);
+  };
 
   useEffect(() => {
     getProductById(id)
@@ -100,10 +108,17 @@ export const ProductDetails = () => {
                     src={image.url}
                     alt={image.label}
                     style={{ width: '350px', height: '350px' }}
+                    onClick={() => handleImageClick(image.url)}
                   />
                 </div>
               ))}
             </Slider>
+            {modalOpen && (
+              <Modal
+                imageUrl={selectedImage}
+                onClick={() => setModalOpen(false)}
+              />
+            )}
             {product.masterVariant.images &&
             product.masterVariant.images.length > 1 ? (
               <Slider
