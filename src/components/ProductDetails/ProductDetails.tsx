@@ -104,20 +104,23 @@ export const ProductDetails = () => {
                 </div>
               ))}
             </Slider>
-            <Slider
-              {...smallSliderSettings}
-              ref={(slider) => (smallSliderRef.current = slider)}
-            >
-              {product.masterVariant.images?.map((image, index) => (
-                <div key={index}>
-                  <img
-                    src={image.url}
-                    alt={image.label}
-                    style={{ width: '100px', height: '100px' }}
-                  />
-                </div>
-              ))}
-            </Slider>
+            {product.masterVariant.images &&
+            product.masterVariant.images.length > 1 ? (
+              <Slider
+                {...smallSliderSettings}
+                ref={(slider) => (smallSliderRef.current = slider)}
+              >
+                {product.masterVariant.images?.map((image, index) => (
+                  <div key={index}>
+                    <img
+                      src={image.url}
+                      alt={image.label}
+                      style={{ width: '100px', height: '100px' }}
+                    />
+                  </div>
+                ))}
+              </Slider>
+            ) : null}
           </div>
           {/* {product.variants.map((variant) => (
             <div key={variant.id}>
