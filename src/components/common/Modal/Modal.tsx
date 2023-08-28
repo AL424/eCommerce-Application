@@ -10,9 +10,12 @@ interface ModalProps {
 
 const Modal: React.FC<ModalProps> = ({ title, message, imageUrl, onClick }) => {
   return (
-    <div className="modal" onClick={onClick}>
-      <div className="overlay"></div>
+    <div className="modal">
+      <div className="overlay" onClick={onClick}></div>
       <div className="modal-window">
+        <button className="closeButton" onClick={onClick}>
+          ✕
+        </button>
         <h3 className="modal-window__title">{title}</h3>
         {imageUrl && <img src={imageUrl} alt="Modal" />}
         <p className="modal-window__message">{message}</p>

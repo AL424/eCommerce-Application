@@ -29,6 +29,23 @@
   margin: 0 auto;
 }
 
+.closeButton {
+  position: absolute;
+  color: var(--white-color);
+  font-weight: bold;
+  background-color: var(--dark-blue-color);
+  border: 1px solid;
+  top: 0;
+  left: 100%;
+  line-height: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.closeButton:hover {
+  background-color: var(--hover-color);
+}
+
 .modal-window__title {
   margin: 0;
 }
