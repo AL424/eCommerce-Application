@@ -53,3 +53,12 @@
 .slick-prev:before, .slick-next:before {
   color: var(--dark-blue-color);
 }
+
+.discounted-price {
+  color: var(--hover-color);
+}
+
+.discounted-available {
+  text-decoration: line-through;
+}
+

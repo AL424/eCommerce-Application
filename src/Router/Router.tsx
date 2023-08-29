@@ -36,6 +36,10 @@ export const routesConfig: RouteObject[] = [
         path: Route.product,
         element: <Product />
       },
+      // {
+      //   path: `${Route.product}/:productId`,
+      //   element: <Product />
+      // },
       {
         path: Route.basket,
         element: <h1>Basket</h1>

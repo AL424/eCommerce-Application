@@ -3,6 +3,8 @@ import { getProductById } from '../../services/eCommerceService/Client';
 import { ProductData } from '@commercetools/platform-sdk';
 import Slider, { Settings } from 'react-slick';
 import Modal from '../common/Modal/Modal';
+import formatCurrency from '../../utils/helpers/currency.helpers';
+// import { useParams } from 'react-router-dom';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import './ProductDetails.scss';
@@ -11,6 +13,7 @@ import './ProductDetails.scss';
 const id = '30eb4525-39a5-4982-b4ab-9b0ea5c7c5a1';
 
 export const ProductDetails = () => {
+  // const { id: routeProductId } = useParams();
   const [product, setProduct] = useState<ProductData | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState('');
@@ -32,13 +35,12 @@ export const ProductDetails = () => {
       .catch((error) => {
         console.error('Error occured:', error);
       });
-  }, []);
+  }, []); // routeProductId
 
   const largeSliderSettings: Settings = {
     dots: false,
     infinite: true,
     arrows: true,
-    // dotsClass: 'slick-dots slick-thumb',
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
@@ -126,32 +128,89 @@ export const ProductDetails = () => {
             <h2>{product.name['en-US']}</h2>
             <p>{product.description?.['en-US']}</p>
             <div>
+              <div>
+                {product.categories &&
+                  product.categories.map((category, index) => {
+                    return <p key={index}>{category.typeId}</p>;
+                  })}
+              </div>
               <p>SKU: {product.masterVariant.sku}</p>
-              <p>
-                Price: {product.masterVariant.prices?.[0].value.centAmount}{' '}
-                {product.masterVariant.prices?.[0].value.currencyCode}
-              </p>
+              {/* <p>
+                Price:{' '}
+                {new Intl.NumberFormat('en-US', {
+                  style: 'currency',
+                  currency: `${product.masterVariant.prices?.[0].value.currencyCode}`,
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2
+                }).format(
+                  Number(product.masterVariant.prices?.[0].value.centAmount) /
+                    100
+                )} */}
+              {/* {product.masterVariant.prices?.[0].value.centAmount}{' '}
+                {product.masterVariant.prices?.[0].value.currencyCode} */}
+              {/* </p> */}
+              {product.masterVariant.prices?.map((price, index) => (
+                <div key={index}>
+                  <p>
+                    {/* ({price.value.currencyCode})  */}
+                    Price:
+                    <span
+                      className={price.discounted ? 'discounted-available' : ''}
+                    >
+                      {formatCurrency(
+                        price.value.centAmount / 100,
+                        price.value.currencyCode
+                      )}
+                    </span>
+                  </p>
+
+                  {price.discounted && (
+                    <p>
+                      {/* ({price.discounted.value.currencyCode}) */}
+                      Discounted Price:
+                      <span className="discounted-price">
+                        {formatCurrency(
+                          price.discounted.value.centAmount / 100,
+                          price.discounted.value.currencyCode
+                        )}
+                      </span>
+                    </p>
+                  )}
+
+                  {price.tiers?.map((tier, tierIndex) => (
+                    <p key={tierIndex}>
+                      {/* ({tier.value.currencyCode}) */}
+                      Tier {tierIndex + 1}:
+                      {formatCurrency(
+                        tier.value.centAmount / 100,
+                        tier.value.currencyCode
+                      )}
+                      (Minimum Quantity: {tier.minimumQuantity})
+                    </p>
+                  ))}
+                </div>
+              ))}
               {/* {product.masterVariant.images?.map((image, index) => (
-              <img
-                key={index}
-                src={image.url}
-                alt={image.label}
-                // style={{ width: '350px', height: '350px' }}
-              />
-            ))} */}
+                <img
+                  key={index}
+                  src={image.url}
+                  alt={image.label}
+                  // style={{ width: '350px', height: '350px' }}
+                />
+              ))} */}
             </div>
             {/* {product.variants.map((variant) => (
-            <div key={variant.id}>
-              <p>SKU: {variant.sku}</p>
-              <p>
-                Price: {variant.prices?.[0]?.value?.centAmount}{' '}
-                {variant.prices?.[0]?.value?.currencyCode}
-              </p>
-              {variant.images?.map((image) => (
-                <img src={image.url} alt={image.label} />
-              ))}
-            </div>
-          ))} */}
+              <div key={variant.id}>
+                <p>SKU: {variant.sku}</p>
+                <p>
+                  Price: {variant.prices?.[0]?.value?.centAmount}{' '}
+                  {variant.prices?.[0]?.value?.currencyCode}
+                </p>
+                {variant.images?.map((image) => (
+                  <img src={image.url} alt={image.label} />
+                ))}
+              </div>
+            ))} */}
           </div>
         </div>
       ) : (
