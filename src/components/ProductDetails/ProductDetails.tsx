@@ -4,7 +4,7 @@ import {
   getProductById
 } from '../../services/eCommerceService/Client';
 import { ProductData, Category } from '@commercetools/platform-sdk';
-import { checkProductExists } from '../../services/eCommerceService/Client';
+// import { checkProductExists } from '../../services/eCommerceService/Client';
 import Slider, { Settings } from 'react-slick';
 import Modal from '../common/Modal/Modal';
 import formatCurrency from '../../utils/helpers/currency.helpers';
@@ -13,36 +13,14 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import './ProductDetails.scss';
 
-// const transformDetails = (data: ProductData) => {
-//   return {
-//     name: data?.name['en-US'],
-//     nameRu: data?.name.ru || 'Товар без названия',
-//     descriptionEn: data?.description?.['en-US'] || 'There is no description',
-//     descriptionRu: data?.description?.ru || 'Описание отсутствует',
-//     images: data?.masterVariant.images || [],
-//     id: data?.masterVariant.id,
-//     sku: data?.masterVariant.sku,
-//     prices: data?.masterVariant.prices,
-//     key: data?.masterVariant.key,
-//     categoriesId: data?.categories.map((i) => i.id),
-//     variantsId: data?.variants.map((i) => i.id),
-//     variantsSku: data?.variants.map((i) => i.sku),
-//     variantsPrice: data?.variants.map((i) => i.prices?.[0]?.value?.centAmount),
-//     variantsCurrency: data?.variants.map(
-//       (i) => i.prices?.[0]?.value?.currencyCode
-//     ),
-//     variantsImages: data?.variants.map((i) => i.images) || []
-//   };
+// const id = '12236346-a8dd-40b5-ba11-6077e197f5e0'; // test 1 underpants
+const id = '30eb4525-39a5-4982-b4ab-9b0ea5c7c5a1'; // test 2 stickers Sloths
+
+// const check = async () => {
+//   const exists = await checkProductExists(id);
+//   console.log('Product exists: ', exists);
 // };
-
-// const id = '12236346-a8dd-40b5-ba11-6077e197f5e0';
-const id = '30eb4525-39a5-4982-b4ab-9b0ea5c7c5a1';
-
-const check = async () => {
-  const exists = await checkProductExists(id);
-  console.log('Данный продукт существует: ', exists);
-};
-check();
+// check();
 
 export const ProductDetails = () => {
   const { id: routeProductId } = useParams();
@@ -79,7 +57,6 @@ export const ProductDetails = () => {
       const urls =
         product.masterVariant.images?.map((image) => image.url) || [];
       setImageUrls(urls);
-      // console.log(urls);
     }
   }, [product]);
 
@@ -96,12 +73,10 @@ export const ProductDetails = () => {
       return;
     }
   }, [product]);
-  // console.log(productCategory?.name['en-US']);
 
   const largeSliderSettings: Settings = {
     dots: false,
     infinite: true,
-    // arrows: true,
     arrows: imageUrls.length > 1 ? true : false,
     speed: 500,
     slidesToShow: 1,
@@ -121,8 +96,6 @@ export const ProductDetails = () => {
     className: '.smallSlider',
     asNavFor: largeSliderRef.current || undefined
   };
-
-  // if (product) console.log(transformDetails(product));
 
   return (
     <div>
@@ -171,36 +144,18 @@ export const ProductDetails = () => {
             ) : null}
           </div>
           <div className="product__info">
-            <h2>{product.name['en-US']}</h2>
-            <p>{product.description?.['en-US']}</p>
+            <h2>{product.name['en-US'] || 'Best product'}</h2>
+            <p>{product.description?.['en-US'] || 'There is no description'}</p>
             <div>
-              {/* <div>
-                {product.categories &&
-                  product.categories.map((category, index) => {
-                    return <p key={index}>{category.typeId}</p>;
-                  })}
-              </div> */}
               <p>
                 Category:{' '}
                 {productCategory?.name['en-US'] || 'Product without category'}
               </p>
               <p>SKU: {product.masterVariant.sku}</p>
-              {/* <p>
-                Price:{' '}
-                {new Intl.NumberFormat('en-US', {
-                  style: 'currency',
-                  currency: `${product.masterVariant.prices?.[0].value.currencyCode}`,
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 2
-                }).format(
-                  Number(product.masterVariant.prices?.[0].value.centAmount) /
-                    100
-                )}
-              </p> */}
               {product.masterVariant.prices?.map((price, index) => (
                 <div key={index}>
                   <p>
-                    {/* ({price.value.currencyCode})  */}
+                    {/* Main price */}
                     Price:{' '}
                     <span
                       className={price.discounted ? 'discounted-available' : ''}
@@ -214,7 +169,7 @@ export const ProductDetails = () => {
 
                   {price.discounted && (
                     <p>
-                      {/* ({price.discounted.value.currencyCode}) */}
+                      {/* Discounted price */}
                       Discounted Price:{' '}
                       <span className="discounted-price">
                         {formatCurrency(
@@ -227,12 +182,12 @@ export const ProductDetails = () => {
 
                   {price.tiers?.map((tier, tierIndex) => (
                     <p key={tierIndex}>
-                      {/* ({tier.value.currencyCode}) */}
+                      {/* Wholesale price */}
                       Tier {tierIndex + 1}:{' '}
                       {formatCurrency(
                         tier.value.centAmount / 100,
                         tier.value.currencyCode
-                      )}
+                      )}{' '}
                       (Minimum Quantity: {tier.minimumQuantity})
                     </p>
                   ))}
