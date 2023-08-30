@@ -3,11 +3,21 @@
     border: 1px solid var(--dark-blue-color);
     border-radius: .5em;
     overflow: hidden;
+    transition: .3s;
+    cursor: pointer;
+    &:hover{
+        transform: scale(1.03);
+        & img{
+            transform: scale(1.1);
+        }
+    }
     &__img {
         display: flex;
         height: 270px;
+        overflow: hidden;
         & img{
             width: 100%;
+            transition: .3s;
             object-fit: cover;
         }
     }

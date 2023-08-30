@@ -12,10 +12,10 @@ import React from 'react';
 interface MultiRangeSliderProps {
   min: number;
   max: number;
-  onChange: ({ min, max }: { min: number; max: number }) => void;
+  onMouseUp: ({ min, max }: { min: number; max: number }) => void;
 }
 
-export const Range: FC<MultiRangeSliderProps> = ({ min, max, onChange }) => {
+export const Range: FC<MultiRangeSliderProps> = ({ min, max, onMouseUp }) => {
   const [minVal, setMinVal] = useState(min);
   const [maxVal, setMaxVal] = useState(max);
   const minValRef = useRef<HTMLInputElement>(null);
@@ -51,8 +51,8 @@ export const Range: FC<MultiRangeSliderProps> = ({ min, max, onChange }) => {
   }, [maxVal, getPercent]);
 
   useEffect(() => {
-    onChange({ min: minVal, max: maxVal });
-  }, [minVal, maxVal, onChange]);
+    onMouseUp({ min: minVal, max: maxVal });
+  }, [minVal, maxVal, onMouseUp]);
 
   return (
     <div className="slider-range__container">

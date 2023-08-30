@@ -43,6 +43,7 @@ export const CatalogPage = () => {
     getCategories().then((data) => {
       setCategoriesData(data.body.results);
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const getFilterData = (event: React.FormEvent<HTMLFormElement>): void => {
@@ -99,7 +100,7 @@ export const CatalogPage = () => {
           </fieldset>
           <fieldset>
             <legend>Price</legend>
-            <Range min={0} max={10000} onChange={getPriceRange} />
+            <Range min={0} max={10000} onMouseUp={getPriceRange} />
           </fieldset>
           <input type="reset" className={buttonClass} value={'Reset'} />
         </form>
