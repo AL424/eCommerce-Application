@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { getProductById } from '../../services/eCommerceService/Client';
-import { ProductData } from '@commercetools/platform-sdk';
+import {
+  getCategoryById,
+  getProductById
+} from '../../services/eCommerceService/Client';
+import { ProductData, Category } from '@commercetools/platform-sdk';
 import { checkProductExists } from '../../services/eCommerceService/Client';
 import Slider, { Settings } from 'react-slick';
 import Modal from '../common/Modal/Modal';
@@ -10,30 +13,30 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import './ProductDetails.scss';
 
-const transformDetails = (data: ProductData) => {
-  return {
-    name: data?.name['en-US'],
-    nameRu: data?.name.ru || 'Товар без названия',
-    description: data?.description?.['en-US'] || 'There is no description',
-    descriptionRu: data?.description?.ru || 'Описание отсутствует',
-    images: data?.masterVariant.images || [],
-    id: data?.masterVariant.id,
-    sku: data?.masterVariant.sku,
-    prices: data?.masterVariant.prices,
-    key: data?.masterVariant.key,
-    categoriesId: data.categories.map((i) => i.id),
-    variantsId: data.variants.map((i) => i.id),
-    variantsSku: data.variants.map((i) => i.sku),
-    variantsPrice: data.variants.map((i) => i.prices?.[0]?.value?.centAmount),
-    variantsCurrency: data.variants.map(
-      (i) => i.prices?.[0]?.value?.currencyCode
-    ),
-    variantsImages: data.variants.map((i) => i.images) || []
-  };
-};
+// const transformDetails = (data: ProductData) => {
+//   return {
+//     name: data?.name['en-US'],
+//     nameRu: data?.name.ru || 'Товар без названия',
+//     descriptionEn: data?.description?.['en-US'] || 'There is no description',
+//     descriptionRu: data?.description?.ru || 'Описание отсутствует',
+//     images: data?.masterVariant.images || [],
+//     id: data?.masterVariant.id,
+//     sku: data?.masterVariant.sku,
+//     prices: data?.masterVariant.prices,
+//     key: data?.masterVariant.key,
+//     categoriesId: data?.categories.map((i) => i.id),
+//     variantsId: data?.variants.map((i) => i.id),
+//     variantsSku: data?.variants.map((i) => i.sku),
+//     variantsPrice: data?.variants.map((i) => i.prices?.[0]?.value?.centAmount),
+//     variantsCurrency: data?.variants.map(
+//       (i) => i.prices?.[0]?.value?.currencyCode
+//     ),
+//     variantsImages: data?.variants.map((i) => i.images) || []
+//   };
+// };
 
-const id = '12236346-a8dd-40b5-ba11-6077e197f5e0';
-// const id = '30eb4525-39a5-4982-b4ab-9b0ea5c7c5a1';
+// const id = '12236346-a8dd-40b5-ba11-6077e197f5e0';
+const id = '30eb4525-39a5-4982-b4ab-9b0ea5c7c5a1';
 
 const check = async () => {
   const exists = await checkProductExists(id);
@@ -48,6 +51,7 @@ export const ProductDetails = () => {
   // const [selectedImage, setSelectedImage] = useState('');
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [imageUrls, setImageUrls] = useState<string[]>([]);
+  const [productCategory, setProductCategory] = useState<Category | null>(null);
 
   const largeSliderRef = useRef<Slider | null>(null);
   const smallSliderRef = useRef<Slider | null>(null);
@@ -79,6 +83,21 @@ export const ProductDetails = () => {
     }
   }, [product]);
 
+  useEffect(() => {
+    if (product) {
+      const categoryId = product.categories.map((category) => category.id);
+      const categoryName = getCategoryById(categoryId[0]);
+      categoryName.then((res) => {
+        if (res) {
+          setProductCategory(JSON.parse(res));
+        }
+      });
+    } else {
+      return;
+    }
+  }, [product]);
+  // console.log(productCategory?.name['en-US']);
+
   const largeSliderSettings: Settings = {
     dots: false,
     infinite: true,
@@ -103,7 +122,7 @@ export const ProductDetails = () => {
     asNavFor: largeSliderRef.current || undefined
   };
 
-  if (product) console.log(transformDetails(product));
+  // if (product) console.log(transformDetails(product));
 
   return (
     <div>
@@ -155,12 +174,16 @@ export const ProductDetails = () => {
             <h2>{product.name['en-US']}</h2>
             <p>{product.description?.['en-US']}</p>
             <div>
-              <div>
+              {/* <div>
                 {product.categories &&
                   product.categories.map((category, index) => {
                     return <p key={index}>{category.typeId}</p>;
                   })}
-              </div>
+              </div> */}
+              <p>
+                Category:{' '}
+                {productCategory?.name['en-US'] || 'Product without category'}
+              </p>
               <p>SKU: {product.masterVariant.sku}</p>
               {/* <p>
                 Price:{' '}
@@ -172,15 +195,13 @@ export const ProductDetails = () => {
                 }).format(
                   Number(product.masterVariant.prices?.[0].value.centAmount) /
                     100
-                )} */}
-              {/* {product.masterVariant.prices?.[0].value.centAmount}{' '}
-                {product.masterVariant.prices?.[0].value.currencyCode} */}
-              {/* </p> */}
+                )}
+              </p> */}
               {product.masterVariant.prices?.map((price, index) => (
                 <div key={index}>
                   <p>
                     {/* ({price.value.currencyCode})  */}
-                    Price:
+                    Price:{' '}
                     <span
                       className={price.discounted ? 'discounted-available' : ''}
                     >
@@ -194,7 +215,7 @@ export const ProductDetails = () => {
                   {price.discounted && (
                     <p>
                       {/* ({price.discounted.value.currencyCode}) */}
-                      Discounted Price:
+                      Discounted Price:{' '}
                       <span className="discounted-price">
                         {formatCurrency(
                           price.discounted.value.centAmount / 100,
@@ -207,7 +228,7 @@ export const ProductDetails = () => {
                   {price.tiers?.map((tier, tierIndex) => (
                     <p key={tierIndex}>
                       {/* ({tier.value.currencyCode}) */}
-                      Tier {tierIndex + 1}:
+                      Tier {tierIndex + 1}:{' '}
                       {formatCurrency(
                         tier.value.centAmount / 100,
                         tier.value.currencyCode
@@ -217,14 +238,6 @@ export const ProductDetails = () => {
                   ))}
                 </div>
               ))}
-              {/* {product.masterVariant.images?.map((image, index) => (
-                <img
-                  key={index}
-                  src={image.url}
-                  alt={image.label}
-                  // style={{ width: '350px', height: '350px' }}
-                />
-              ))} */}
             </div>
             {/* {product.variants.map((variant) => (
               <div key={variant.id}>
