@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Customer } from '@commercetools/platform-sdk';
 import Input from '../../common/Input/Input';
-import { useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { emailValidation } from '../../../utils/validation/emailValidation';
 import { nameValidation } from '../../../utils/validation/nameValidation';
 import { Button } from '../../buttons/button';
@@ -22,14 +22,15 @@ export const PersonalInfo: React.FC<PersonalInfoProps> = ({ customer }) => {
   const [editmode, setEditmode] = useState(false);
   const {
     register,
+    handleSubmit,
     formState: { errors }
   } = useForm<PersonalInfoChange>({
-    mode: 'onChange'
+    // mode: 'all'
   });
 
   // функции обработчика
-  const onSave = () => {
-    setEditmode((prev) => !prev);
+  const onSave: SubmitHandler<PersonalInfoChange> = (data) => {
+    console.log(data);
   };
   const onCancel = () => {
     setEditmode((prev) => !prev);
@@ -87,7 +88,11 @@ export const PersonalInfo: React.FC<PersonalInfoProps> = ({ customer }) => {
           />
         )}
         {editmode && (
-          <Button title="save" classList={['button_save']} onClick={onSave} />
+          <Button
+            title="save"
+            classList={['button_save']}
+            onClick={handleSubmit(onSave)}
+          />
         )}
       </div>
     </>
