@@ -13,6 +13,7 @@ export const getProducts = () => {
     .catch(console.error);
 };
 
+// Получить продукт по его Id
 export const getProductById = (productId: string) => {
   return getApiRoot()
     .productProjections()
@@ -20,11 +21,29 @@ export const getProductById = (productId: string) => {
     .get()
     .execute()
     .then(({ body }) => {
-      console.log(JSON.stringify(body));
+      // console.log(JSON.stringify(body));
       return JSON.stringify(body);
     })
     .catch(console.error);
 };
+// Проверить наличие продукта по Id
+export const checkProductExists = async (
+  productId: string
+): Promise<boolean> => {
+  try {
+    const response = await getApiRoot()
+      .productProjections()
+      .withId({ ID: productId })
+      .get();
+    return (await response.execute()).statusCode === 200;
+  } catch (error) {
+    if (error) {
+      return false;
+    }
+    throw error;
+  }
+};
+
 // export const getProductById = async (productId: string): ProductData => {
 //   const apiRoot = getApiRoot();
 

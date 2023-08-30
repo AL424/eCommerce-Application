@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { getProductById } from '../../services/eCommerceService/Client';
+import { checkProductExists } from '../../services/eCommerceService/Client';
 import { ProductData } from '@commercetools/platform-sdk';
 import Slider, { Settings } from 'react-slick';
 import Modal from '../common/Modal/Modal';
 import formatCurrency from '../../utils/helpers/currency.helpers';
-// import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import './ProductDetails.scss';
@@ -12,8 +13,14 @@ import './ProductDetails.scss';
 // const id = '12236346-a8dd-40b5-ba11-6077e197f5e0';
 const id = '30eb4525-39a5-4982-b4ab-9b0ea5c7c5a1';
 
+const check = async () => {
+  const exists = await checkProductExists(id);
+  console.log('Данный продукт существует: ', exists);
+};
+check();
+
 export const ProductDetails = () => {
-  // const { id: routeProductId } = useParams();
+  const { id: routeProductId } = useParams();
   const [product, setProduct] = useState<ProductData | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState('');
@@ -30,12 +37,12 @@ export const ProductDetails = () => {
     getProductById(id)
       .then((res) => {
         if (res) setProduct(JSON.parse(res));
-        console.log(res);
+        // console.log(res);
       })
       .catch((error) => {
         console.error('Error occured:', error);
       });
-  }, []); // routeProductId
+  }, [routeProductId]); // routeProductId
 
   const largeSliderSettings: Settings = {
     dots: false,

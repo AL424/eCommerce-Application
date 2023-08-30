@@ -32,14 +32,14 @@ export const routesConfig: RouteObject[] = [
         path: Route.catalog,
         element: <h1>Catalog</h1>
       },
-      {
-        path: Route.product,
-        element: <Product />
-      },
       // {
-      //   path: `${Route.product}/:productId`,
+      //   path: Route.product,
       //   element: <Product />
       // },
+      {
+        path: `${Route.product}/:productId`,
+        element: <Product />
+      },
       {
         path: Route.basket,
         element: <h1>Basket</h1>
