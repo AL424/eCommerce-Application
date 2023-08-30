@@ -50,10 +50,7 @@
         border-radius: .3em;
         background: var(--white-color) url('../../assets/search.svg') no-repeat center right;
         background-size: 1.5em;
-        &:focus,
-        &:hover{
-            background-image: none;
-        }
+        padding-right: 1.5em;
     }
     & #sort{
         font-weight: 600;

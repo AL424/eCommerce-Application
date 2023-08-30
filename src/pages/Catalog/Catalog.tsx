@@ -117,7 +117,7 @@ export const CatalogPage = () => {
             </select>
           </label>
           <input
-            type="search"
+            type="text"
             onChange={getSearchString}
             placeholder="Search"
             className={searchForm}
