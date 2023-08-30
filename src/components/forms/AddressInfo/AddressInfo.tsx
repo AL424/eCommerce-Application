@@ -2,12 +2,14 @@ import { Address, BaseAddress } from '@commercetools/platform-sdk';
 import React, { useState } from 'react';
 import Select from '../../common/Select/Select';
 import Input from '../../common/Input/Input';
+import { Button } from '../../buttons/button';
 import { useForm } from 'react-hook-form';
 import citiesByCountry from '../../../utils/constants/countries.constants';
 import { cityValidation } from '../../../utils/validation/cityValidation';
 import { postalCodeValidation } from '../../../utils/validation/postalCodeValidation';
 import { streetValidation } from '../../../utils/validation/streetValidation';
 import { buildingValidation } from '../../../utils/validation/buildingValidation';
+import CheckboxInput from '../../common/CheckboxInput/CheckboxInput';
 
 interface AddressInfoProps {
   address: Address;
@@ -35,6 +37,23 @@ interface CustomAddress extends BaseAddress {
 
 export const AddressInfo: React.FC<AddressInfoProps> = ({ address, type }) => {
   const [editmode, setEditmode] = useState(false);
+  const [defaultShippingAddress, setDefaultShippingAddress] = useState(
+    type?.defaultShipping
+  );
+  const [defaultBillingAddress, setDefaultBillingAddress] = useState(
+    type?.defaultBilling
+  );
+
+  // функции обработчики
+  const onCancel = () => {
+    setEditmode((prev) => !prev);
+  };
+  const onSave = () => {
+    setEditmode((prev) => !prev);
+  };
+  const onDelete = () => {
+    console.log('delete');
+  };
 
   const {
     register,
@@ -111,31 +130,42 @@ export const AddressInfo: React.FC<AddressInfoProps> = ({ address, type }) => {
           error={errors.building}
           defaultValue={address.building}
         />
-      </fieldset>
-      <div className="button-wrap">
-        <div>
-          <p>Set as default</p>
-          <button type="button" className="button">
-            billing
-          </button>
-          <button type="button" className="button">
-            shipping
-          </button>
-        </div>
-        <button type="button" className="button">
-          delete
-        </button>
-        <button
-          type="button"
-          className={editmode ? 'button button_cancel' : 'button'}
-          onClick={() => setEditmode((prev) => !prev)}
-        >
-          {editmode ? 'Cancel' : 'Edit'}
-        </button>
+
         {editmode && (
-          <button type="button" className="button button_save">
-            Save
-          </button>
+          <CheckboxInput
+            label="Set as default shipping address"
+            checked={defaultShippingAddress || false}
+            onChange={() => {
+              setDefaultShippingAddress(!defaultShippingAddress);
+            }}
+          />
+        )}
+
+        {editmode && (
+          <CheckboxInput
+            label="Set as default billing address"
+            checked={defaultBillingAddress || false}
+            onChange={() => {
+              setDefaultBillingAddress(!defaultBillingAddress);
+            }}
+          />
+        )}
+      </fieldset>
+
+      <div className="button-wrap">
+        {!editmode && <Button title="delete" onClick={onDelete} />}
+        {!editmode && (
+          <Button title="edit" onClick={() => setEditmode((prev) => !prev)} />
+        )}
+        {editmode && (
+          <Button
+            title="cancel"
+            classList={['button_cancel']}
+            onClick={onCancel}
+          />
+        )}
+        {editmode && (
+          <Button title="save" classList={['button_save']} onClick={onSave} />
         )}
       </div>
     </>
