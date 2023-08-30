@@ -43,4 +43,22 @@
         padding: 0.5em 1em;
         border-radius: .3em;
     }
+    &__search{
+        outline: none;
+        border: none;
+        padding: .3em 0.5em;
+        border-radius: .3em;
+        background: var(--white-color) url('../../assets/search.svg') no-repeat center right;
+        background-size: 1.5em;
+        &:focus{
+            background-image: none;
+        }
+    }
+    & #sort{
+        outline: none;
+        border: none;
+        padding: .3em 0.5em;
+        border-radius: .3em;
+        margin-left: 0.5em;
+    }
 }

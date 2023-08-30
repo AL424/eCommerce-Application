@@ -14,6 +14,7 @@ const cardsContainerClass = 'catalog__cards';
 const sortPanelClass = 'catalog__sort';
 const catalogCardsContainer = 'catalog__cards-container';
 const buttonClass = 'button catalog__button';
+const searchForm = 'catalog__search';
 
 export const CatalogPage = () => {
   const languages = {
@@ -27,14 +28,15 @@ export const CatalogPage = () => {
   const [categoriesData, setCategoriesData] = useState(initialCategoriesData);
   const [filterData, setFilterData] = useState(initialFilterDate);
   const [sortValue, setSortValue] = useState(`name.${languages.en} asc`);
+  const [searchString, setSearchString] = useState('');
   let priceRange = '0 to 100000';
 
   const getProducts = (): void => {
-    getProductsByFilter(filterData, priceRange, sortValue).then((data) =>
-      setProductsData(data.body.results)
+    getProductsByFilter(filterData, priceRange, sortValue, searchString).then(
+      (data) => setProductsData(data.body.results)
     );
   };
-  useEffect(getProducts, [filterData, sortValue, priceRange]);
+  useEffect(getProducts, [filterData, sortValue, searchString, priceRange]);
   useEffect(() => {
     getProducts();
 
@@ -74,6 +76,10 @@ export const CatalogPage = () => {
     setSortValue(event.target.value);
   };
 
+  const getSearchString = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchString(event.target.value);
+  };
+
   return (
     <div className={containerClass}>
       <div className={filterClass}>
@@ -109,6 +115,12 @@ export const CatalogPage = () => {
               <option value={`price desc`}>price (DESC)</option>
             </select>
           </label>
+          <input
+            type="search"
+            onChange={getSearchString}
+            placeholder="Search"
+            className={searchForm}
+          />
         </div>
         <div className={cardsContainerClass}>
           {productsData.map((data, id) => (
