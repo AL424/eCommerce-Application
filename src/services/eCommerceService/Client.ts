@@ -26,6 +26,19 @@ export const getProductById = (productId: string) => {
     })
     .catch(console.error);
 };
+
+export const getCategoryById = (productId: string) => {
+  return getApiRoot()
+    .categories()
+    .withId({ ID: productId })
+    .get()
+    .execute()
+    .then(({ body }) => {
+      // console.log(JSON.stringify(body));
+      return JSON.stringify(body);
+    })
+    .catch(console.error);
+};
 // Проверить наличие продукта по Id
 export const checkProductExists = async (
   productId: string

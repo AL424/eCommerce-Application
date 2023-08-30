@@ -10,8 +10,30 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import './ProductDetails.scss';
 
-// const id = '12236346-a8dd-40b5-ba11-6077e197f5e0';
-const id = '30eb4525-39a5-4982-b4ab-9b0ea5c7c5a1';
+const transformDetails = (data: ProductData) => {
+  return {
+    name: data?.name['en-US'],
+    nameRu: data?.name.ru || 'Товар без названия',
+    description: data?.description?.['en-US'] || 'There is no description',
+    descriptionRu: data?.description?.ru || 'Описание отсутствует',
+    images: data?.masterVariant.images || [],
+    id: data?.masterVariant.id,
+    sku: data?.masterVariant.sku,
+    prices: data?.masterVariant.prices,
+    key: data?.masterVariant.key,
+    categoriesId: data.categories.map((i) => i.id),
+    variantsId: data.variants.map((i) => i.id),
+    variantsSku: data.variants.map((i) => i.sku),
+    variantsPrice: data.variants.map((i) => i.prices?.[0]?.value?.centAmount),
+    variantsCurrency: data.variants.map(
+      (i) => i.prices?.[0]?.value?.currencyCode
+    ),
+    variantsImages: data.variants.map((i) => i.images) || []
+  };
+};
+
+const id = '12236346-a8dd-40b5-ba11-6077e197f5e0';
+// const id = '30eb4525-39a5-4982-b4ab-9b0ea5c7c5a1';
 
 const check = async () => {
   const exists = await checkProductExists(id);
@@ -81,25 +103,7 @@ export const ProductDetails = () => {
     asNavFor: largeSliderRef.current || undefined
   };
 
-  // const transformDetails = (data: ProductData) => {
-  //   return {
-  //     name: data?.name['en-US'],
-  //     nameRu: data?.name.ru,
-  //     description: data?.description?.['en-US'],
-  //     descriptionRu: data?.description?.ru,
-  //     images: data?.masterVariant.images || [],
-  //     variants:
-  //       data?.variants.map((variant) => ({
-  //         id: variant.id,
-  //         sku: variant.sku,
-  //         price: variant.prices?.[0]?.value?.centAmount,
-  //         currency: variant.prices?.[0]?.value?.currencyCode,
-  //         images: variant.images || []
-  //       })) || []
-  //   };
-  // };
-
-  // if (product) console.log(transformDetails(product));
+  if (product) console.log(transformDetails(product));
 
   return (
     <div>
