@@ -16,25 +16,25 @@ const catalogCardsContainer = 'catalog__cards-container';
 const buttonClass = 'button catalog__button';
 
 export const CatalogPage = () => {
+  const languages = {
+    ru: 'ru',
+    en: 'en-US'
+  };
   const initialProductData: ProductProjection[] = [];
   const initialCategoriesData: Category[] = [];
   const initialFilterDate: string[] = [];
   const [productsData, setProductsData] = useState(initialProductData);
   const [categoriesData, setCategoriesData] = useState(initialCategoriesData);
   const [filterData, setFilterData] = useState(initialFilterDate);
+  const [sortValue, setSortValue] = useState(`name.${languages.en} asc`);
   let priceRange = '0 to 100000';
 
-  const languages = {
-    ru: 'ru',
-    en: 'en-US'
-  };
-
   const getProducts = (): void => {
-    getProductsByFilter(filterData, priceRange).then((data) =>
+    getProductsByFilter(filterData, priceRange, sortValue).then((data) =>
       setProductsData(data.body.results)
     );
   };
-  useEffect(getProducts, [filterData, priceRange]);
+  useEffect(getProducts, [filterData, sortValue, priceRange]);
   useEffect(() => {
     getProducts();
 
@@ -70,6 +70,9 @@ export const CatalogPage = () => {
 
     setFilterData([]);
   };
+  const switchSort = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSortValue(event.target.value);
+  };
 
   return (
     <div className={containerClass}>
@@ -99,9 +102,11 @@ export const CatalogPage = () => {
         <div className={sortPanelClass}>
           <label htmlFor="sort">
             Sort the product by:
-            <select name="pets" id="sort">
-              <option value="name">name</option>
-              <option value="price">price</option>
+            <select name="pets" id="sort" onChange={switchSort}>
+              <option value={`name.${languages.en} asc`}>name (ASC)</option>
+              <option value={`name.${languages.en} desc`}>name (DESC)</option>
+              <option value={`price asc`}>price (ASC)</option>
+              <option value={`price desc`}>price (DESC)</option>
             </select>
           </label>
         </div>

@@ -37,7 +37,8 @@ export const getCategories = () => {
 
 export const getProductsByFilter = (
   categories: string[],
-  priceRange: string
+  priceRange: string,
+  sortData: string
 ) => {
   return getApiRoot()
     .productProjections()
@@ -50,7 +51,7 @@ export const getProductsByFilter = (
             : 'categories:exists',
           `variants.price.centAmount:range (${priceRange})`
         ],
-        sort: ['name.en-US asc'],
+        sort: [sortData],
         limit: 20
       }
     })
