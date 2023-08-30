@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { getProductById } from '../../services/eCommerceService/Client';
-import { checkProductExists } from '../../services/eCommerceService/Client';
 import { ProductData } from '@commercetools/platform-sdk';
+import { checkProductExists } from '../../services/eCommerceService/Client';
 import Slider, { Settings } from 'react-slick';
 import Modal from '../common/Modal/Modal';
 import formatCurrency from '../../utils/helpers/currency.helpers';
@@ -23,26 +23,39 @@ export const ProductDetails = () => {
   const { id: routeProductId } = useParams();
   const [product, setProduct] = useState<ProductData | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
-  const [selectedImage, setSelectedImage] = useState('');
+  // const [selectedImage, setSelectedImage] = useState('');
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+  const [imageUrls, setImageUrls] = useState<string[]>([]);
 
   const largeSliderRef = useRef<Slider | null>(null);
   const smallSliderRef = useRef<Slider | null>(null);
 
-  const handleImageClick = (imageUrl: string) => {
-    setSelectedImage(imageUrl);
+  const handleImageClick = (imageUrl: string, index: number) => {
+    // setSelectedImage(imageUrl);
+    setSelectedImageIndex(index);
     setModalOpen(true);
   };
 
   useEffect(() => {
     getProductById(id)
       .then((res) => {
-        if (res) setProduct(JSON.parse(res));
-        // console.log(res);
+        if (res) {
+          setProduct(JSON.parse(res));
+        }
       })
       .catch((error) => {
         console.error('Error occured:', error);
       });
   }, [routeProductId]); // routeProductId
+
+  useEffect(() => {
+    if (product) {
+      const urls =
+        product.masterVariant.images?.map((image) => image.url) || [];
+      setImageUrls(urls);
+      // console.log(urls);
+    }
+  }, [product]);
 
   const largeSliderSettings: Settings = {
     dots: false,
@@ -102,14 +115,16 @@ export const ProductDetails = () => {
                     src={image.url}
                     alt={image.label}
                     style={{ width: '350px', height: '350px' }}
-                    onClick={() => handleImageClick(image.url)}
+                    onClick={() => handleImageClick(image.url, index)}
                   />
                 </div>
               ))}
             </Slider>
             {modalOpen && (
               <Modal
-                imageUrl={selectedImage}
+                images={imageUrls}
+                // imageUrl={selectedImage}
+                selectedImageIndex={selectedImageIndex}
                 onClick={() => setModalOpen(false)}
               />
             )}

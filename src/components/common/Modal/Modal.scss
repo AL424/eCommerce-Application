@@ -10,7 +10,8 @@
 }
 
 .modal-window {
-  // width: 90%;
+  width: auto;
+  max-width: 90%; // Слик-Слайдер в модалке ломается, если сильно ограничивать макс ширину
   // max-width: 400px;
   padding: 20px;
   z-index: 10;
