@@ -60,7 +60,8 @@ export const ProductDetails = () => {
   const largeSliderSettings: Settings = {
     dots: false,
     infinite: true,
-    arrows: true,
+    // arrows: true,
+    arrows: imageUrls.length > 1 ? true : false,
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
