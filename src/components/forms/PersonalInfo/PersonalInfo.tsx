@@ -4,6 +4,7 @@ import Input from '../../common/Input/Input';
 import { useForm } from 'react-hook-form';
 import { emailValidation } from '../../../utils/validation/emailValidation';
 import { nameValidation } from '../../../utils/validation/nameValidation';
+import { Button } from '../../buttons/button';
 // import { ageValidation } from '../../../utils/validation/ageValidation';
 
 interface PersonalInfoProps {
@@ -25,6 +26,14 @@ export const PersonalInfo: React.FC<PersonalInfoProps> = ({ customer }) => {
   } = useForm<PersonalInfoChange>({
     mode: 'onChange'
   });
+
+  // функции обработчика
+  const onSave = () => {
+    setEditmode((prev) => !prev);
+  };
+  const onCancel = () => {
+    setEditmode((prev) => !prev);
+  };
 
   return (
     <>
@@ -67,17 +76,18 @@ export const PersonalInfo: React.FC<PersonalInfoProps> = ({ customer }) => {
         />
       </fieldset>
       <div className="button-wrap">
-        <button
-          type="button"
-          className={editmode ? 'button button_cancel' : 'button'}
-          onClick={() => setEditmode((prev) => !prev)}
-        >
-          {editmode ? 'Cancel' : 'Edit'}
-        </button>
+        {!editmode && (
+          <Button title="edit" onClick={() => setEditmode((prev) => !prev)} />
+        )}
         {editmode && (
-          <button type="button" className="button button_save">
-            Save
-          </button>
+          <Button
+            title="cancel"
+            classList={['button_cancel']}
+            onClick={onCancel}
+          />
+        )}
+        {editmode && (
+          <Button title="save" classList={['button_save']} onClick={onSave} />
         )}
       </div>
     </>
