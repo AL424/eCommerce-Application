@@ -11,6 +11,10 @@
       letter-spacing: 0.05em;
       margin-bottom: 10px;
     }
+
+    .form-select {
+      width: 100%;
+    }
   }
 
   fieldset:not(:first-child) {
@@ -38,7 +42,6 @@
       margin-bottom: 14px;
       font-size: 1rem;
       color: var(--active-color);
-      width: 100%;
       opacity: 1;
     }
   }
@@ -46,6 +49,10 @@
 
 .button-wrap {
   margin-top: 10px;
+  display: flex;
+  justify-content: space-around;
+  align-items: end;
+  height: min-content;
   .button:not(:last-child) {
     margin-right: 10px;
   }
