@@ -28,8 +28,8 @@ export const PersonalInfo: React.FC<PersonalInfoProps> = ({ customer }) => {
 
   return (
     <>
+      <h2 className="profile__sub-title">Personal Information</h2>
       <fieldset disabled={!editmode} className="personal-info">
-        <legend>Personal Information</legend>
         <Input
           label="E-mail"
           placeholder="email@example.com"
