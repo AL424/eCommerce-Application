@@ -104,7 +104,6 @@ export const AddressInfo: React.FC<AddressInfoProps> = ({ address, type }) => {
           placeholder="Enter your city"
           inputProps={register('city', cityValidation)}
           error={errors.city}
-          defaultValue={address.city}
         />
 
         <Input
@@ -112,7 +111,6 @@ export const AddressInfo: React.FC<AddressInfoProps> = ({ address, type }) => {
           placeholder="Postal Code"
           inputProps={register('postalCode', postalCodeValidation)}
           error={errors.postalCode}
-          defaultValue={address.postalCode}
         />
 
         <Input
@@ -120,7 +118,6 @@ export const AddressInfo: React.FC<AddressInfoProps> = ({ address, type }) => {
           placeholder="Street name"
           inputProps={register('streetName', streetValidation)}
           error={errors.streetName}
-          defaultValue={address.streetName}
         />
 
         <Input
@@ -128,7 +125,6 @@ export const AddressInfo: React.FC<AddressInfoProps> = ({ address, type }) => {
           placeholder="Building"
           inputProps={register('building', buildingValidation)}
           error={errors.building}
-          defaultValue={address.building}
         />
 
         {editmode && (

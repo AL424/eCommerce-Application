@@ -22,11 +22,11 @@ export const Profile = (): ReactElement => {
   return (
     <div className="profile-page">
       <h1>Profile</h1>
-      <form className="form-container profile__form">
+      <div className="form-container profile__form">
         <PersonalInfo customer={customer} />
         <PasswordInfo />
         <AddressesInfo customer={customer} />
-      </form>
+      </div>
     </div>
   );
 };

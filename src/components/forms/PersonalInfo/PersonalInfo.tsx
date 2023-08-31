@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Customer } from '@commercetools/platform-sdk';
 import Input from '../../common/Input/Input';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { emailValidation } from '../../../utils/validation/emailValidation';
 import { nameValidation } from '../../../utils/validation/nameValidation';
 import { Button } from '../../buttons/button';
-// import { ageValidation } from '../../../utils/validation/ageValidation';
+import { ageValidation } from '../../../utils/validation/ageValidation';
 
 interface PersonalInfoProps {
   customer: Customer;
@@ -15,7 +15,7 @@ interface PersonalInfoChange {
   email: string;
   firstName: string;
   lastName: string;
-  dateOfBirth: Date;
+  dateOfBirth: string;
 }
 
 export const PersonalInfo: React.FC<PersonalInfoProps> = ({ customer }) => {
@@ -23,9 +23,10 @@ export const PersonalInfo: React.FC<PersonalInfoProps> = ({ customer }) => {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors }
   } = useForm<PersonalInfoChange>({
-    // mode: 'all'
+    mode: 'onChange'
   });
 
   // функции обработчика
@@ -36,8 +37,15 @@ export const PersonalInfo: React.FC<PersonalInfoProps> = ({ customer }) => {
     setEditmode((prev) => !prev);
   };
 
+  useEffect(() => {
+    setValue('email', customer.email);
+    setValue('firstName', customer.firstName || '');
+    setValue('lastName', customer.lastName || '');
+    setValue('dateOfBirth', customer.dateOfBirth || '');
+  }, [customer, setValue]);
+
   return (
-    <>
+    <form onSubmit={handleSubmit(onSave)}>
       <h2 className="profile__sub-title">Personal Information</h2>
       <fieldset disabled={!editmode} className="personal-info">
         <Input
@@ -45,7 +53,6 @@ export const PersonalInfo: React.FC<PersonalInfoProps> = ({ customer }) => {
           placeholder="email@example.com"
           inputProps={register('email', emailValidation)}
           error={errors.email}
-          defaultValue={customer.email}
         />
 
         <Input
@@ -53,7 +60,6 @@ export const PersonalInfo: React.FC<PersonalInfoProps> = ({ customer }) => {
           placeholder="John"
           inputProps={register('firstName', nameValidation)}
           error={errors.firstName}
-          defaultValue={customer.firstName}
         />
 
         <Input
@@ -64,16 +70,14 @@ export const PersonalInfo: React.FC<PersonalInfoProps> = ({ customer }) => {
             required: 'Surname is required'
           })}
           error={errors.lastName}
-          defaultValue={customer.lastName}
         />
 
         {/* Разобраться с валидацией даты рождения */}
         <Input
           label="Date of Birth"
           type="date"
-          inputProps={register('dateOfBirth')}
+          inputProps={register('dateOfBirth', ageValidation)}
           error={errors.dateOfBirth}
-          defaultValue={customer.dateOfBirth}
         />
       </fieldset>
       <div className="button-wrap">
@@ -88,13 +92,9 @@ export const PersonalInfo: React.FC<PersonalInfoProps> = ({ customer }) => {
           />
         )}
         {editmode && (
-          <Button
-            title="save"
-            classList={['button_save']}
-            onClick={handleSubmit(onSave)}
-          />
+          <Button type="submit" title="save" classList={['button_save']} />
         )}
       </div>
-    </>
+    </form>
   );
 };
