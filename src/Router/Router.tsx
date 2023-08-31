@@ -5,14 +5,17 @@ import { Error } from '../pages/Error/Error';
 import { Login } from '../pages/Login/Login';
 import { Registration } from '../pages/Registration/Registration';
 import { Main } from '../pages/Main/Main';
+import { Product } from '../pages/Product/Product';
 import { Profile } from '../pages/Profile/Profile';
 import { CatalogPage } from '../pages/Catalog/Catalog';
+
 
 export enum Route {
   main = '/',
   login = '/login',
   registration = '/registration',
   catalog = '/catalog',
+  product = '/product',
   profile = '/profile',
   basket = '/basket',
   about = '/about',
@@ -31,6 +34,14 @@ export const routesConfig: RouteObject[] = [
       {
         path: Route.catalog,
         element: <CatalogPage />
+      },
+      // {
+      //   path: Route.product,
+      //   element: <Product />
+      // },
+      {
+        path: `${Route.product}/:productId`,
+        element: <Product />
       },
       {
         path: Route.basket,
