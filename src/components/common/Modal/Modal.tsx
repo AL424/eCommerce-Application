@@ -34,7 +34,7 @@ const Modal: React.FC<ModalProps> = ({
         <button className="closeButton" onClick={onClick}>
           ✕
         </button>
-        <h3 className="modal-window__title">{title}</h3>
+        {title && <h3 className="modal-window__title">{title}</h3>}
         {/* {imageUrl && <img src={imageUrl} alt="Modal" />} */}
         {images && (
           <Slider {...sliderSettings}>
@@ -45,7 +45,7 @@ const Modal: React.FC<ModalProps> = ({
             ))}
           </Slider>
         )}
-        <p className="modal-window__message">{message}</p>
+        {message && <p className="modal-window__message">{message}</p>}
       </div>
     </div>
   );
