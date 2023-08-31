@@ -15,16 +15,9 @@ export const AddressesInfo: React.FC<AddressesInfoProps> = ({ customer }) => {
     defaultShippingAddressId
   } = customer;
 
-  console.log(
-    billingAddressIds,
-    shippingAddressIds,
-    defaultBillingAddressId,
-    defaultShippingAddressId
-  );
-
   return (
-    <fieldset>
-      <legend>Addresses</legend>
+    <>
+      <h2 className="profile__sub-title">Addresses</h2>
       {addresses &&
         addresses.map((address) => {
           const type: AddressType = {
@@ -41,6 +34,6 @@ export const AddressesInfo: React.FC<AddressesInfoProps> = ({ customer }) => {
             type.defaultShipping = true;
           return <AddressInfo address={address} type={type} key={address.id} />;
         })}
-    </fieldset>
+    </>
   );
 };

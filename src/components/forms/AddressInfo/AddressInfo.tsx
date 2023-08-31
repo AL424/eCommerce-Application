@@ -1,9 +1,9 @@
 import { Address, BaseAddress } from '@commercetools/platform-sdk';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Select from '../../common/Select/Select';
 import Input from '../../common/Input/Input';
 import { Button } from '../../buttons/button';
-import { useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import citiesByCountry from '../../../utils/constants/countries.constants';
 import { cityValidation } from '../../../utils/validation/cityValidation';
 import { postalCodeValidation } from '../../../utils/validation/postalCodeValidation';
@@ -32,7 +32,7 @@ export enum AddressTypeEnum {
 }
 
 interface CustomAddress extends BaseAddress {
-  addressType: AddressTypeEnum;
+  addressType: string;
 }
 
 export const AddressInfo: React.FC<AddressInfoProps> = ({ address, type }) => {
@@ -44,32 +44,43 @@ export const AddressInfo: React.FC<AddressInfoProps> = ({ address, type }) => {
     type?.defaultBilling
   );
 
-  // функции обработчики
-  const onCancel = () => {
-    setEditmode((prev) => !prev);
-  };
-  const onSave = () => {
-    setEditmode((prev) => !prev);
-  };
-  const onDelete = () => {
-    console.log('delete');
-  };
-
   const {
     register,
+    setValue,
+    handleSubmit,
     formState: { errors }
   } = useForm<CustomAddress>({
     mode: 'onChange'
   });
 
-  let defaultType: string = AddressTypeEnum.none;
-  if (type?.billing && type.shipping)
-    defaultType = AddressTypeEnum.buildingShipping;
-  else if (type?.billing) defaultType = AddressTypeEnum.building;
-  else if (type?.shipping) defaultType = AddressTypeEnum.shipping;
+  useEffect(() => {
+    let defaultType: string = AddressTypeEnum.none;
+    if (type?.billing && type.shipping)
+      defaultType = AddressTypeEnum.buildingShipping;
+    else if (type?.billing) defaultType = AddressTypeEnum.building;
+    else if (type?.shipping) defaultType = AddressTypeEnum.shipping;
+
+    setValue('addressType', defaultType);
+    setValue('country', address.country);
+    setValue('city', address.city);
+    setValue('postalCode', address.postalCode);
+    setValue('streetName', address.streetName);
+    setValue('building', address.building);
+  }, [address, type, setValue]);
+
+  // функции обработчики
+  const onCancel = () => {
+    setEditmode((prev) => !prev);
+  };
+  const onSave: SubmitHandler<CustomAddress> = (data) => {
+    console.log(data);
+  };
+  const onDelete = () => {
+    console.log('delete');
+  };
 
   return (
-    <>
+    <form onSubmit={handleSubmit(onSave)}>
       <fieldset disabled={!editmode}>
         {type?.defaultBilling && (
           <legend>
@@ -89,14 +100,14 @@ export const AddressInfo: React.FC<AddressInfoProps> = ({ address, type }) => {
           label="Address Type"
           options={Object.values(AddressTypeEnum)}
           registerProps={register('addressType')}
-          defaultValue={defaultType}
+          // defaultValue={defaultType}
         />
 
         <Select
           label="Country"
           options={citiesByCountry}
           registerProps={register('country')}
-          defaultValue={address.country}
+          // defaultValue={address.country}
         />
 
         <Input
@@ -161,9 +172,9 @@ export const AddressInfo: React.FC<AddressInfoProps> = ({ address, type }) => {
           />
         )}
         {editmode && (
-          <Button title="save" classList={['button_save']} onClick={onSave} />
+          <Button type="submit" title="save" classList={['button_save']} />
         )}
       </div>
-    </>
+    </form>
   );
 };
