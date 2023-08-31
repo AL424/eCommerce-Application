@@ -40,7 +40,7 @@ const RegistrationForm: React.FC = () => {
     watch,
     formState: { errors }
   } = useForm<CustomerDraft>({
-    // mode: 'onChange'
+    mode: 'onChange'
   });
 
   const onSubmit: SubmitHandler<CustomerDraft> = async (data) => {
