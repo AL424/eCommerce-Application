@@ -1,9 +1,13 @@
-.profile__form {
+.profile {
   .profile__sub-title {
     color: var(--white-color);
     font-weight: normal;
     opacity: 0.8;
     letter-spacing: 0.05em;
+  }
+
+  form:not(:last-of-type) {
+    margin-bottom: 15px;
   }
 
   fieldset {
