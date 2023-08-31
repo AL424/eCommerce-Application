@@ -1,11 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import { Customer } from '@commercetools/platform-sdk';
+import {
+  Customer,
+  MyCustomerChangeEmailAction,
+  MyCustomerSetDateOfBirthAction,
+  MyCustomerSetFirstNameAction,
+  MyCustomerSetLastNameAction,
+  MyCustomerUpdate,
+  MyCustomerUpdateAction
+} from '@commercetools/platform-sdk';
 import Input from '../../common/Input/Input';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { emailValidation } from '../../../utils/validation/emailValidation';
 import { nameValidation } from '../../../utils/validation/nameValidation';
 import { Button } from '../../buttons/button';
 import { ageValidation } from '../../../utils/validation/ageValidation';
+import { customerUpdate } from '../../../services/eCommerceService/Customer';
 
 interface PersonalInfoProps {
   customer: Customer;
@@ -24,17 +33,68 @@ export const PersonalInfo: React.FC<PersonalInfoProps> = ({ customer }) => {
     register,
     handleSubmit,
     setValue,
+    reset,
     formState: { errors }
   } = useForm<PersonalInfoChange>({
     mode: 'onChange'
   });
 
   // функции обработчика
-  const onSave: SubmitHandler<PersonalInfoChange> = (data) => {
-    console.log(data);
+  const onSave: SubmitHandler<PersonalInfoChange> = async (data) => {
+    const actions: MyCustomerUpdateAction[] = [];
+    // проверка изменений
+    if (data.email !== customer.email) {
+      const change: MyCustomerChangeEmailAction = {
+        action: 'changeEmail',
+        email: data.email
+      };
+      actions.push(change);
+    }
+    if (data.firstName !== customer.firstName) {
+      const change: MyCustomerSetFirstNameAction = {
+        action: 'setFirstName',
+        firstName: data.firstName
+      };
+      actions.push(change);
+    }
+    if (data.lastName !== customer.lastName) {
+      const change: MyCustomerSetLastNameAction = {
+        action: 'setLastName',
+        lastName: data.lastName
+      };
+      actions.push(change);
+    }
+    if (data.dateOfBirth !== customer.dateOfBirth) {
+      const change: MyCustomerSetDateOfBirthAction = {
+        action: 'setDateOfBirth',
+        dateOfBirth: data.dateOfBirth
+      };
+      actions.push(change);
+    }
+
+    if (actions.length === 0) {
+      setEditmode(false);
+      return;
+    }
+
+    const dataChange: MyCustomerUpdate = {
+      version: customer.version,
+      actions: actions
+    };
+
+    const newCustomer = await customerUpdate(dataChange);
+    if (newCustomer) setEditmode(false);
+    // исправлять кастомера
+    // выводить сообщение
   };
+
   const onCancel = () => {
-    setEditmode((prev) => !prev);
+    reset();
+    setValue('email', customer.email);
+    setValue('firstName', customer.firstName || '');
+    setValue('lastName', customer.lastName || '');
+    setValue('dateOfBirth', customer.dateOfBirth || '');
+    setEditmode(false);
   };
 
   useEffect(() => {
