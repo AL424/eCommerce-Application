@@ -14,7 +14,6 @@ interface InputProps {
   value?: string;
   formDisabled?: boolean;
   onInput?: () => void;
-  defaultValue?: string;
 }
 
 const Input: React.FC<InputProps> = ({
@@ -24,8 +23,7 @@ const Input: React.FC<InputProps> = ({
   inputProps,
   error,
   formDisabled,
-  onInput,
-  defaultValue
+  onInput
 }) => {
   return (
     <div>
@@ -38,7 +36,6 @@ const Input: React.FC<InputProps> = ({
           disabled={formDisabled}
           {...inputProps}
           onInput={onInput}
-          defaultValue={defaultValue}
         />
         <p className={errorMessageClass}>
           {error && <span>{error.message}</span>}
