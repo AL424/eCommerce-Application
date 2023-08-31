@@ -1,5 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { Customer } from '@commercetools/platform-sdk';
+import {
+  Customer,
+  CustomerChangeEmailAction,
+  CustomerSetDateOfBirthAction,
+  CustomerSetFirstNameAction,
+  CustomerSetLastNameAction,
+  CustomerUpdate,
+  CustomerUpdateAction
+} from '@commercetools/platform-sdk';
 import Input from '../../common/Input/Input';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { emailValidation } from '../../../utils/validation/emailValidation';
@@ -31,8 +39,50 @@ export const PersonalInfo: React.FC<PersonalInfoProps> = ({ customer }) => {
 
   // функции обработчика
   const onSave: SubmitHandler<PersonalInfoChange> = (data) => {
-    console.log(data);
+    const actions: CustomerUpdateAction[] = [];
+    // проверка изменений
+    if (data.email !== customer.email) {
+      const change: CustomerChangeEmailAction = {
+        action: 'changeEmail',
+        email: data.email
+      };
+      actions.push(change);
+    }
+    if (data.firstName !== customer.firstName) {
+      const change: CustomerSetFirstNameAction = {
+        action: 'setFirstName',
+        firstName: data.firstName
+      };
+      actions.push(change);
+    }
+    if (data.lastName !== customer.lastName) {
+      const change: CustomerSetLastNameAction = {
+        action: 'setLastName',
+        lastName: data.lastName
+      };
+      actions.push(change);
+    }
+    if (data.dateOfBirth !== customer.dateOfBirth) {
+      const change: CustomerSetDateOfBirthAction = {
+        action: 'setDateOfBirth',
+        dateOfBirth: data.dateOfBirth
+      };
+      actions.push(change);
+    }
+
+    if (actions.length === 0) {
+      setEditmode(false);
+      return;
+    }
+
+    const dataChange: CustomerUpdate = {
+      version: customer.version,
+      actions: actions
+    };
+
+    console.log(dataChange);
   };
+
   const onCancel = () => {
     setEditmode((prev) => !prev);
   };
