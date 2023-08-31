@@ -45,56 +45,57 @@ export const PersonalInfo: React.FC<PersonalInfoProps> = ({ customer }) => {
   }, [customer, setValue]);
 
   return (
-    <form onSubmit={handleSubmit(onSave)}>
+    <>
       <h2 className="profile__sub-title">Personal Information</h2>
-      <fieldset disabled={!editmode} className="personal-info">
-        <Input
-          label="E-mail"
-          placeholder="email@example.com"
-          inputProps={register('email', emailValidation)}
-          error={errors.email}
-        />
-
-        <Input
-          label="Name"
-          placeholder="John"
-          inputProps={register('firstName', nameValidation)}
-          error={errors.firstName}
-        />
-
-        <Input
-          label="Surname"
-          placeholder="Doe"
-          inputProps={register('lastName', {
-            ...nameValidation,
-            required: 'Surname is required'
-          })}
-          error={errors.lastName}
-        />
-
-        {/* Разобраться с валидацией даты рождения */}
-        <Input
-          label="Date of Birth"
-          type="date"
-          inputProps={register('dateOfBirth', ageValidation)}
-          error={errors.dateOfBirth}
-        />
-      </fieldset>
-      <div className="button-wrap">
-        {!editmode && (
-          <Button title="edit" onClick={() => setEditmode((prev) => !prev)} />
-        )}
-        {editmode && (
-          <Button
-            title="cancel"
-            classList={['button_cancel']}
-            onClick={onCancel}
+      <form onSubmit={handleSubmit(onSave)}>
+        <fieldset disabled={!editmode} className="personal-info">
+          <Input
+            label="E-mail"
+            placeholder="email@example.com"
+            inputProps={register('email', emailValidation)}
+            error={errors.email}
           />
-        )}
-        {editmode && (
-          <Button type="submit" title="save" classList={['button_save']} />
-        )}
-      </div>
-    </form>
+
+          <Input
+            label="Name"
+            placeholder="John"
+            inputProps={register('firstName', nameValidation)}
+            error={errors.firstName}
+          />
+
+          <Input
+            label="Surname"
+            placeholder="Doe"
+            inputProps={register('lastName', {
+              ...nameValidation,
+              required: 'Surname is required'
+            })}
+            error={errors.lastName}
+          />
+
+          <Input
+            label="Date of Birth"
+            type="date"
+            inputProps={register('dateOfBirth', ageValidation)}
+            error={errors.dateOfBirth}
+          />
+        </fieldset>
+        <div className="button-wrap">
+          {!editmode && (
+            <Button title="edit" onClick={() => setEditmode((prev) => !prev)} />
+          )}
+          {editmode && (
+            <Button
+              title="cancel"
+              classList={['button_cancel']}
+              onClick={onCancel}
+            />
+          )}
+          {editmode && (
+            <Button type="submit" title="save" classList={['button_save']} />
+          )}
+        </div>
+      </form>
+    </>
   );
 };
