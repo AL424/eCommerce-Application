@@ -4,16 +4,18 @@ interface ButtonProps {
   title: string;
   classList?: string[];
   onClick?: () => void;
+  type?: 'button' | 'submit';
 }
 
 export const Button: React.FC<ButtonProps> = ({
   title,
   classList,
-  onClick
+  onClick,
+  type = 'button'
 }) => {
   const className = `button ${classList?.join(' ')}`;
   return (
-    <button type="button" className={className} onClick={onClick}>
+    <button type={type} className={className} onClick={onClick}>
       {title}
     </button>
   );
