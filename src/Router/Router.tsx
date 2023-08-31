@@ -6,6 +6,7 @@ import { Login } from '../pages/Login/Login';
 import { Registration } from '../pages/Registration/Registration';
 import { Main } from '../pages/Main/Main';
 import { Profile } from '../pages/Profile/Profile';
+import { CatalogPage } from '../pages/Catalog/Catalog';
 
 export enum Route {
   main = '/',
@@ -29,7 +30,7 @@ export const routesConfig: RouteObject[] = [
       },
       {
         path: Route.catalog,
-        element: <h1>Catalog</h1>
+        element: <CatalogPage />
       },
       {
         path: Route.basket,

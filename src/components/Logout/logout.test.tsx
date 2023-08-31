@@ -2,15 +2,17 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import { LogOut } from './Logout';
-
-const userName = 'user@gmail.com';
+import { Provider } from 'react-redux';
+import store from '../../services/store/store';
 
 test('renders logout', () => {
   render(
     <BrowserRouter>
-      <LogOut />
+      <Provider store={store}>
+        <LogOut />
+      </Provider>
     </BrowserRouter>
   );
-  const user = screen.getByText(userName);
+  const user = screen.getByText(/Profile/);
   expect(user).toBeInTheDocument();
 });
