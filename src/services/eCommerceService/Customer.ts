@@ -1,4 +1,8 @@
-import { CustomerDraft, CustomerSignin } from '@commercetools/platform-sdk';
+import {
+  CustomerDraft,
+  CustomerSignin,
+  MyCustomerUpdate
+} from '@commercetools/platform-sdk';
 import { getApiRoot } from './ApiRoot';
 import { createApiRoot, createPasswordFlowClient } from './BuildClient';
 import { ByProjectKeyRequestBuilder } from '@commercetools/platform-sdk/dist/declarations/src/generated/client/by-project-key-request-builder';
@@ -38,6 +42,17 @@ export const singup = async (dataCust: CustomerDraft) => {
       email: dataCust.email,
       password: dataCust.password ? dataCust.password : ''
     });
+
+    return customer;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const customerUpdate = async (data: MyCustomerUpdate) => {
+  try {
+    const response = await getApiRoot().me().post({ body: data }).execute();
+    const customer = response.body;
 
     return customer;
   } catch (err) {
