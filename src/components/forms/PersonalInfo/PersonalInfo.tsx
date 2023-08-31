@@ -32,6 +32,7 @@ export const PersonalInfo: React.FC<PersonalInfoProps> = ({ customer }) => {
     register,
     handleSubmit,
     setValue,
+    reset,
     formState: { errors }
   } = useForm<PersonalInfoChange>({
     mode: 'onChange'
@@ -84,7 +85,12 @@ export const PersonalInfo: React.FC<PersonalInfoProps> = ({ customer }) => {
   };
 
   const onCancel = () => {
-    setEditmode((prev) => !prev);
+    reset();
+    setValue('email', customer.email);
+    setValue('firstName', customer.firstName || '');
+    setValue('lastName', customer.lastName || '');
+    setValue('dateOfBirth', customer.dateOfBirth || '');
+    setEditmode(false);
   };
 
   useEffect(() => {
