@@ -57,24 +57,6 @@ export const checkProductExists = async (
   }
 };
 
-// export const getProductById = async (productId: string): ProductData => {
-//   const apiRoot = getApiRoot();
-
-//   try {
-//     const response = await apiRoot.products().withId({ ID: productId }).get().execute();
-//     if (response.statusCode === 200) {
-//       const product = response.body;
-//       return product; // Возвращает объект продукта
-//     } else {
-//       console.error('Error:', response.statusCode, response.body);
-//       return null;
-//     }
-//   } catch {
-//     console.error();
-//     return null;
-//   }
-// };
-
 export const getCustomer = () => {
   getApiRoot()
     .me()
