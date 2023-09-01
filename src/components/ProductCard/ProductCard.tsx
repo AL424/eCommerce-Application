@@ -44,10 +44,10 @@ export const ProductCard: React.FC<{ data: ProductProjection }> = ({
         <h4 className={titleClass}>{title}</h4>
         <p className={priceClass}>
           <span className={discond ? oldPriceClass : ''}>{price}</span>
-          {discond ? <span>{discond}</span> : null}
+          {discond && <span>{discond}</span>}
         </p>
         <p className={descpiptionClass}>
-          {decription ? decription[languages.en] : ''}
+          {decription && decription[languages.en]}
         </p>
       </div>
     </Link>
