@@ -9,7 +9,6 @@ import { Product } from '../pages/Product/Product';
 import { Profile } from '../pages/Profile/Profile';
 import { CatalogPage } from '../pages/Catalog/Catalog';
 
-
 export enum Route {
   main = '/',
   login = '/login',
