@@ -6,9 +6,15 @@ import { getMe } from '../../services/eCommerceService/Customer';
 import { getApiRoot } from '../../services/eCommerceService/ApiRoot';
 import { PasswordInfo } from '../../components/forms/PasswordInfo/PaswordInfo';
 import { AddressesInfo } from '../../components/forms/AddressesInfo/AddressesInfo';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../services/store/store';
+import { useNavigate } from 'react-router-dom';
+import { Route } from '../../Router/Router';
 
 export const Profile = (): ReactElement => {
   const [customer, setCustomer] = useState({} as Customer);
+  const navigate = useNavigate();
+  const auth = useSelector((state: RootState) => state.auth.value);
 
   const getCustomer = async () => {
     const resp = await getMe(getApiRoot());
@@ -16,8 +22,16 @@ export const Profile = (): ReactElement => {
   };
 
   useEffect(() => {
-    getCustomer();
-  }, []);
+    if (!auth) {
+      navigate(Route.login, { replace: true });
+    } else {
+      getCustomer();
+    }
+  }, [auth, navigate]);
+
+  // useEffect(() => {
+  //   getCustomer();
+  // }, []);
 
   return (
     <div className="profile-page">
