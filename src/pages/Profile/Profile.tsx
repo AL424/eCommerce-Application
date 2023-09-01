@@ -26,7 +26,7 @@ export const Profile = (): ReactElement => {
       <div className="form-container profile">
         <PersonalInfo customer={customer} setCustomer={setCustomer} />
         <PasswordInfo customer={customer} setCustomer={setCustomer} />
-        <AddressesInfo customer={customer} />
+        <AddressesInfo customer={customer} setCustomer={setCustomer} />
         <AddAddress customer={customer} setCustomer={setCustomer} />
       </div>
     </div>

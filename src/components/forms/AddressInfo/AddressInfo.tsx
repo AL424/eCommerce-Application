@@ -1,4 +1,10 @@
-import { Address, BaseAddress } from '@commercetools/platform-sdk';
+import {
+  Address,
+  BaseAddress,
+  Customer,
+  MyCustomerRemoveAddressAction,
+  MyCustomerUpdate
+} from '@commercetools/platform-sdk';
 import React, { useState, useEffect } from 'react';
 import Select from '../../common/Select/Select';
 import Input from '../../common/Input/Input';
@@ -10,11 +16,15 @@ import { postalCodeValidation } from '../../../utils/validation/postalCodeValida
 import { streetValidation } from '../../../utils/validation/streetValidation';
 import { buildingValidation } from '../../../utils/validation/buildingValidation';
 import CheckboxInput from '../../common/CheckboxInput/CheckboxInput';
+import { customerUpdate } from '../../../services/eCommerceService/Customer';
+import { toast } from 'react-toastify';
 
 interface AddressInfoProps {
   address: Address;
   type?: AddressType;
   key?: string;
+  customer: Customer;
+  setCustomer: React.Dispatch<React.SetStateAction<Customer>>;
 }
 
 export interface AddressType {
@@ -35,7 +45,12 @@ interface CustomAddress extends BaseAddress {
   addressType: string;
 }
 
-export const AddressInfo: React.FC<AddressInfoProps> = ({ address, type }) => {
+export const AddressInfo: React.FC<AddressInfoProps> = ({
+  address,
+  type,
+  customer,
+  setCustomer
+}) => {
   const [editmode, setEditmode] = useState(false);
   const [defaultShippingAddress, setDefaultShippingAddress] = useState(
     type?.defaultShipping
@@ -75,8 +90,22 @@ export const AddressInfo: React.FC<AddressInfoProps> = ({ address, type }) => {
   const onSave: SubmitHandler<CustomAddress> = (data) => {
     console.log(data);
   };
-  const onDelete = () => {
-    console.log('delete');
+  const onDelete = async () => {
+    const action: MyCustomerRemoveAddressAction = {
+      action: 'removeAddress',
+      addressId: address.id
+    };
+    const data: MyCustomerUpdate = {
+      version: customer.version,
+      actions: [action]
+    };
+    const response = await customerUpdate(data);
+    if (typeof response === 'string') {
+      toast.error(response);
+    } else {
+      toast.success('Address deleted successfully!');
+      setCustomer(response);
+    }
   };
 
   return (
