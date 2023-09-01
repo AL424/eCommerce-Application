@@ -43,7 +43,11 @@ export function Root() {
           onClick={() => dispatch(modalRegOff())}
         />
       )}
-      <ToastContainer position="top-center" autoClose={5000} />
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        draggable={false}
+      />
     </>
   );
 }
