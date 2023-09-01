@@ -9,6 +9,9 @@ import { modalLoginOff } from '../../services/store/modalLoginSlice';
 import { RootState } from '../../services/store/store';
 import { modalRegOff } from '../../services/store/modalRegSlice';
 
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 export function Root() {
   const modalLoginActive = useSelector(
     (state: RootState) => state.modalLogin.active
@@ -40,6 +43,7 @@ export function Root() {
           onClick={() => dispatch(modalRegOff())}
         />
       )}
+      <ToastContainer position="top-center" autoClose={5000} />
     </>
   );
 }

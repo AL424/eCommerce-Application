@@ -7,6 +7,7 @@ import { getApiRoot } from './ApiRoot';
 import { createApiRoot, createPasswordFlowClient } from './BuildClient';
 import { ByProjectKeyRequestBuilder } from '@commercetools/platform-sdk/dist/declarations/src/generated/client/by-project-key-request-builder';
 import { LocalStorage } from '../localStorage/LocalStorage.service';
+import { FetchError } from 'node-fetch';
 
 export const getMe = async (api: ByProjectKeyRequestBuilder) => {
   const customer = await api.me().get().execute();
@@ -53,9 +54,9 @@ export const customerUpdate = async (data: MyCustomerUpdate) => {
   try {
     const response = await getApiRoot().me().post({ body: data }).execute();
     const customer = response.body;
-
     return customer;
   } catch (err) {
-    console.log(err);
+    const error = err as FetchError;
+    return error.message;
   }
 };

@@ -15,9 +15,11 @@ import { nameValidation } from '../../../utils/validation/nameValidation';
 import { Button } from '../../buttons/button';
 import { ageValidation } from '../../../utils/validation/ageValidation';
 import { customerUpdate } from '../../../services/eCommerceService/Customer';
+import { toast } from 'react-toastify';
 
 interface PersonalInfoProps {
   customer: Customer;
+  setCustomer: React.Dispatch<React.SetStateAction<Customer>>;
 }
 
 interface PersonalInfoChange {
@@ -27,7 +29,10 @@ interface PersonalInfoChange {
   dateOfBirth: string;
 }
 
-export const PersonalInfo: React.FC<PersonalInfoProps> = ({ customer }) => {
+export const PersonalInfo: React.FC<PersonalInfoProps> = ({
+  customer,
+  setCustomer
+}) => {
   const [editmode, setEditmode] = useState(false);
   const {
     register,
@@ -40,6 +45,14 @@ export const PersonalInfo: React.FC<PersonalInfoProps> = ({ customer }) => {
   });
 
   // функции обработчика
+  const onCancel = () => {
+    reset();
+    setValue('email', customer.email);
+    setValue('firstName', customer.firstName || '');
+    setValue('lastName', customer.lastName || '');
+    setValue('dateOfBirth', customer.dateOfBirth || '');
+    setEditmode(false);
+  };
   const onSave: SubmitHandler<PersonalInfoChange> = async (data) => {
     const actions: MyCustomerUpdateAction[] = [];
     // проверка изменений
@@ -73,6 +86,7 @@ export const PersonalInfo: React.FC<PersonalInfoProps> = ({ customer }) => {
     }
 
     if (actions.length === 0) {
+      toast.info('Personal Information has not changed.');
       setEditmode(false);
       return;
     }
@@ -82,19 +96,16 @@ export const PersonalInfo: React.FC<PersonalInfoProps> = ({ customer }) => {
       actions: actions
     };
 
-    const newCustomer = await customerUpdate(dataChange);
-    if (newCustomer) setEditmode(false);
-    // исправлять кастомера
-    // выводить сообщение
-  };
-
-  const onCancel = () => {
-    reset();
-    setValue('email', customer.email);
-    setValue('firstName', customer.firstName || '');
-    setValue('lastName', customer.lastName || '');
-    setValue('dateOfBirth', customer.dateOfBirth || '');
-    setEditmode(false);
+    const response = await customerUpdate(dataChange);
+    if (typeof response === 'string') {
+      console.log(response);
+      toast.error(response);
+      onCancel();
+    } else {
+      setCustomer(response);
+      toast.success('Personal Information successfully updated!');
+      setEditmode(false);
+    }
   };
 
   useEffect(() => {
