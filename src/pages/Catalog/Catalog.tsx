@@ -29,6 +29,7 @@ export const CatalogPage = () => {
   const [filterData, setFilterData] = useState(initialFilterDate);
   const [sortValue, setSortValue] = useState(`name.${languages.en} asc`);
   const [searchString, setSearchString] = useState('');
+  const [keyForm, setKeyForm] = useState(Date.now());
   let priceRange = '0 to 100000';
 
   const getProducts = (): void => {
@@ -39,7 +40,6 @@ export const CatalogPage = () => {
   useEffect(getProducts, [filterData, sortValue, searchString, priceRange]);
   useEffect(() => {
     getProducts();
-
     getCategories().then((data) => {
       setCategoriesData(data.body.results);
     });
@@ -65,12 +65,8 @@ export const CatalogPage = () => {
 
   const resetForm = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
-    const form = event.currentTarget;
 
-    categoriesData.forEach((category) => {
-      form[`${category.id}`].checked = false;
-    });
-
+    setKeyForm(Date.now());
     setFilterData([]);
   };
   const switchSort = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -84,7 +80,7 @@ export const CatalogPage = () => {
   return (
     <div className={containerClass}>
       <div className={filterClass}>
-        <form onChange={getFilterData} onReset={resetForm}>
+        <form onChange={getFilterData} onReset={resetForm} key={keyForm}>
           <fieldset>
             <legend>Categories</legend>
             {categoriesData.map((category, index) => (
@@ -100,7 +96,7 @@ export const CatalogPage = () => {
           </fieldset>
           <fieldset>
             <legend>Price</legend>
-            <Range min={0} max={10000} onMouseUp={getPriceRange} />
+            <Range min={0} max={10000} onChange={getPriceRange} />
           </fieldset>
           <input type="reset" className={buttonClass} value={'Reset'} />
         </form>
