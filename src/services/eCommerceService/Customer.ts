@@ -1,6 +1,7 @@
 import {
   CustomerDraft,
   CustomerSignin,
+  MyCustomerChangePassword,
   MyCustomerUpdate
 } from '@commercetools/platform-sdk';
 import { getApiRoot } from './ApiRoot';
@@ -26,7 +27,6 @@ export const singin = async (dataCustomer: CustomerSignin) => {
     const apiRoot = createApiRoot(createPasswordFlowClient(dataCustomer));
     const customer = await getMe(apiRoot);
     LocalStorage.set('customer-id', customer.id);
-    console.log(customer);
     return customer;
   } catch (err) {
     console.log(err);
@@ -34,7 +34,6 @@ export const singin = async (dataCustomer: CustomerSignin) => {
 };
 
 // create user
-// Добавить функцию для выполнения входа в систему
 export const singup = async (dataCust: CustomerDraft) => {
   try {
     await getApiRoot().customers().post({ body: dataCust }).execute();
@@ -54,6 +53,32 @@ export const customerUpdate = async (data: MyCustomerUpdate) => {
   try {
     const response = await getApiRoot().me().post({ body: data }).execute();
     const customer = response.body;
+    return customer;
+  } catch (err) {
+    const error = err as FetchError;
+    return error.message;
+  }
+};
+
+export const changePassword = async (data: MyCustomerChangePassword) => {
+  try {
+    const response = await getApiRoot()
+      .me()
+      .password()
+      .post({ body: data })
+      .execute();
+
+    const email = response.body.email;
+
+    // повторная авторизация
+    LocalStorage.remove('customer-id');
+    LocalStorage.remove('token-cache');
+
+    const customer = await singin({
+      email: email,
+      password: data.newPassword
+    });
+
     return customer;
   } catch (err) {
     const error = err as FetchError;
