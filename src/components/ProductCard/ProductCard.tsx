@@ -31,7 +31,7 @@ export const ProductCard: React.FC<{ data: ProductProjection }> = ({
     : null;
 
   return (
-    <Link className={containerClass} to={`${Route.catalog}/${data.id}`}>
+    <Link className={containerClass} to={`${Route.product}/${data.id}`}>
       <div className={productImageClass}>
         <img
           src={
