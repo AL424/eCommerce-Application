@@ -57,6 +57,26 @@
       opacity: 1;
     }
   }
+
+  .address-type {
+    margin: 0;
+    margin-bottom: 0.5rem;
+    text-align: left;
+    color: var(--active-color);
+
+    &_none {
+      color: var(--white-color);
+      opacity: 0.3;
+    }
+  }
+
+  .address-type-label {
+    margin: 0;
+    margin-bottom: 0.5em;
+    text-align: left;
+    font-size: 0.9rem;
+    font-weight: 200;
+  }
 }
 
 .button-wrap {

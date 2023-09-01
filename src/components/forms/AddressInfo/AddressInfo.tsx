@@ -3,7 +3,8 @@ import {
   BaseAddress,
   Customer,
   MyCustomerRemoveAddressAction,
-  MyCustomerUpdate
+  MyCustomerUpdate,
+  MyCustomerUpdateAction
 } from '@commercetools/platform-sdk';
 import React, { useState, useEffect } from 'react';
 import Select from '../../common/Select/Select';
@@ -58,24 +59,20 @@ export const AddressInfo: React.FC<AddressInfoProps> = ({
   const [defaultBillingAddress, setDefaultBillingAddress] = useState(
     type?.defaultBilling
   );
+  const [billingAddress, setBillingAddress] = useState(type?.billing);
+  const [shippingAddress, setShippingAddress] = useState(type?.shipping);
 
   const {
     register,
     setValue,
     handleSubmit,
+    reset,
     formState: { errors }
   } = useForm<CustomAddress>({
     mode: 'onChange'
   });
 
   useEffect(() => {
-    let defaultType: string = AddressTypeEnum.none;
-    if (type?.billing && type.shipping)
-      defaultType = AddressTypeEnum.buildingShipping;
-    else if (type?.billing) defaultType = AddressTypeEnum.building;
-    else if (type?.shipping) defaultType = AddressTypeEnum.shipping;
-
-    setValue('addressType', defaultType);
     setValue('country', address.country);
     setValue('city', address.city);
     setValue('postalCode', address.postalCode);
@@ -85,10 +82,29 @@ export const AddressInfo: React.FC<AddressInfoProps> = ({
 
   // функции обработчики
   const onCancel = () => {
-    setEditmode((prev) => !prev);
+    reset();
+
+    setDefaultShippingAddress(type?.defaultShipping);
+    setDefaultBillingAddress(type?.defaultBilling);
+
+    setBillingAddress(type?.billing);
+    setShippingAddress(type?.shipping);
+
+    setValue('country', address.country);
+    setValue('city', address.city);
+    setValue('postalCode', address.postalCode);
+    setValue('streetName', address.streetName);
+    setValue('building', address.building);
+
+    setEditmode(false);
   };
   const onSave: SubmitHandler<CustomAddress> = (data) => {
     console.log(data);
+    const actions: MyCustomerUpdateAction[] = [];
+    // Проверка изменений
+    // Изменение типа
+
+    console.log(actions);
   };
   const onDelete = async () => {
     const action: MyCustomerRemoveAddressAction = {
@@ -125,18 +141,41 @@ export const AddressInfo: React.FC<AddressInfoProps> = ({
         {!type?.defaultBilling && type?.defaultShipping && (
           <legend>Default Shipping Address</legend>
         )}
-        <Select
-          label="Address Type"
-          options={Object.values(AddressTypeEnum)}
-          registerProps={register('addressType')}
-          // defaultValue={defaultType}
-        />
+        <p className="address-type-label">Address type</p>
+        {!editmode && billingAddress && (
+          <p className="address-type">Billing address</p>
+        )}
+        {!editmode && shippingAddress && (
+          <p className="address-type">Shipping address</p>
+        )}
+        {!editmode && !billingAddress && !shippingAddress && (
+          <p className="address-type address-type_none">none</p>
+        )}
+
+        {editmode && (
+          <CheckboxInput
+            label="billing address"
+            checked={billingAddress || false}
+            onChange={() => {
+              setBillingAddress((prev) => !prev);
+            }}
+          />
+        )}
+
+        {editmode && (
+          <CheckboxInput
+            label="shipping address"
+            checked={shippingAddress || false}
+            onChange={() => {
+              setShippingAddress((prev) => !prev);
+            }}
+          />
+        )}
 
         <Select
           label="Country"
           options={citiesByCountry}
           registerProps={register('country')}
-          // defaultValue={address.country}
         />
 
         <Input
@@ -190,9 +229,7 @@ export const AddressInfo: React.FC<AddressInfoProps> = ({
 
       <div className="button-wrap">
         {!editmode && <Button title="delete" onClick={onDelete} />}
-        {!editmode && (
-          <Button title="edit" onClick={() => setEditmode((prev) => !prev)} />
-        )}
+        {!editmode && <Button title="edit" onClick={() => setEditmode(true)} />}
         {editmode && (
           <Button
             title="cancel"
