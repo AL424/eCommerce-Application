@@ -15,14 +15,15 @@ const CheckboxInput: React.FC<CheckboxInputProps> = ({
 }) => {
   return (
     <div className="addressSettings">
-      <input
-        type="checkbox"
-        id={`checkbox_${label}`}
-        checked={checked}
-        disabled={disabled}
-        onChange={onChange}
-      />
-      <label htmlFor={`checkbox_${label}`}>{label}</label>
+      <label>
+        <input
+          type="checkbox"
+          checked={checked}
+          disabled={disabled}
+          onChange={onChange}
+        />
+        {label}
+      </label>
     </div>
   );
 };

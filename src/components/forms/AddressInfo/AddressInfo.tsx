@@ -2,7 +2,14 @@ import {
   Address,
   BaseAddress,
   Customer,
+  MyCustomerAddBillingAddressIdAction,
+  MyCustomerAddShippingAddressIdAction,
+  MyCustomerChangeAddressAction,
   MyCustomerRemoveAddressAction,
+  MyCustomerRemoveBillingAddressIdAction,
+  MyCustomerRemoveShippingAddressIdAction,
+  MyCustomerSetDefaultBillingAddressAction,
+  MyCustomerSetDefaultShippingAddressAction,
   MyCustomerUpdate,
   MyCustomerUpdateAction
 } from '@commercetools/platform-sdk';
@@ -35,17 +42,6 @@ export interface AddressType {
   defaultShipping: boolean;
 }
 
-export enum AddressTypeEnum {
-  none = 'none',
-  building = 'billing',
-  shipping = 'shipping',
-  buildingShipping = 'billing/shipping'
-}
-
-interface CustomAddress extends BaseAddress {
-  addressType: string;
-}
-
 export const AddressInfo: React.FC<AddressInfoProps> = ({
   address,
   type,
@@ -68,17 +64,22 @@ export const AddressInfo: React.FC<AddressInfoProps> = ({
     handleSubmit,
     reset,
     formState: { errors }
-  } = useForm<CustomAddress>({
+  } = useForm<BaseAddress>({
     mode: 'onChange'
   });
 
   useEffect(() => {
+    setDefaultShippingAddress(type?.defaultShipping);
+    setDefaultBillingAddress(type?.defaultBilling);
+    setBillingAddress(type?.billing);
+    setShippingAddress(type?.shipping);
+
     setValue('country', address.country);
     setValue('city', address.city);
     setValue('postalCode', address.postalCode);
     setValue('streetName', address.streetName);
     setValue('building', address.building);
-  }, [address, type, setValue]);
+  }, [address, type, setValue, customer]);
 
   // функции обработчики
   const onCancel = () => {
@@ -98,14 +99,95 @@ export const AddressInfo: React.FC<AddressInfoProps> = ({
 
     setEditmode(false);
   };
-  const onSave: SubmitHandler<CustomAddress> = (data) => {
-    console.log(data);
+  const onSave: SubmitHandler<BaseAddress> = async (data) => {
     const actions: MyCustomerUpdateAction[] = [];
     // Проверка изменений
     // Изменение типа
+    if (type?.billing !== billingAddress) {
+      if (billingAddress) {
+        const change: MyCustomerAddBillingAddressIdAction = {
+          action: 'addBillingAddressId',
+          addressId: address.id
+        };
+        actions.push(change);
+      } else {
+        const change: MyCustomerRemoveBillingAddressIdAction = {
+          action: 'removeBillingAddressId',
+          addressId: address.id
+        };
+        actions.push(change);
+      }
+    }
+    if (type?.shipping !== shippingAddress) {
+      if (shippingAddress) {
+        const change: MyCustomerAddShippingAddressIdAction = {
+          action: 'addShippingAddressId',
+          addressId: address.id
+        };
+        actions.push(change);
+      } else {
+        const change: MyCustomerRemoveShippingAddressIdAction = {
+          action: 'removeShippingAddressId',
+          addressId: address.id
+        };
+        actions.push(change);
+      }
+    }
+    // изменение адреса по умолчанию
+    if (!type?.defaultBilling && defaultBillingAddress) {
+      const change: MyCustomerSetDefaultBillingAddressAction = {
+        action: 'setDefaultBillingAddress',
+        addressId: address.id
+      };
+      actions.push(change);
+    }
+    if (!type?.defaultShipping && defaultShippingAddress) {
+      const change: MyCustomerSetDefaultShippingAddressAction = {
+        action: 'setDefaultShippingAddress',
+        addressId: address.id
+      };
+      actions.push(change);
+    }
+    // изменение данных адреса
+    const isAddressChange: boolean =
+      data.country !== address.country ||
+      data.city !== address.city ||
+      data.postalCode !== address.postalCode ||
+      data.streetName !== address.streetName ||
+      data.building !== address.building;
 
-    console.log(actions);
+    if (isAddressChange) {
+      const change: MyCustomerChangeAddressAction = {
+        action: 'changeAddress',
+        addressId: address.id,
+        address: address
+      };
+      actions.push(change);
+    }
+
+    if (actions.length === 0) {
+      toast.info('Address has not changed.');
+      setEditmode(false);
+      return;
+    }
+
+    const dataChange: MyCustomerUpdate = {
+      version: customer.version,
+      actions: actions
+    };
+
+    const response = await customerUpdate(dataChange);
+    if (typeof response === 'string') {
+      console.log(response);
+      toast.error(response);
+      onCancel();
+    } else {
+      setCustomer(response);
+      toast.success('Address successfully changed!');
+      setEditmode(false);
+    }
   };
+
   const onDelete = async () => {
     const action: MyCustomerRemoveAddressAction = {
       action: 'removeAddress',
@@ -119,7 +201,7 @@ export const AddressInfo: React.FC<AddressInfoProps> = ({
     if (typeof response === 'string') {
       toast.error(response);
     } else {
-      toast.success('Address deleted successfully!');
+      toast.success('Address successfully deleted!');
       setCustomer(response);
     }
   };
@@ -157,7 +239,7 @@ export const AddressInfo: React.FC<AddressInfoProps> = ({
             label="billing address"
             checked={billingAddress || false}
             onChange={() => {
-              setBillingAddress((prev) => !prev);
+              setBillingAddress(!billingAddress);
             }}
           />
         )}
@@ -167,7 +249,7 @@ export const AddressInfo: React.FC<AddressInfoProps> = ({
             label="shipping address"
             checked={shippingAddress || false}
             onChange={() => {
-              setShippingAddress((prev) => !prev);
+              setShippingAddress(!shippingAddress);
             }}
           />
         )}
@@ -210,6 +292,7 @@ export const AddressInfo: React.FC<AddressInfoProps> = ({
           <CheckboxInput
             label="Set as default shipping address"
             checked={defaultShippingAddress || false}
+            disabled={type?.defaultShipping}
             onChange={() => {
               setDefaultShippingAddress(!defaultShippingAddress);
             }}
@@ -220,6 +303,7 @@ export const AddressInfo: React.FC<AddressInfoProps> = ({
           <CheckboxInput
             label="Set as default billing address"
             checked={defaultBillingAddress || false}
+            disabled={type?.defaultBilling}
             onChange={() => {
               setDefaultBillingAddress(!defaultBillingAddress);
             }}
