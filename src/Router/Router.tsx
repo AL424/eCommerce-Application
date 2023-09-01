@@ -9,7 +9,6 @@ import { Product } from '../pages/Product/Product';
 import { Profile } from '../pages/Profile/Profile';
 import { CatalogPage } from '../pages/Catalog/Catalog';
 
-
 export enum Route {
   main = '/',
   login = '/login',
@@ -35,12 +34,8 @@ export const routesConfig: RouteObject[] = [
         path: Route.catalog,
         element: <CatalogPage />
       },
-      // {
-      //   path: Route.product,
-      //   element: <Product />
-      // },
       {
-        path: `${Route.product}/:productId`,
+        path: `${Route.product}/:id`,
         element: <Product />
       },
       {
