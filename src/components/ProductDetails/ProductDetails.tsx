@@ -14,7 +14,7 @@ import 'slick-carousel/slick/slick-theme.css';
 import './ProductDetails.scss';
 
 // const id = '12236346-a8dd-40b5-ba11-6077e197f5e0'; // test 1 underpants
-const id = '30eb4525-39a5-4982-b4ab-9b0ea5c7c5a1'; // test 2 stickers Sloths
+// const id = '30eb4525-39a5-4982-b4ab-9b0ea5c7c5a1'; // test 2 stickers Sloths
 
 // const check = async () => {
 //   const exists = await checkProductExists(id);
@@ -23,7 +23,7 @@ const id = '30eb4525-39a5-4982-b4ab-9b0ea5c7c5a1'; // test 2 stickers Sloths
 // check();
 
 export const ProductDetails = () => {
-  const { id: routeProductId } = useParams();
+  const { id } = useParams();
   const [product, setProduct] = useState<ProductData | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
   // const [selectedImage, setSelectedImage] = useState('');
@@ -41,16 +41,18 @@ export const ProductDetails = () => {
   };
 
   useEffect(() => {
-    getProductById(id)
-      .then((res) => {
-        if (res) {
-          setProduct(JSON.parse(res));
-        }
-      })
-      .catch((error) => {
-        console.error('Error occured:', error);
-      });
-  }, [routeProductId]); // routeProductId
+    if (id) {
+      getProductById(id)
+        .then((res) => {
+          if (res) {
+            setProduct(JSON.parse(res));
+          }
+        })
+        .catch((error) => {
+          console.error('Error occurred:', error);
+        });
+    }
+  }, [id]); // routeProductId
 
   useEffect(() => {
     if (product) {
