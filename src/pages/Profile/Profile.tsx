@@ -6,6 +6,7 @@ import { getMe } from '../../services/eCommerceService/Customer';
 import { getApiRoot } from '../../services/eCommerceService/ApiRoot';
 import { PasswordInfo } from '../../components/forms/PasswordInfo/PaswordInfo';
 import { AddressesInfo } from '../../components/forms/AddressesInfo/AddressesInfo';
+import { AddAddress } from '../../components/forms/AddAddress/AddAddress';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../services/store/store';
 import { useNavigate } from 'react-router-dom';
@@ -29,17 +30,14 @@ export const Profile = (): ReactElement => {
     }
   }, [auth, navigate]);
 
-  // useEffect(() => {
-  //   getCustomer();
-  // }, []);
-
   return (
     <div className="profile-page">
       <h1>Profile</h1>
       <div className="form-container profile">
-        <PersonalInfo customer={customer} />
-        <PasswordInfo />
-        <AddressesInfo customer={customer} />
+        <PersonalInfo customer={customer} setCustomer={setCustomer} />
+        <PasswordInfo customer={customer} setCustomer={setCustomer} />
+        <AddressesInfo customer={customer} setCustomer={setCustomer} />
+        <AddAddress customer={customer} setCustomer={setCustomer} />
       </div>
     </div>
   );
