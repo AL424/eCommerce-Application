@@ -6,6 +6,7 @@ import { getMe } from '../../services/eCommerceService/Customer';
 import { getApiRoot } from '../../services/eCommerceService/ApiRoot';
 import { PasswordInfo } from '../../components/forms/PasswordInfo/PaswordInfo';
 import { AddressesInfo } from '../../components/forms/AddressesInfo/AddressesInfo';
+import { AddAddress } from '../../components/forms/AddAddress/AddAddress';
 
 export const Profile = (): ReactElement => {
   const [customer, setCustomer] = useState({} as Customer);
@@ -26,6 +27,7 @@ export const Profile = (): ReactElement => {
         <PersonalInfo customer={customer} setCustomer={setCustomer} />
         <PasswordInfo customer={customer} setCustomer={setCustomer} />
         <AddressesInfo customer={customer} />
+        <AddAddress customer={customer} setCustomer={setCustomer} />
       </div>
     </div>
   );
