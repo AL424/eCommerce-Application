@@ -27,6 +27,7 @@ export const AddAddress: React.FC<AddAddressProps> = ({
   setCustomer
 }) => {
   const [editmode, setEditmode] = useState(false);
+
   const {
     register,
     reset,
@@ -35,11 +36,12 @@ export const AddAddress: React.FC<AddAddressProps> = ({
   } = useForm<Address>({
     mode: 'onChange'
   });
-  // функции обработчика
+
   const onCancel = () => {
     reset();
     setEditmode(false);
   };
+
   const onSave: SubmitHandler<Address> = async (data) => {
     const action: MyCustomerAddAddressAction = {
       action: 'addAddress',

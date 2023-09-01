@@ -44,7 +44,6 @@ export const PersonalInfo: React.FC<PersonalInfoProps> = ({
     mode: 'onChange'
   });
 
-  // функции обработчика
   const onCancel = () => {
     reset();
     setValue('email', customer.email);
@@ -55,7 +54,7 @@ export const PersonalInfo: React.FC<PersonalInfoProps> = ({
   };
   const onSave: SubmitHandler<PersonalInfoChange> = async (data) => {
     const actions: MyCustomerUpdateAction[] = [];
-    // проверка изменений
+
     if (data.email !== customer.email) {
       const change: MyCustomerChangeEmailAction = {
         action: 'changeEmail',
@@ -98,7 +97,6 @@ export const PersonalInfo: React.FC<PersonalInfoProps> = ({
 
     const response = await customerUpdate(dataChange);
     if (typeof response === 'string') {
-      console.log(response);
       toast.error(response);
       onCancel();
     } else {

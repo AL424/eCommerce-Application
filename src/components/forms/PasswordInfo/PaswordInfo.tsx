@@ -20,6 +20,7 @@ export const PasswordInfo: React.FC<PasswordInfoProps> = ({
   setCustomer
 }) => {
   const [editmode, setEditmode] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -29,12 +30,12 @@ export const PasswordInfo: React.FC<PasswordInfoProps> = ({
     mode: 'onChange'
   });
 
-  // функции обработчика
   const onSave: SubmitHandler<MyCustomerChangePassword> = async (data) => {
     if (data.currentPassword === data.newPassword) {
       toast.info('New password cannot be current password.');
       return;
     }
+
     const dataReq: MyCustomerChangePassword = {
       ...data,
       version: customer.version
@@ -49,6 +50,7 @@ export const PasswordInfo: React.FC<PasswordInfoProps> = ({
       setEditmode(false);
     }
   };
+
   const onCancel = () => {
     setEditmode(false);
     reset();

@@ -99,10 +99,10 @@ export const AddressInfo: React.FC<AddressInfoProps> = ({
 
     setEditmode(false);
   };
+
   const onSave: SubmitHandler<BaseAddress> = async (data) => {
     const actions: MyCustomerUpdateAction[] = [];
-    // Проверка изменений
-    // Изменение типа
+
     if (type?.billing !== billingAddress) {
       if (billingAddress) {
         const change: MyCustomerAddBillingAddressIdAction = {
@@ -133,7 +133,7 @@ export const AddressInfo: React.FC<AddressInfoProps> = ({
         actions.push(change);
       }
     }
-    // изменение адреса по умолчанию
+
     if (!type?.defaultBilling && defaultBillingAddress) {
       const change: MyCustomerSetDefaultBillingAddressAction = {
         action: 'setDefaultBillingAddress',
@@ -148,7 +148,7 @@ export const AddressInfo: React.FC<AddressInfoProps> = ({
       };
       actions.push(change);
     }
-    // изменение данных адреса
+
     const isAddressChange: boolean =
       data.country !== address.country ||
       data.city !== address.city ||
