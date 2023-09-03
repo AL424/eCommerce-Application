@@ -33,18 +33,19 @@ export const CatalogPage = (): React.JSX.Element => {
   const [keyForm, setKeyForm] = useState(Date.now());
   let priceRange = '0 to 100000';
 
-  const getProducts = (): void => {
-    getProductsByFilter(filterData, priceRange, sortValue, searchString).then(
-      (data) => setProductsData(data.body.results)
-    );
-  };
-  useEffect(getProducts, [filterData, sortValue, searchString, priceRange]);
   useEffect(() => {
-    getProducts();
+    const getData = setTimeout(() => {
+      getProductsByFilter(filterData, priceRange, sortValue, searchString).then(
+        (data) => setProductsData(data.body.results)
+      );
+    }, 100);
+    return () => clearTimeout(getData);
+  }, [filterData, sortValue, searchString, priceRange]);
+
+  useEffect(() => {
     getCategories().then((data) => {
       setCategoriesData(data.body.results);
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const getFilterData = (event: React.FormEvent<HTMLFormElement>): void => {
