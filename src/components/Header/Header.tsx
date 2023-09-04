@@ -6,6 +6,7 @@ import { Menu } from '../Menu/Menu';
 import { LogIn } from '../LogIn/LogIn';
 import { LogOut } from '../Logout/Logout';
 import { useSelector } from 'react-redux';
+import logo from '../../assets/logo.svg';
 
 interface RootState {
   auth: {
@@ -27,7 +28,7 @@ export const Header: React.FC = () => {
   return (
     <header className={headerClass}>
       <Link to={Route.main} className="logo">
-        Logo
+        <img src={logo} alt="The Wonderful World" />
       </Link>
       <Menu />
       {auth ? <LogOut /> : <LogIn />}
