@@ -19,7 +19,7 @@ export const getCategories = (): Promise<
 };
 
 export const getProductsByFilter = (
-  categories: string[],
+  category: string,
   priceRange: string,
   sortData: string,
   searchString: string
@@ -30,9 +30,7 @@ export const getProductsByFilter = (
     .get({
       queryArgs: {
         filter: [
-          categories.length > 0
-            ? `categories.id:${categories.join(',')}`
-            : 'categories:exists',
+          category ? `categories.id:"${category}"` : 'categories:exists',
           `variants.price.centAmount:range (${priceRange})`
         ],
         sort: [sortData],

@@ -8,6 +8,7 @@ import { Category, ProductProjection } from '@commercetools/platform-sdk';
 import { ProductCard } from '../../components/ProductCard/ProductCard';
 import { Range } from '../../components/common/Range/Range';
 import { Breadcrumb } from '../../components/LocationPages/Breadcrumb';
+import { CategoryNav } from '../../components/CategoryNav/CategoryNav';
 
 const containerClass = 'catalog';
 const filterClass = 'catalog__filter';
@@ -24,41 +25,35 @@ export const CatalogPage = (): React.JSX.Element => {
   };
   const initialProductData: ProductProjection[] = [];
   const initialCategoriesData: Category[] = [];
-  const initialFilterDate: string[] = [];
+  // const initialFilterDate: string[] = [];
   const [productsData, setProductsData] = useState(initialProductData);
   const [categoriesData, setCategoriesData] = useState(initialCategoriesData);
-  const [filterData, setFilterData] = useState(initialFilterDate);
+  // const [filterData, setFilterData] = useState(initialFilterDate);
   const [sortValue, setSortValue] = useState(`name.${languages.en} asc`);
   const [searchString, setSearchString] = useState('');
   const [keyForm, setKeyForm] = useState(Date.now());
   let priceRange = '0 to 100000';
 
+  // Работа с категориями
+  const [activeCategory, setActiveCategory] = useState('');
+
   const getProducts = (): void => {
-    getProductsByFilter(filterData, priceRange, sortValue, searchString).then(
-      (data) => setProductsData(data.body.results)
-    );
+    getProductsByFilter(
+      activeCategory,
+      priceRange,
+      sortValue,
+      searchString
+    ).then((data) => setProductsData(data.body.results));
   };
-  useEffect(getProducts, [filterData, sortValue, searchString, priceRange]);
+  useEffect(getProducts, [activeCategory, sortValue, searchString, priceRange]);
   useEffect(() => {
     getProducts();
     getCategories().then((data) => {
+      console.log('categories', data.body.results);
       setCategoriesData(data.body.results);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  const getFilterData = (event: React.FormEvent<HTMLFormElement>): void => {
-    const form = event.currentTarget;
-    const activeCatigory: string[] = [];
-
-    categoriesData.forEach((category) => {
-      if (form[`${category.id}`].checked) {
-        activeCatigory.push(`"${category.id}"`);
-      }
-    });
-
-    setFilterData(activeCatigory);
-  };
 
   const getPriceRange = ({ min, max }: { min: number; max: number }) => {
     priceRange = `${min * 100} to ${max * 100}`;
@@ -68,7 +63,6 @@ export const CatalogPage = (): React.JSX.Element => {
     event.preventDefault();
 
     setKeyForm(Date.now());
-    setFilterData([]);
   };
   const switchSort = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSortValue(event.target.value);
@@ -82,28 +76,36 @@ export const CatalogPage = (): React.JSX.Element => {
     <>
       <Breadcrumb />
       <div className={containerClass}>
-        <div className={filterClass}>
-          <form onChange={getFilterData} onReset={resetForm} key={keyForm}>
-            <fieldset>
-              <legend>Categories</legend>
-              {categoriesData.map((category, index) => (
-                <label htmlFor={category.id} key={index}>
-                  <input
-                    type="checkbox"
-                    name={category.name[languages.en]}
-                    id={category.id}
-                  />
-                  {category.name[languages.en]}
-                </label>
-              ))}
-            </fieldset>
-            <fieldset>
-              <legend>Price</legend>
-              <Range min={0} max={10000} onChange={getPriceRange} />
-            </fieldset>
-            <input type="reset" className={buttonClass} value={'Reset'} />
-          </form>
-        </div>
+        <aside>
+          <CategoryNav
+            categories={categoriesData}
+            activeCategory={activeCategory}
+            setActiveCategory={setActiveCategory}
+          />
+          <div className={filterClass}>
+            <h3>Filters</h3>
+            <form onReset={resetForm} key={keyForm}>
+              <fieldset>
+                <legend>Categories</legend>
+                {categoriesData.map((category, index) => (
+                  <label htmlFor={category.id} key={index}>
+                    <input
+                      type="checkbox"
+                      name={category.name[languages.en]}
+                      id={category.id}
+                    />
+                    {category.name[languages.en]}
+                  </label>
+                ))}
+              </fieldset>
+              <fieldset>
+                <legend>Price</legend>
+                <Range min={0} max={10} onChange={getPriceRange} />
+              </fieldset>
+              <input type="reset" className={buttonClass} value={'Reset'} />
+            </form>
+          </div>
+        </aside>
         <div className={catalogCardsContainer}>
           <div className={sortPanelClass}>
             <label htmlFor="sort">
