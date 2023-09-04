@@ -8,6 +8,8 @@ import { Main } from '../pages/Main/Main';
 import { Product } from '../pages/Product/Product';
 import { Profile } from '../pages/Profile/Profile';
 import { CatalogPage } from '../pages/Catalog/Catalog';
+import { About } from '../pages/About/About';
+import { Basket } from '../pages/Basket/Basket';
 
 export enum Route {
   main = '/',
@@ -40,11 +42,11 @@ export const routesConfig: RouteObject[] = [
       },
       {
         path: Route.basket,
-        element: <h1>Basket</h1>
+        element: <Basket />
       },
       {
         path: Route.about,
-        element: <h1>About</h1>
+        element: <About />
       },
       {
         path: Route.profile,

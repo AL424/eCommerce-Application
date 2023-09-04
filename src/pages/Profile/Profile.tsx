@@ -11,6 +11,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../services/store/store';
 import { useNavigate } from 'react-router-dom';
 import { Route } from '../../Router/Router';
+import { Breadcrumb } from '../../components/LocationPages/Breadcrumb';
 
 export const Profile = (): ReactElement => {
   const [customer, setCustomer] = useState({} as Customer);
@@ -31,14 +32,17 @@ export const Profile = (): ReactElement => {
   }, [auth, navigate]);
 
   return (
-    <div className="profile-page">
-      <h1>Profile</h1>
-      <div className="form-container profile">
-        <PersonalInfo customer={customer} setCustomer={setCustomer} />
-        <PasswordInfo customer={customer} setCustomer={setCustomer} />
-        <AddressesInfo customer={customer} setCustomer={setCustomer} />
-        <AddAddress customer={customer} setCustomer={setCustomer} />
+    <>
+      <Breadcrumb />
+      <div className="profile-page">
+        <h1>Profile</h1>
+        <div className="form-container profile">
+          <PersonalInfo customer={customer} setCustomer={setCustomer} />
+          <PasswordInfo customer={customer} setCustomer={setCustomer} />
+          <AddressesInfo customer={customer} setCustomer={setCustomer} />
+          <AddAddress customer={customer} setCustomer={setCustomer} />
+        </div>
       </div>
-    </div>
+    </>
   );
 };

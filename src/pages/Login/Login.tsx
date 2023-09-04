@@ -4,6 +4,7 @@ import LoginForm from '../../components/forms/Login/LoginForm';
 import { Route } from '../../Router/Router';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../services/store/store';
+import { Breadcrumb } from '../../components/LocationPages/Breadcrumb';
 
 const descriptionClass = 'description-message';
 
@@ -16,12 +17,15 @@ export function Login() {
   });
   if (auth) return null;
   return (
-    <div className="login-page">
-      <LoginForm />
-      <p className={descriptionClass}>
-        You don't have an account yet?
-        <Link to={Route.registration}>Registration</Link>{' '}
-      </p>
-    </div>
+    <>
+      <Breadcrumb />
+      <div className="login-page">
+        <LoginForm />
+        <p className={descriptionClass}>
+          You don't have an account yet?
+          <Link to={Route.registration}>Registration</Link>{' '}
+        </p>
+      </div>
+    </>
   );
 }

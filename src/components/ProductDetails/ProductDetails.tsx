@@ -89,10 +89,10 @@ export const ProductDetails = () => {
 
   const smallSliderSettings: Settings = {
     dots: false,
-    infinite: true,
+    infinite: imageUrls.length > 3 ? true : false,
     arrows: false,
     speed: 500,
-    slidesToShow: 3,
+    slidesToShow: Math.min(imageUrls.length, 3),
     slidesToScroll: 1,
     focusOnSelect: true,
     className: '.smallSlider',
@@ -153,14 +153,16 @@ export const ProductDetails = () => {
                 Category:{' '}
                 {productCategory?.name['en-US'] || 'Product without category'}
               </p>
-              <p>SKU: {product.masterVariant.sku}</p>
+              {/* <p>SKU: {product.masterVariant.sku}</p> */}
               {product.masterVariant.prices?.map((price, index) => (
                 <div key={index}>
                   <p>
                     {/* Main price */}
                     Price:{' '}
                     <span
-                      className={price.discounted ? 'discounted-available' : ''}
+                      className={
+                        price.discounted ? 'discounted-available' : 'real-price'
+                      }
                     >
                       {formatCurrency(
                         price.value.centAmount / 100,

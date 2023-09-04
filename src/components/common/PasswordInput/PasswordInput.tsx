@@ -11,6 +11,7 @@ interface PasswordFieldProps {
   inputProps: React.InputHTMLAttributes<HTMLInputElement>;
   error?: FieldError;
   formDisabled?: boolean;
+  id?: string;
   onInput?: () => void;
 }
 
@@ -21,6 +22,7 @@ const PasswordInput: React.FC<PasswordFieldProps> = ({
   inputProps,
   error,
   formDisabled,
+  id,
   onInput
 }) => {
   const [showPassword, setShowPassword] = useState(false);
@@ -31,9 +33,12 @@ const PasswordInput: React.FC<PasswordFieldProps> = ({
 
   return (
     <div>
-      <label className={labelClass}>{label}</label>
+      <label htmlFor={id} className={labelClass}>
+        {label}
+      </label>
       <div style={{ display: 'flex' }}>
         <input
+          id={id}
           className={inputClass}
           placeholder={placeholder}
           autoComplete="on"

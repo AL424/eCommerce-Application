@@ -55,10 +55,20 @@
 }
 
 .discounted-price {
-  color: var(--hover-color);
+  display: inline-block;
+  padding: 0.2em 0.5em;
+  border-radius: 0.3em;
+  background-color: var(--active-color);
+  color: var(--white-color);
+  font-weight: bold;
 }
 
 .discounted-available {
   text-decoration: line-through;
+}
+
+.real-price {
+  color: var(--active-color);
+  font-weight: bold;
 }
 

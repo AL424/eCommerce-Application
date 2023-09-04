@@ -65,6 +65,7 @@ const LoginForm: React.FC = () => {
         error={errors.email}
         formDisabled={formDisabled}
         onInput={onInput}
+        id="email"
       />
 
       <PasswordField
@@ -74,6 +75,7 @@ const LoginForm: React.FC = () => {
         error={errors.password}
         formDisabled={formDisabled}
         onInput={onInput}
+        id="password"
       />
 
       {/* <label>Confirm Password</label>
