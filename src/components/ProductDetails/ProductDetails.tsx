@@ -160,7 +160,9 @@ export const ProductDetails = () => {
                     {/* Main price */}
                     Price:{' '}
                     <span
-                      className={price.discounted ? 'discounted-available' : ''}
+                      className={
+                        price.discounted ? 'discounted-available' : 'real-price'
+                      }
                     >
                       {formatCurrency(
                         price.value.centAmount / 100,
