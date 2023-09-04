@@ -153,7 +153,7 @@ export const ProductDetails = () => {
                 Category:{' '}
                 {productCategory?.name['en-US'] || 'Product without category'}
               </p>
-              <p>SKU: {product.masterVariant.sku}</p>
+              {/* <p>SKU: {product.masterVariant.sku}</p> */}
               {product.masterVariant.prices?.map((price, index) => (
                 <div key={index}>
                   <p>
