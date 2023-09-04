@@ -15,6 +15,12 @@ interface MultiRangeSliderProps {
   onChange: ({ min, max }: { min: number; max: number }) => void;
 }
 
+const containerClass = 'slider-range__container';
+const resultBoxClass = 'slider-range__result';
+const viewRangeClass = 'slider-range';
+const rangeTrackClass = 'slider-range__track';
+const rangeClass = 'slider-range__range';
+
 export const Range: FC<MultiRangeSliderProps> = ({ min, max, onChange }) => {
   const [minVal, setMinVal] = useState(min);
   const [maxVal, setMaxVal] = useState(max);
@@ -55,7 +61,7 @@ export const Range: FC<MultiRangeSliderProps> = ({ min, max, onChange }) => {
   }, [minVal, maxVal, onChange]);
 
   return (
-    <div className="slider-range__container">
+    <div className={containerClass}>
       <input
         type="range"
         min={min}
@@ -84,11 +90,11 @@ export const Range: FC<MultiRangeSliderProps> = ({ min, max, onChange }) => {
         }}
         className="thumb thumb__zindex-4"
       />
-      <div className="slider-range">
-        <div className="slider-range__track"></div>
-        <div ref={range} className="slider-range__range"></div>
+      <div className={viewRangeClass}>
+        <div className={rangeTrackClass}></div>
+        <div ref={range} className={rangeClass}></div>
       </div>
-      <div className="slider-range__result">
+      <div className={resultBoxClass}>
         <div>{minVal + ' $'}</div>
         <div>{maxVal + ' $'}</div>
       </div>
