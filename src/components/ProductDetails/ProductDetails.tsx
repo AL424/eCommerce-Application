@@ -104,21 +104,23 @@ export const ProductDetails = () => {
       {product ? (
         <div className="product__wrapper">
           <div className="product__slider">
-            <Slider
-              {...largeSliderSettings}
-              ref={(slider) => (largeSliderRef.current = slider)}
-            >
-              {product.masterVariant.images?.map((image, index) => (
-                <div key={index}>
-                  <img
-                    src={image.url}
-                    alt={image.label}
-                    style={{ width: '350px', height: '350px' }}
-                    onClick={() => handleImageClick(image.url, index)}
-                  />
-                </div>
-              ))}
-            </Slider>
+            {imageUrls[0] && (
+              <Slider
+                {...largeSliderSettings}
+                ref={(slider) => (largeSliderRef.current = slider)}
+              >
+                {product.masterVariant.images?.map((image, index) => (
+                  <div key={index}>
+                    <img
+                      src={image.url}
+                      alt={image.label}
+                      style={{ width: '350px', height: '350px' }}
+                      onClick={() => handleImageClick(image.url, index)}
+                    />
+                  </div>
+                ))}
+              </Slider>
+            )}
             {modalOpen && (
               <Modal
                 images={imageUrls}
@@ -128,22 +130,24 @@ export const ProductDetails = () => {
               />
             )}
             {product.masterVariant.images &&
-            product.masterVariant.images.length > 1 ? (
-              <Slider
-                {...smallSliderSettings}
-                ref={(slider) => (smallSliderRef.current = slider)}
-              >
-                {product.masterVariant.images?.map((image, index) => (
-                  <div key={index}>
-                    <img
-                      src={image.url}
-                      alt={image.label}
-                      style={{ width: '100px', height: '100px' }}
-                    />
-                  </div>
-                ))}
-              </Slider>
-            ) : null}
+            product.masterVariant.images.length > 1
+              ? imageUrls[0] && (
+                  <Slider
+                    {...smallSliderSettings}
+                    ref={(slider) => (smallSliderRef.current = slider)}
+                  >
+                    {product.masterVariant.images?.map((image, index) => (
+                      <div key={index}>
+                        <img
+                          src={image.url}
+                          alt={image.label}
+                          style={{ width: '100px', height: '100px' }}
+                        />
+                      </div>
+                    ))}
+                  </Slider>
+                )
+              : null}
           </div>
           <div className="product__info">
             <h2>{product.name['en-US'] || 'Best product'}</h2>
