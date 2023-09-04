@@ -31,7 +31,7 @@ export const CatalogPage = (): React.JSX.Element => {
   const [sortValue, setSortValue] = useState(`name.${languages.en} asc`);
   const [searchString, setSearchString] = useState('');
   const [keyForm, setKeyForm] = useState(Date.now());
-  let priceRange = '0 to 100000';
+  let priceRange = '0 to 1000';
 
   useEffect(() => {
     const getData = setTimeout(() => {
@@ -100,7 +100,7 @@ export const CatalogPage = (): React.JSX.Element => {
             </fieldset>
             <fieldset>
               <legend>Price</legend>
-              <Range min={0} max={10000} onChange={getPriceRange} />
+              <Range min={0} max={1000} onChange={getPriceRange} />
             </fieldset>
             <input type="reset" className={buttonClass} value={'Reset'} />
           </form>

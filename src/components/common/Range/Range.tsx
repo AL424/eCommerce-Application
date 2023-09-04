@@ -89,8 +89,8 @@ export const Range: FC<MultiRangeSliderProps> = ({ min, max, onChange }) => {
         <div ref={range} className="slider-range__range"></div>
       </div>
       <div className="slider-range__result">
-        <div>{minVal}</div>
-        <div>{maxVal}</div>
+        <div>{minVal + ' $'}</div>
+        <div>{maxVal + ' $'}</div>
       </div>
     </div>
   );
