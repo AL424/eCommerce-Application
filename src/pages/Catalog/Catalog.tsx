@@ -37,22 +37,23 @@ export const CatalogPage = (): React.JSX.Element => {
   // Работа с категориями
   const [activeCategory, setActiveCategory] = useState('');
 
-  const getProducts = (): void => {
-    getProductsByFilter(
-      activeCategory,
-      priceRange,
-      sortValue,
-      searchString
-    ).then((data) => setProductsData(data.body.results));
-  };
-  useEffect(getProducts, [activeCategory, sortValue, searchString, priceRange]);
   useEffect(() => {
-    getProducts();
+    const getData = setTimeout(() => {
+      getProductsByFilter(
+        activeCategory,
+        priceRange,
+        sortValue,
+        searchString
+      ).then((data) => setProductsData(data.body.results));
+    }, 100);
+    return () => clearTimeout(getData);
+  }, [activeCategory, sortValue, searchString, priceRange]);
+
+  useEffect(() => {
     getCategories().then((data) => {
       console.log('categories', data.body.results);
       setCategoriesData(data.body.results);
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const getPriceRange = ({ min, max }: { min: number; max: number }) => {
@@ -85,19 +86,6 @@ export const CatalogPage = (): React.JSX.Element => {
           <div className={filterClass}>
             <h3>Filters</h3>
             <form onReset={resetForm} key={keyForm}>
-              <fieldset>
-                <legend>Categories</legend>
-                {categoriesData.map((category, index) => (
-                  <label htmlFor={category.id} key={index}>
-                    <input
-                      type="checkbox"
-                      name={category.name[languages.en]}
-                      id={category.id}
-                    />
-                    {category.name[languages.en]}
-                  </label>
-                ))}
-              </fieldset>
               <fieldset>
                 <legend>Price</legend>
                 <Range min={0} max={10} onChange={getPriceRange} />
