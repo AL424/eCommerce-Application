@@ -89,10 +89,10 @@ export const ProductDetails = () => {
 
   const smallSliderSettings: Settings = {
     dots: false,
-    infinite: true,
+    infinite: imageUrls.length > 3 ? true : false,
     arrows: false,
     speed: 500,
-    slidesToShow: 3,
+    slidesToShow: Math.min(imageUrls.length, 3),
     slidesToScroll: 1,
     focusOnSelect: true,
     className: '.smallSlider',
