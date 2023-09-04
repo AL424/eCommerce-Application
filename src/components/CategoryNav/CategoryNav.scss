@@ -1,0 +1,33 @@
+.category {
+  &__title {
+    text-align: start;
+  }
+
+  ul {
+    padding: 0;
+    list-style: none;
+  }
+
+  li {
+    text-align: start;
+    margin: 0.5em 0;
+    border-bottom: solid 1px rgba($color: #000000, $alpha: 0);
+    cursor: pointer;
+    transition: all 0.5s;
+
+    &:hover {
+      color: var(--active-color);
+      border-bottom: solid 1px var(--active-color);
+    }
+  }
+
+  .category__item_active {
+    cursor: auto;
+    color: var(--active-color);
+    border-bottom: solid 1px var(--active-color);
+  }
+
+  li + ul {
+    margin-left: 15px;
+  }
+}
