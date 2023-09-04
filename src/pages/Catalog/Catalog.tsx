@@ -31,20 +31,21 @@ export const CatalogPage = (): React.JSX.Element => {
   const [sortValue, setSortValue] = useState(`name.${languages.en} asc`);
   const [searchString, setSearchString] = useState('');
   const [keyForm, setKeyForm] = useState(Date.now());
-  let priceRange = '0 to 100000';
+  let priceRange = '0 to 1000';
 
-  const getProducts = (): void => {
-    getProductsByFilter(filterData, priceRange, sortValue, searchString).then(
-      (data) => setProductsData(data.body.results)
-    );
-  };
-  useEffect(getProducts, [filterData, sortValue, searchString, priceRange]);
   useEffect(() => {
-    getProducts();
+    const getData = setTimeout(() => {
+      getProductsByFilter(filterData, priceRange, sortValue, searchString).then(
+        (data) => setProductsData(data.body.results)
+      );
+    }, 100);
+    return () => clearTimeout(getData);
+  }, [filterData, sortValue, searchString, priceRange]);
+
+  useEffect(() => {
     getCategories().then((data) => {
       setCategoriesData(data.body.results);
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const getFilterData = (event: React.FormEvent<HTMLFormElement>): void => {
@@ -99,7 +100,7 @@ export const CatalogPage = (): React.JSX.Element => {
             </fieldset>
             <fieldset>
               <legend>Price</legend>
-              <Range min={0} max={10000} onChange={getPriceRange} />
+              <Range min={0} max={1000} onChange={getPriceRange} />
             </fieldset>
             <input type="reset" className={buttonClass} value={'Reset'} />
           </form>
