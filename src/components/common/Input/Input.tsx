@@ -14,6 +14,7 @@ interface InputProps {
   value?: string;
   formDisabled?: boolean;
   onInput?: () => void;
+  id?: string;
 }
 
 const Input: React.FC<InputProps> = ({
@@ -23,13 +24,17 @@ const Input: React.FC<InputProps> = ({
   inputProps,
   error,
   formDisabled,
+  id,
   onInput
 }) => {
   return (
     <div>
-      <label className={labelClass}>{label}</label>
+      <label htmlFor={id} className={labelClass}>
+        {label}
+      </label>
       <div>
         <input
+          id={id}
           className={inputClass}
           type={type}
           placeholder={placeholder}
