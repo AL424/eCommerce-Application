@@ -32,7 +32,7 @@ export const CatalogPage = (): React.JSX.Element => {
   const [sortValue, setSortValue] = useState(`name.${languages.en} asc`);
   const [searchString, setSearchString] = useState('');
   const [keyForm, setKeyForm] = useState(Date.now());
-  let priceRange = '0 to 100000';
+  const [priceRange, setPriceRange] = useState('0 to 100000');
 
   // Работа с категориями
   const [activeCategory, setActiveCategory] = useState('');
@@ -56,7 +56,7 @@ export const CatalogPage = (): React.JSX.Element => {
   }, []);
 
   const getPriceRange = ({ min, max }: { min: number; max: number }) => {
-    priceRange = `${min * 100} to ${max * 100}`;
+    setPriceRange(`${min * 100} to ${max * 100}`);
   };
 
   const resetForm = (event: React.FormEvent<HTMLFormElement>): void => {
