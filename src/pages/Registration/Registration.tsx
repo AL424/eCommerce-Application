@@ -4,6 +4,7 @@ import RegistrationForm from '../../components/forms/Registration/RegisrationFor
 import { Route } from '../../Router/Router';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../services/store/store';
+import { Breadcrumb } from '../../components/LocationPages/Breadcrumb';
 
 const containerClass = 'registration-page';
 const descriptionClass = 'description-message';
@@ -17,11 +18,14 @@ export function Registration() {
   });
   if (auth) return null;
   return (
-    <div className={containerClass}>
-      <RegistrationForm />
-      <p className={descriptionClass}>
-        Already have an account?<Link to={Route.login}>Sign in</Link>{' '}
-      </p>
-    </div>
+    <>
+      <Breadcrumb />
+      <div className={containerClass}>
+        <RegistrationForm />
+        <p className={descriptionClass}>
+          Already have an account?<Link to={Route.login}>Sign in</Link>{' '}
+        </p>
+      </div>
+    </>
   );
 }
