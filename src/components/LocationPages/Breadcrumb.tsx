@@ -12,7 +12,6 @@ export const Breadcrumb = ({
 }): React.JSX.Element => {
   const path = window.location.pathname.split('/').splice(1);
   const currentPage = path.splice(-1);
-  console.log(currentPage, path);
   return (
     <ul className={containerClass}>
       <li className={linkClass}>
