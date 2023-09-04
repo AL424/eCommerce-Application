@@ -6,10 +6,8 @@ export const getApiRoot = (): ByProjectKeyRequestBuilder => {
   const customerId = LocalStorage.get('customer-id');
   if (customerId) {
     const apiRoot = createApiRoot(ctpClient);
-    console.log('Создается клиент использующий токены');
     return apiRoot;
   }
   const apiRoot = createApiRoot(ctpAnonymClient);
-  console.log('Создается анонимный клиент');
   return apiRoot;
 };

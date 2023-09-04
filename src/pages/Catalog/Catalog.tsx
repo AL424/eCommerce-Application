@@ -52,7 +52,6 @@ export const CatalogPage = (): React.JSX.Element => {
 
   useEffect(() => {
     getCategories().then((data) => {
-      console.log('categories', data.body.results);
       setCategoriesData(data.body.results);
     });
   }, []);

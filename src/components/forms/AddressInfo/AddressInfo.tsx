@@ -178,7 +178,6 @@ export const AddressInfo: React.FC<AddressInfoProps> = ({
 
     const response = await customerUpdate(dataChange);
     if (typeof response === 'string') {
-      console.log(response);
       toast.error(response);
       onCancel();
     } else {
