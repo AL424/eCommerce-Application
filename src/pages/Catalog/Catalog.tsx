@@ -7,8 +7,9 @@ import {
 import { Category, ProductProjection } from '@commercetools/platform-sdk';
 import { ProductCard } from '../../components/ProductCard/ProductCard';
 import { Range } from '../../components/common/Range/Range';
-import { Breadcrumb } from '../../components/LocationPages/Breadcrumb';
+// import { Breadcrumb } from '../../components/LocationPages/Breadcrumb';
 import { CategoryNav } from '../../components/CategoryNav/CategoryNav';
+import { CategoryBreadcrumb } from '../../components/CategoryNav/CategoryBreadcrumb';
 
 const containerClass = 'catalog';
 const filterClass = 'catalog__filter';
@@ -32,7 +33,7 @@ export const CatalogPage = (): React.JSX.Element => {
   const [sortValue, setSortValue] = useState(`name.${languages.en} asc`);
   const [searchString, setSearchString] = useState('');
   const [keyForm, setKeyForm] = useState(Date.now());
-  const [priceRange, setPriceRange] = useState('0 to 100000');
+  const [priceRange, setPriceRange] = useState('0 to 10');
 
   // Работа с категориями
   const [activeCategory, setActiveCategory] = useState('');
@@ -75,7 +76,12 @@ export const CatalogPage = (): React.JSX.Element => {
 
   return (
     <>
-      <Breadcrumb />
+      {/*<Breadcrumb />*/}
+      <CategoryBreadcrumb
+        categories={categoriesData}
+        activeCategory={activeCategory}
+        setActiveCategory={setActiveCategory}
+      />
       <div className={containerClass}>
         <aside>
           <CategoryNav
