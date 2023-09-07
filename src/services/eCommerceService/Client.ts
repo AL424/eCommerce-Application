@@ -1,5 +1,5 @@
-import { CustomerDraft, CustomerSignin } from '@commercetools/platform-sdk';
 import { getApiRoot } from './ApiRoot';
+// import { ProductDraft } from '@commercetools/platform-sdk';
 
 // Example call to return Product list
 export const getProducts = () => {
@@ -13,38 +13,47 @@ export const getProducts = () => {
     .catch(console.error);
 };
 
-// singin
-// Добавить функцию для выполнения входа в систему
-export const singin = async (dataCustomer: CustomerSignin) => {
-  try {
-    const resp = await getApiRoot()
-      .login()
-      .post({
-        body: dataCustomer
-      })
-      .execute();
-    const data = resp.body;
-    const customerId = data.customer.id;
-    return customerId;
-  } catch (err) {
-    // console.log(err);
-  }
+// Получить продукт по его Id
+export const getProductById = (productId: string) => {
+  return getApiRoot()
+    .productProjections()
+    .withId({ ID: productId })
+    .get()
+    .execute()
+    .then(({ body }) => {
+      // console.log(JSON.stringify(body));
+      return JSON.stringify(body);
+    })
+    .catch(console.error);
 };
 
-// create user
-// Добавить функцию для выполнения входа в систему
-export const singup = async (dataCust: CustomerDraft) => {
+export const getCategoryById = (productId: string) => {
+  return getApiRoot()
+    .categories()
+    .withId({ ID: productId })
+    .get()
+    .execute()
+    .then(({ body }) => {
+      // console.log(JSON.stringify(body));
+      return JSON.stringify(body);
+    })
+    .catch(console.error);
+};
+// Проверить наличие продукта по Id
+export const checkProductExists = async (
+  productId: string
+): Promise<boolean> => {
   try {
-    const resp = await getApiRoot()
-      .customers()
-      .post({ body: dataCust })
-      .execute();
-
-    const data = resp.body;
-    const customerId = data.customer.id;
-    return customerId;
-  } catch (err) {
-    // console.log(err);
+    const response = await getApiRoot()
+      .productProjections()
+      .withId({ ID: productId })
+      .get();
+    return (await response.execute()).statusCode === 200;
+  } catch (error) {
+    if (error) {
+      return false;
+    }
+    throw error;
   }
 };
 

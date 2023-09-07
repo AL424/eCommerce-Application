@@ -5,9 +5,8 @@ import { passwordValidation } from '../../../utils/validation/passwordValidation
 import Input from '../../common/Input/Input';
 import PasswordField from '../../common/PasswordInput/PasswordInput';
 
-import { singin } from '../../../services/eCommerceService/Client';
+import { singin } from '../../../services/eCommerceService/Customer';
 import { CustomerSignin } from '@commercetools/platform-sdk';
-import { LocalStorage } from '../../../services/localStorage/LocalStorage.service';
 import { useDispatch } from 'react-redux';
 import { authOn } from '../../../services/store/authSlice';
 import { modalLoginOn } from '../../../services/store/modalLoginSlice';
@@ -37,9 +36,8 @@ const LoginForm: React.FC = () => {
 
   const onSubmit: SubmitHandler<CustomerSignin> = async (data) => {
     setFormDisabled(true);
-    const customerId = await singin(data);
-    if (customerId) {
-      LocalStorage.set('customer-id', customerId);
+    const customer = await singin(data);
+    if (customer) {
       dispatch(authOn());
       dispatch(modalLoginOn());
     } else {
@@ -67,6 +65,7 @@ const LoginForm: React.FC = () => {
         error={errors.email}
         formDisabled={formDisabled}
         onInput={onInput}
+        id="email"
       />
 
       <PasswordField
@@ -76,6 +75,7 @@ const LoginForm: React.FC = () => {
         error={errors.password}
         formDisabled={formDisabled}
         onInput={onInput}
+        id="password"
       />
 
       {/* <label>Confirm Password</label>

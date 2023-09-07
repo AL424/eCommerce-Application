@@ -9,12 +9,14 @@ type SelectFieldProps = {
   label: string;
   options: string[];
   registerProps: UseFormRegisterReturn;
+  defaultValue?: string;
 };
 
 const Select: React.FC<SelectFieldProps> = ({
   label,
   options,
-  registerProps
+  registerProps,
+  defaultValue
 }) => (
   <>
     <label className={labelClass}>{label}</label>
@@ -23,6 +25,7 @@ const Select: React.FC<SelectFieldProps> = ({
       name={registerProps.name}
       ref={registerProps.ref}
       onChange={registerProps.onChange}
+      defaultValue={defaultValue}
     >
       {options.map((option) => (
         <option key={option} value={option}>

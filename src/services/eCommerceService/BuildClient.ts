@@ -85,8 +85,8 @@ const anonymOptions: AnonymousAuthMiddlewareOptions = {
     clientSecret: clientSecret
   },
   scopes: scopes,
-  fetch,
-  tokenCache: tokenCache
+  fetch
+  // tokenCache: tokenCache
 };
 
 export const ctpAnonymClient = new ClientBuilder()

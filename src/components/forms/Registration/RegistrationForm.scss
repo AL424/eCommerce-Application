@@ -20,6 +20,18 @@
 .addressSettings {
   color: white;
   margin-bottom: 0.5em;
+
+  input,
+  label {
+    cursor: pointer;
+  }
+
+  input:disabled {
+    cursor: auto;
+
+    & + label {
+      cursor: auto;
+      opacity: 0.3;
+    }
+  }
 }
-
-
