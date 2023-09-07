@@ -4,7 +4,6 @@ import {
   getProductById
 } from '../../services/eCommerceService/Client';
 import { ProductData, Category } from '@commercetools/platform-sdk';
-// import { checkProductExists } from '../../services/eCommerceService/Client';
 import Slider, { Settings } from 'react-slick';
 import Modal from '../common/Modal/Modal';
 import formatCurrency from '../../utils/helpers/currency.helpers';
@@ -13,20 +12,10 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import './ProductDetails.scss';
 
-// const id = '12236346-a8dd-40b5-ba11-6077e197f5e0'; // test 1 underpants
-// const id = '30eb4525-39a5-4982-b4ab-9b0ea5c7c5a1'; // test 2 stickers Sloths
-
-// const check = async () => {
-//   const exists = await checkProductExists(id);
-//   console.log('Product exists: ', exists);
-// };
-// check();
-
 export const ProductDetails = () => {
   const { id } = useParams();
   const [product, setProduct] = useState<ProductData | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
-  // const [selectedImage, setSelectedImage] = useState('');
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [imageUrls, setImageUrls] = useState<string[]>([]);
   const [productCategory, setProductCategory] = useState<Category | null>(null);
@@ -35,7 +24,6 @@ export const ProductDetails = () => {
   const smallSliderRef = useRef<Slider | null>(null);
 
   const handleImageClick = (imageUrl: string, index: number) => {
-    // setSelectedImage(imageUrl);
     setSelectedImageIndex(index);
     setModalOpen(true);
   };
@@ -52,7 +40,7 @@ export const ProductDetails = () => {
           console.error('Error occurred:', error);
         });
     }
-  }, [id]); // routeProductId
+  }, [id]);
 
   useEffect(() => {
     if (product) {
@@ -124,7 +112,6 @@ export const ProductDetails = () => {
             {modalOpen && (
               <Modal
                 images={imageUrls}
-                // imageUrl={selectedImage}
                 selectedImageIndex={selectedImageIndex}
                 onClick={() => setModalOpen(false)}
               />
@@ -157,11 +144,9 @@ export const ProductDetails = () => {
                 Category:{' '}
                 {productCategory?.name['en-US'] || 'Product without category'}
               </p>
-              {/* <p>SKU: {product.masterVariant.sku}</p> */}
               {product.masterVariant.prices?.map((price, index) => (
                 <div key={index}>
                   <p>
-                    {/* Main price */}
                     Price:{' '}
                     <span
                       className={
@@ -177,7 +162,6 @@ export const ProductDetails = () => {
 
                   {price.discounted && (
                     <p>
-                      {/* Discounted price */}
                       Discounted Price:{' '}
                       <span className="discounted-price">
                         {formatCurrency(
@@ -190,7 +174,6 @@ export const ProductDetails = () => {
 
                   {price.tiers?.map((tier, tierIndex) => (
                     <p key={tierIndex}>
-                      {/* Wholesale price */}
                       Tier {tierIndex + 1}:{' '}
                       {formatCurrency(
                         tier.value.centAmount / 100,
