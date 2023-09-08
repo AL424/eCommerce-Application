@@ -20,7 +20,6 @@ import { CustomerDraft } from '@commercetools/platform-sdk';
 import { useDispatch } from 'react-redux';
 import { authOn } from '../../../services/store/authSlice';
 import { modalRegOn } from '../../../services/store/modalRegSlice';
-import { LocalStorage } from '../../../services/localStorage/LocalStorage.service';
 
 const buttonClass = 'button';
 const inputClass = 'form-input';
@@ -45,8 +44,6 @@ const RegistrationForm: React.FC = () => {
   });
 
   const onSubmit: SubmitHandler<CustomerDraft> = async (data) => {
-    const cartId = LocalStorage.get('cart-id');
-
     const registrationData: CustomerDraft = {
       ...data,
       defaultShippingAddress: defaultShippingAddress ? 0 : undefined,
@@ -56,8 +53,7 @@ const RegistrationForm: React.FC = () => {
         : [0],
       billingAddresses: data.billingAddresses
         ? [...data.billingAddresses, 1]
-        : [1],
-      anonymousCartId: cartId ? cartId : undefined
+        : [1]
     };
 
     const customer = await singup(registrationData);
