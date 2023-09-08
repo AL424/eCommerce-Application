@@ -1,6 +1,6 @@
 import React from 'react';
 import { RootState } from '../../services/store/store';
-import { useSelector } from 'react-redux';
+import { useAppSelector } from '../../services/store/hooks';
 import { LogOut } from '../Logout/Logout';
 import { LogIn } from '../LogIn/LogIn';
 import { Menu } from '../Menu/Menu';
@@ -14,7 +14,7 @@ const linkClass = 'menu__link';
 const buttonClass = 'button';
 
 export const MobileMenu: React.FC = () => {
-  const auth = useSelector((state: RootState) => state.auth.value);
+  const auth = useAppSelector((state: RootState) => state.auth.value);
   const closeHandle = (event: React.MouseEvent) => {
     const element = event.target;
 

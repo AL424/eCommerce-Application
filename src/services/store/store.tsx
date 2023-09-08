@@ -2,25 +2,9 @@ import { configureStore } from '@reduxjs/toolkit';
 import authReducer from './authSlice';
 import modalLoginReducer from './modalLoginSlice';
 import modalRegReducer from './modalRegSlice';
-import { Cart } from '@commercetools/platform-sdk';
 import cartSlice from './cartSlice';
 
-export interface RootState {
-  auth: {
-    value: boolean;
-  };
-  modalLogin: {
-    active: boolean;
-  };
-  modalReg: {
-    active: boolean;
-  };
-  cartData: {
-    value: Cart;
-  };
-}
-
-export default configureStore({
+const store = configureStore({
   reducer: {
     auth: authReducer,
     modalLogin: modalLoginReducer,
@@ -28,3 +12,7 @@ export default configureStore({
     cartData: cartSlice
   }
 });
+
+export default store;
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;

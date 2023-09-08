@@ -7,7 +7,6 @@ import {
 import { Category, ProductProjection } from '@commercetools/platform-sdk';
 import { ProductCard } from '../../components/ProductCard/ProductCard';
 import { Range } from '../../components/common/Range/Range';
-// import { Breadcrumb } from '../../components/LocationPages/Breadcrumb';
 import { CategoryNav } from '../../components/CategoryNav/CategoryNav';
 import { CategoryBreadcrumb } from '../../components/CategoryNav/CategoryBreadcrumb';
 import { useNavigate } from 'react-router-dom';
@@ -85,7 +84,6 @@ export const CatalogPage = (): React.JSX.Element => {
 
   return (
     <>
-      {/*<Breadcrumb />*/}
       <CategoryBreadcrumb
         categories={categoriesData}
         activeCategory={activeCategory}

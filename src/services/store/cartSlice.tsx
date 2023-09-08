@@ -1,11 +1,13 @@
 import { Cart } from '@commercetools/platform-sdk';
 import { createSlice } from '@reduxjs/toolkit';
 
+const initialState: { value: Cart | null } = {
+  value: null
+};
+
 export const cartSlice = createSlice({
   name: 'cartData',
-  initialState: {
-    value: {}
-  },
+  initialState,
   reducers: {
     setCartData: (
       state,
@@ -17,7 +19,7 @@ export const cartSlice = createSlice({
       state.value = action.payload;
     },
     resetCartData: (state) => {
-      state.value = {};
+      state.value = null;
     }
   }
 });
