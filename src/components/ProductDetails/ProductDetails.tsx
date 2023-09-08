@@ -6,6 +6,7 @@ import {
 import { ProductData, Category } from '@commercetools/platform-sdk';
 import Slider, { Settings } from 'react-slick';
 import Modal from '../common/Modal/Modal';
+import { Button } from '../buttons/button';
 import formatCurrency from '../../utils/helpers/currency.helpers';
 import { useParams } from 'react-router-dom';
 import 'slick-carousel/slick/slick.css';
@@ -63,6 +64,10 @@ export const ProductDetails = () => {
       return;
     }
   }, [product]);
+
+  const handleButtonClick = () => {
+    console.log('Added to Cart');
+  };
 
   const largeSliderSettings: Settings = {
     dots: false,
@@ -184,6 +189,7 @@ export const ProductDetails = () => {
                   ))}
                 </div>
               ))}
+              <Button title={'🛒'} onClick={handleButtonClick} />
             </div>
             {/* {product.variants.map((variant) => (
               <div key={variant.id}>

@@ -23,7 +23,7 @@ export const ProductCard: React.FC<{ data: ProductProjection }> = ({
   };
 
   const handleButtonClick = () => {
-    console.log('Added to Card');
+    console.log('Added to Cart');
   };
 
   const imgUrl = data.masterVariant.images;
