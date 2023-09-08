@@ -1,5 +1,6 @@
 import { FetchError } from 'node-fetch';
 import { getApiRoot } from './ApiRoot';
+import { LocalStorage } from '../localStorage/LocalStorage.service';
 
 // обе функции создают корзину для авторизированных не авторизированных пользователей
 // без endpoin me не удается привязать к customer при входе или регистрации
@@ -27,6 +28,11 @@ export const createMyCart = async () => {
       .execute();
 
     const cart = response.body;
+
+    // при анонимном сознании корзины сохраняю ее id в LS
+    const customerId = cart.customerId;
+    if (!customerId) LocalStorage.set('cart-id', cart.id);
+
     return cart;
   } catch (err) {
     const error = err as FetchError;

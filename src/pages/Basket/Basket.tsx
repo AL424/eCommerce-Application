@@ -4,7 +4,6 @@ import { Breadcrumb } from '../../components/LocationPages/Breadcrumb';
 import { Button } from '../../components/buttons/button';
 import { Cart } from '@commercetools/platform-sdk';
 import {
-  createCart,
   createMyCart,
   getCartById,
   getMyActiveCart,
@@ -16,27 +15,12 @@ export const Basket = () => {
   const [cart, setCart] = useState({} as Cart);
   const [error, setError] = useState('');
 
-  const onCreateCart = async () => {
-    const resp = await createCart();
-    if (typeof resp === 'string') {
-      setError(resp);
-    } else {
-      setCart(resp);
-      const anonymousId = resp.lastModifiedBy?.anonymousId;
-      if (anonymousId) LocalStorage.set('anonymous-id', anonymousId);
-      LocalStorage.set('cart-id', resp.id);
-    }
-  };
-
   const onCreateMyCart = async () => {
     const resp = await createMyCart();
     if (typeof resp === 'string') {
       setError(resp);
     } else {
       setCart(resp);
-      const anonymousId = resp.lastModifiedBy?.anonymousId;
-      if (anonymousId) LocalStorage.set('anonymous-id', anonymousId);
-      LocalStorage.set('cart-id', resp.id);
     }
   };
 
@@ -66,7 +50,6 @@ export const Basket = () => {
     if (typeof resp === 'string') {
       setError(resp);
     } else {
-      // setCart(resp);
       console.log(resp);
     }
   };
@@ -76,7 +59,6 @@ export const Basket = () => {
       <Breadcrumb />
       <div className="basket-page">
         <h1>Basket</h1>
-        <Button title="Create cart" onClick={onCreateCart} />
         <Button title="Create my cart" onClick={onCreateMyCart} />
         <Button title="Get my active cart" onClick={onGetCart} />
         <Button title="Get cart by id" onClick={onGetCartById} />
