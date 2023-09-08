@@ -17,19 +17,13 @@ export const getMe = async (api: ByProjectKeyRequestBuilder) => {
 
 export const singin = async (dataCustomer: CustomerSignin) => {
   try {
-    await getApiRoot()
-      .login()
-      .post({
-        body: dataCustomer
-      })
-      .execute();
-
     const apiRoot = createApiRoot(createPasswordFlowClient(dataCustomer));
     const customer = await getMe(apiRoot);
     LocalStorage.set('customer-id', customer.id);
     return customer;
   } catch (err) {
-    console.log(err);
+    const error = err as FetchError;
+    return error.message;
   }
 };
 
@@ -45,7 +39,8 @@ export const singup = async (dataCust: CustomerDraft) => {
 
     return customer;
   } catch (err) {
-    console.log(err);
+    const error = err as FetchError;
+    return error.message;
   }
 };
 
