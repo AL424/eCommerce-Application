@@ -10,6 +10,7 @@ import { CustomerSignin } from '@commercetools/platform-sdk';
 import { useDispatch } from 'react-redux';
 import { authOn } from '../../../services/store/authSlice';
 import { modalLoginOn } from '../../../services/store/modalLoginSlice';
+import { LocalStorage } from '../../../services/localStorage/LocalStorage.service';
 
 const buttonClass = 'button';
 const inputClass = 'form-input';
@@ -35,14 +36,19 @@ const LoginForm: React.FC = () => {
   });
 
   const onSubmit: SubmitHandler<CustomerSignin> = async (data) => {
+    const cartId = LocalStorage.get('cart-id');
+    const dataReq: CustomerSignin = {
+      ...data,
+      anonymousCartId: cartId ? cartId : undefined
+    };
     setFormDisabled(true);
-    const customer = await singin(data);
-    if (customer) {
-      dispatch(authOn());
-      dispatch(modalLoginOn());
-    } else {
+    const customer = await singin(dataReq);
+    if (typeof customer === 'string') {
       setLoginError(true);
       setFormDisabled(false);
+    } else {
+      dispatch(authOn());
+      dispatch(modalLoginOn());
     }
   };
 
