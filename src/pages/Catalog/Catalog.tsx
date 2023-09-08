@@ -78,7 +78,8 @@ export const CatalogPage = (): React.JSX.Element => {
   const goToProductCard = (event: React.MouseEvent) => {
     if (event.target instanceof HTMLElement) {
       const id = event.target.closest('.card')?.getAttribute('id');
-      navigate(id as string);
+
+      if (typeof id === 'string') navigate(id);
     }
   };
 
