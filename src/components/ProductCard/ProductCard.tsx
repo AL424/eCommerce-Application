@@ -20,8 +20,8 @@ export const ProductCard: React.FC<{ data: ProductProjection }> = ({
     en: 'en-US'
   };
 
-  const handleButtonClick = () => {
-    console.log('Added to Cart');
+  const handleButtonClick = (id: string) => {
+    console.log(`Added to Cart: ${id}`);
   };
 
   const imgUrl = data.masterVariant.images;
@@ -52,7 +52,7 @@ export const ProductCard: React.FC<{ data: ProductProjection }> = ({
             <span className={discond ? oldPriceClass : ''}>{price}</span>
             {discond && <span>{discond}</span>}
           </p>
-          <Button title="🛒" onClick={handleButtonClick} />
+          <Button title="🛒" onClick={() => handleButtonClick(data.id)} />
         </div>
         <p className={descpiptionClass}>
           {decription && decription[languages.en]}

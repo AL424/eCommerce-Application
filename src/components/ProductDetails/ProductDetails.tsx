@@ -66,7 +66,7 @@ export const ProductDetails = () => {
   }, [product]);
 
   const handleButtonClick = () => {
-    console.log('Added to Cart');
+    console.log(`Added to Cart: ${id}`);
   };
 
   const largeSliderSettings: Settings = {
