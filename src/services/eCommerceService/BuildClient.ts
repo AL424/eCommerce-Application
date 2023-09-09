@@ -13,17 +13,15 @@ import {
 } from '@commercetools/platform-sdk';
 import { tokenCache } from './TokenCache';
 
-const host = 'https://auth.europe-west1.gcp.commercetools.com';
-const projectKey = 'ecommerce-app-simple-team';
-const clientId = 'nfH_u7LehT_5nKI_kXKr8lab';
-const clientSecret = 'yHLK9I3Qcp-8dkaMgHonTJe6zPsad3MA';
-const scopes = [
-  'manage_customers:ecommerce-app-simple-team manage_orders:ecommerce-app-simple-team manage_my_profile:ecommerce-app-simple-team view_published_products:ecommerce-app-simple-team manage_discount_codes:ecommerce-app-simple-team manage_my_payments:ecommerce-app-simple-team create_anonymous_token:ecommerce-app-simple-team manage_my_orders:ecommerce-app-simple-team manage_my_quotes:ecommerce-app-simple-team view_categories:ecommerce-app-simple-team manage_my_quote_requests:ecommerce-app-simple-team view_products:ecommerce-app-simple-team manage_my_shopping_lists:ecommerce-app-simple-team manage_my_business_units:ecommerce-app-simple-team'
-];
+const host = process.env.REACT_APP_CTP_AUTH_URL || '';
+const projectKey = process.env.REACT_APP_CTP_PROJECT_KEY || '';
+const clientId = process.env.REACT_APP_CTP_CLIENT_ID || '';
+const clientSecret = process.env.REACT_APP_CTP_CLIENT_SECRET || '';
+const scopes = [process.env.REACT_APP_CTP_SCOPES || ''];
 
 // Configure httpMiddlewareOptions
 const httpMiddlewareOptions: HttpMiddlewareOptions = {
-  host: 'https://api.europe-west1.gcp.commercetools.com',
+  host: process.env.REACT_APP_CTP_API_URL || '',
   fetch
 };
 
