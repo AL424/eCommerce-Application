@@ -17,9 +17,9 @@ import citiesByCountry from '../../../utils/constants/countries.constants';
 
 import './RegistrationForm.scss';
 import { CustomerDraft } from '@commercetools/platform-sdk';
-import { useDispatch } from 'react-redux';
 import { authOn } from '../../../services/store/authSlice';
 import { modalRegOn } from '../../../services/store/modalRegSlice';
+import { useAppDispatch } from '../../../services/store/hooks';
 
 const buttonClass = 'button';
 const inputClass = 'form-input';
@@ -29,7 +29,7 @@ const RegistrationForm: React.FC = () => {
   const [addressTitle, setAddressTitle] = useState('Shipping Address');
   const [defaultShippingAddress, setDefaultShippingAddress] = useState(false);
   const [defaultBillingAddress, setDefaultBillingAddress] = useState(false);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [registrationError, setRegistrationError] = useState(false);
 
   const {

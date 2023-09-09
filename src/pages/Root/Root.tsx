@@ -4,22 +4,22 @@ import { Header } from '../../components/Header/Header';
 import { Footer } from '../../components/Footer/Footer';
 import { MobileMenu } from '../../components/MobileMenu/MobileMenu';
 import Modal from '../../components/common/Modal/Modal';
-import { useDispatch, useSelector } from 'react-redux';
 import { modalLoginOff } from '../../services/store/modalLoginSlice';
 import { RootState } from '../../services/store/store';
 import { modalRegOff } from '../../services/store/modalRegSlice';
 
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useAppDispatch, useAppSelector } from '../../services/store/hooks';
 
 export function Root() {
-  const modalLoginActive = useSelector(
+  const modalLoginActive = useAppSelector(
     (state: RootState) => state.modalLogin.active
   );
-  const modalRegActive = useSelector(
+  const modalRegActive = useAppSelector(
     (state: RootState) => state.modalReg.active
   );
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   return (
     <>

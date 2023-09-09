@@ -1,8 +1,6 @@
 import React from 'react';
 import './ProductCard.scss';
 import { ProductProjection } from '@commercetools/platform-sdk';
-import { Link } from 'react-router-dom';
-import { Route } from '../../Router/Router';
 
 const containerClass = 'card';
 const productImageClass = 'card__img';
@@ -31,7 +29,7 @@ export const ProductCard: React.FC<{ data: ProductProjection }> = ({
     : null;
 
   return (
-    <Link className={containerClass} to={`${Route.product}/${data.id}`}>
+    <div className={containerClass} id={data.id}>
       <div className={productImageClass}>
         <img
           src={
@@ -50,6 +48,6 @@ export const ProductCard: React.FC<{ data: ProductProjection }> = ({
           {decription && decription[languages.en]}
         </p>
       </div>
-    </Link>
+    </div>
   );
 };
