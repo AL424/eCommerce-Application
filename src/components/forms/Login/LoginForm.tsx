@@ -7,9 +7,9 @@ import PasswordField from '../../common/PasswordInput/PasswordInput';
 
 import { singin } from '../../../services/eCommerceService/Customer';
 import { CustomerSignin } from '@commercetools/platform-sdk';
-import { useDispatch } from 'react-redux';
 import { authOn } from '../../../services/store/authSlice';
 import { modalLoginOn } from '../../../services/store/modalLoginSlice';
+import { useAppDispatch } from '../../../services/store/hooks';
 
 const buttonClass = 'button';
 const inputClass = 'form-input';
@@ -18,7 +18,7 @@ const LoginForm: React.FC = () => {
   // const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [loginError, setLoginError] = useState(false);
   const [formDisabled, setFormDisabled] = useState(false);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   // type LoginInputs = {
   //   email: string;

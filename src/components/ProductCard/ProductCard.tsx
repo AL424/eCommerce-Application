@@ -1,8 +1,6 @@
 import React from 'react';
 import './ProductCard.scss';
 import { ProductProjection } from '@commercetools/platform-sdk';
-import { Link } from 'react-router-dom';
-import { Route } from '../../Router/Router';
 import { Button } from '../buttons/button';
 
 const containerClass = 'card';
@@ -38,39 +36,28 @@ export const ProductCard: React.FC<{ data: ProductProjection }> = ({
     : null;
 
   return (
-    <>
-      {/* <Link className={containerClass} to={`${Route.product}/${data.id}` }> */}
-      <Link
-        className={containerClass}
-        to={`${Route.product}/${data.id}`}
-        onClick={(e) => {
-          if (e.target instanceof HTMLButtonElement) {
-            e.preventDefault();
+    <div className={containerClass} id={data.id}>
+      <div className={productImageClass}>
+        <img
+          src={
+            imgUrl instanceof Array && imgUrl?.length > 0 ? imgUrl[0].url : ''
           }
-        }}
-      >
-        <div className={productImageClass}>
-          <img
-            src={
-              imgUrl instanceof Array && imgUrl?.length > 0 ? imgUrl[0].url : ''
-            }
-            alt={title}
-          />
-        </div>
-        <div className={textContainerClass}>
-          <h4 className={titleClass}>{title}</h4>
-          <div className={buttonContainer}>
-            <p className={priceClass}>
-              <span className={discond ? oldPriceClass : ''}>{price}</span>
-              {discond && <span>{discond}</span>}
-            </p>
-            <Button title={'🛒'} onClick={handleButtonClick} />
-          </div>
-          <p className={descpiptionClass}>
-            {decription && decription[languages.en]}
+          alt={title}
+        />
+      </div>
+      <div className={textContainerClass}>
+        <h4 className={titleClass}>{title}</h4>
+        <div className={buttonContainer}>
+          <p className={priceClass}>
+            <span className={discond ? oldPriceClass : ''}>{price}</span>
+            {discond && <span>{discond}</span>}
           </p>
+          <Button title="🛒" onClick={handleButtonClick} />
         </div>
-      </Link>
-    </>
+        <p className={descpiptionClass}>
+          {decription && decription[languages.en]}
+        </p>
+      </div>
+    </div>
   );
 };
