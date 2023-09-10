@@ -1,6 +1,7 @@
 import React from 'react';
 import './ProductCard.scss';
 import { ProductProjection } from '@commercetools/platform-sdk';
+import { Button } from '../buttons/button';
 
 const containerClass = 'card';
 const productImageClass = 'card__img';
@@ -9,6 +10,7 @@ const titleClass = 'card__title';
 const priceClass = 'card__price';
 const oldPriceClass = 'card__price-old';
 const descpiptionClass = 'card__description';
+const buttonContainer = 'card__addButton';
 
 export const ProductCard: React.FC<{ data: ProductProjection }> = ({
   data
@@ -17,6 +19,11 @@ export const ProductCard: React.FC<{ data: ProductProjection }> = ({
     ru: 'ru',
     en: 'en-US'
   };
+
+  const handleButtonClick = (id: string) => {
+    console.log(`Added to Cart: ${id}`);
+  };
+
   const imgUrl = data.masterVariant.images;
   const title = data.name ? data.name[languages.en] : '';
   const decription = data.description;
@@ -40,10 +47,13 @@ export const ProductCard: React.FC<{ data: ProductProjection }> = ({
       </div>
       <div className={textContainerClass}>
         <h4 className={titleClass}>{title}</h4>
-        <p className={priceClass}>
-          <span className={discond ? oldPriceClass : ''}>{price}</span>
-          {discond && <span>{discond}</span>}
-        </p>
+        <div className={buttonContainer}>
+          <p className={priceClass}>
+            <span className={discond ? oldPriceClass : ''}>{price}</span>
+            {discond && <span>{discond}</span>}
+          </p>
+          <Button title="🛒" onClick={() => handleButtonClick(data.id)} />
+        </div>
         <p className={descpiptionClass}>
           {decription && decription[languages.en]}
         </p>

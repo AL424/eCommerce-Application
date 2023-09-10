@@ -49,8 +49,13 @@
     }
     &__title{
         margin: 1em 0;
+        min-height: 2.3em;
     }
     &__description{
         font-size: .8rem;
+    }
+    &__addButton{
+        display: flex;
+        justify-content: space-between;
     }
 }
