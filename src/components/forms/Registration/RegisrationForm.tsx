@@ -57,11 +57,11 @@ const RegistrationForm: React.FC = () => {
     };
 
     const customer = await singup(registrationData);
-    if (customer) {
+    if (typeof customer === 'string') {
+      setRegistrationError(true);
+    } else {
       dispatch(authOn());
       dispatch(modalRegOn());
-    } else {
-      setRegistrationError(true);
     }
   };
 

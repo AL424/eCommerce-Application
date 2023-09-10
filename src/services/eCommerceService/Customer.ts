@@ -15,37 +15,64 @@ export const getMe = async (api: ByProjectKeyRequestBuilder) => {
   return customer.body;
 };
 
-export const singin = async (dataCustomer: CustomerSignin) => {
+export const singin = async (data: CustomerSignin) => {
   try {
-    await getApiRoot()
+    const apiRoot = createApiRoot(createPasswordFlowClient(data));
+
+    const cartId = LocalStorage.get('cart-id');
+    const dataCustomer: CustomerSignin = {
+      ...data,
+      anonymousCart: cartId
+        ? {
+            id: cartId,
+            typeId: 'cart'
+          }
+        : undefined
+    };
+
+    // без login или при использовании endpoin me не удается привязать анонимную корзину
+    const response = await apiRoot
       .login()
-      .post({
-        body: dataCustomer
-      })
+      .post({ body: dataCustomer })
       .execute();
 
-    const apiRoot = createApiRoot(createPasswordFlowClient(dataCustomer));
-    const customer = await getMe(apiRoot);
+    const customer = response.body.customer;
+    LocalStorage.remove('cart-id');
     LocalStorage.set('customer-id', customer.id);
     return customer;
   } catch (err) {
-    console.log(err);
+    const error = err as FetchError;
+    return error.message;
   }
 };
 
 // create user
-export const singup = async (dataCust: CustomerDraft) => {
+export const singup = async (data: CustomerDraft) => {
   try {
-    await getApiRoot().customers().post({ body: dataCust }).execute();
+    const cartId = LocalStorage.get('cart-id');
+    const dataCustomer: CustomerDraft = {
+      ...data,
+      anonymousCart: cartId
+        ? {
+            id: cartId,
+            typeId: 'cart'
+          }
+        : undefined
+    };
+
+    await getApiRoot().customers().post({ body: dataCustomer }).execute();
+
+    LocalStorage.remove('cart-id');
 
     const customer = await singin({
-      email: dataCust.email,
-      password: dataCust.password ? dataCust.password : ''
+      email: dataCustomer.email,
+      password: dataCustomer.password ? dataCustomer.password : ''
     });
 
     return customer;
   } catch (err) {
-    console.log(err);
+    const error = err as FetchError;
+    return error.message;
   }
 };
 

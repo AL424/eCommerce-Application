@@ -37,12 +37,12 @@ const LoginForm: React.FC = () => {
   const onSubmit: SubmitHandler<CustomerSignin> = async (data) => {
     setFormDisabled(true);
     const customer = await singin(data);
-    if (customer) {
-      dispatch(authOn());
-      dispatch(modalLoginOn());
-    } else {
+    if (typeof customer === 'string') {
       setLoginError(true);
       setFormDisabled(false);
+    } else {
+      dispatch(authOn());
+      dispatch(modalLoginOn());
     }
   };
 
