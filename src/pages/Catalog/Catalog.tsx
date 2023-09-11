@@ -10,6 +10,12 @@ import { Range } from '../../components/common/Range/Range';
 import { CategoryNav } from '../../components/CategoryNav/CategoryNav';
 import { CategoryBreadcrumb } from '../../components/CategoryNav/CategoryBreadcrumb';
 import { useNavigate } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../../services/store/hooks';
+import {
+  createMyCart,
+  updateCartById
+} from '../../services/eCommerceService/Cart';
+import { setCartData } from '../../services/store/cartSlice';
 
 const containerClass = 'catalog';
 const filterClass = 'catalog__filter';
@@ -35,6 +41,8 @@ export const CatalogPage = (): React.JSX.Element => {
   const [keyForm, setKeyForm] = useState(Date.now());
   const [priceRange, setPriceRange] = useState('0 to 10');
   const navigate = useNavigate();
+  const cartData = useAppSelector((state) => state.cartData.value);
+  const dispatch = useAppDispatch();
 
   // Работа с категориями
   const [activeCategory, setActiveCategory] = useState('');
@@ -74,13 +82,30 @@ export const CatalogPage = (): React.JSX.Element => {
     setSearchString(event.target.value);
   };
 
-  const goToProductCard = (event: React.MouseEvent) => {
-    if (event.target instanceof HTMLButtonElement) {
-      event.preventDefault();
-      return;
+  const addProductToCart = async (productId: string) => {
+    let data = cartData;
+
+    if (cartData === null) {
+      const newData = await createMyCart();
+      data = typeof newData === 'string' ? null : newData;
     }
+
+    if (data) {
+      const cart = await updateCartById(data.version, data.id, productId);
+      if (typeof cart !== 'string') dispatch(setCartData(cart));
+    }
+  };
+
+  const cartHandle = async (event: React.MouseEvent) => {
+    event.preventDefault();
     if (event.target instanceof HTMLElement) {
       const id = event.target.closest('.card')?.getAttribute('id');
+
+      if (event.target instanceof HTMLButtonElement && typeof id === 'string') {
+        event.target.classList.add('red');
+        addProductToCart(id);
+        return;
+      }
 
       if (typeof id === 'string') navigate(id);
     }
@@ -111,7 +136,7 @@ export const CatalogPage = (): React.JSX.Element => {
             </form>
           </div>
         </aside>
-        <div className={catalogCardsContainer} onClickCapture={goToProductCard}>
+        <div className={catalogCardsContainer}>
           <div className={sortPanelClass}>
             <label htmlFor="sort">
               Sort the product by:
@@ -129,7 +154,7 @@ export const CatalogPage = (): React.JSX.Element => {
               className={searchForm}
             />
           </div>
-          <div className={cardsContainerClass}>
+          <div className={cardsContainerClass} onClickCapture={cartHandle}>
             {productsData.map((data, id) => (
               <ProductCard data={data} key={id} />
             ))}
