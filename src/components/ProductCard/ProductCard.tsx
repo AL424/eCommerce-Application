@@ -1,7 +1,8 @@
 import React from 'react';
 import './ProductCard.scss';
 import { ProductProjection } from '@commercetools/platform-sdk';
-import { Button } from '../buttons/button';
+// import { Button } from '../buttons/button';
+import { useAppSelector } from '../../services/store/hooks';
 
 const containerClass = 'card';
 const productImageClass = 'card__img';
@@ -11,6 +12,7 @@ const priceClass = 'card__price';
 const oldPriceClass = 'card__price-old';
 const descpiptionClass = 'card__description';
 const buttonContainer = 'card__addButton';
+const buttonClass = 'card__button';
 
 export const ProductCard: React.FC<{ data: ProductProjection }> = ({
   data
@@ -19,10 +21,7 @@ export const ProductCard: React.FC<{ data: ProductProjection }> = ({
     ru: 'ru',
     en: 'en-US'
   };
-
-  const handleButtonClick = (id: string) => {
-    console.log(`Added to Cart: ${id}`);
-  };
+  const cartData = useAppSelector((state) => state.cartData.value);
 
   const imgUrl = data.masterVariant.images;
   const title = data.name ? data.name[languages.en] : '';
@@ -35,6 +34,14 @@ export const ProductCard: React.FC<{ data: ProductProjection }> = ({
     ? prices?.discounted.value.centAmount / 100 + '$'
     : null;
 
+  function hasProductInCart() {
+    const result =
+      cartData &&
+      cartData.lineItems.filter((item) => item.productId === data.id).length > 0
+        ? true
+        : false;
+    return result;
+  }
   return (
     <div className={containerClass} id={data.id}>
       <div className={productImageClass}>
@@ -52,7 +59,10 @@ export const ProductCard: React.FC<{ data: ProductProjection }> = ({
             <span className={discond ? oldPriceClass : ''}>{price}</span>
             {discond && <span>{discond}</span>}
           </p>
-          <Button title="🛒" onClick={() => handleButtonClick(data.id)} />
+          <button
+            className={buttonClass}
+            disabled={hasProductInCart()}
+          ></button>
         </div>
         <p className={descpiptionClass}>
           {decription && decription[languages.en]}
