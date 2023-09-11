@@ -93,3 +93,53 @@ export const getCartByCustomerId = async (customerId: string) => {
     return error.message;
   }
 };
+
+export const deleteCartById = async (version: number, cartId: string) => {
+  try {
+    const response = await getApiRoot()
+      .carts()
+      .withId({ ID: cartId })
+      .delete({
+        queryArgs: { version }
+      })
+      .execute();
+
+    const cart = response.body;
+    return cart;
+  } catch (err) {
+    const error = err as FetchError;
+    return error.message;
+  }
+};
+
+export const updateCartById = async (
+  version: number,
+  cartId: string,
+  productId: string
+) => {
+  try {
+    const response = await getApiRoot()
+      .carts()
+      .withId({ ID: cartId })
+      .post({
+        body: {
+          version,
+          actions: [
+            {
+              action: 'addLineItem',
+              productId,
+              variantId: 1,
+              quantity: 1
+            }
+          ]
+        }
+      })
+      .execute();
+
+    const cart = response.body;
+    return cart;
+  } catch (err) {
+    const error = err as FetchError;
+    return error.message;
+  }
+};
