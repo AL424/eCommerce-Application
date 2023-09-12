@@ -1,4 +1,4 @@
-import './index.scss';
+import './BasketControls.scss';
 import React, { useState, useEffect } from 'react';
 import { Button } from '../buttons/button';
 import { useAppDispatch, useAppSelector } from '../../services/store/hooks';

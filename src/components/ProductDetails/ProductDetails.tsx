@@ -11,7 +11,7 @@ import { useParams } from 'react-router-dom';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import './ProductDetails.scss';
-import { BasketControls } from '../BasketControls';
+import { BasketControls } from '../BasketControls/BasketControls';
 
 export const ProductDetails = () => {
   const { id } = useParams();
