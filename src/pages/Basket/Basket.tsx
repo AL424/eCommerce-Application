@@ -5,15 +5,19 @@ import { Button } from '../../components/buttons/button';
 import { Cart } from '@commercetools/platform-sdk';
 import {
   createMyCart,
+  deleteCartById,
   getCartById,
   getMyActiveCart,
   getMyCarts
 } from '../../services/eCommerceService/Cart';
 import { LocalStorage } from '../../services/localStorage/LocalStorage.service';
+import { useAppDispatch } from '../../services/store/hooks';
+import { resetCartData } from '../../services/store/cartSlice';
 
 export const Basket = () => {
   const [cart, setCart] = useState({} as Cart);
   const [error, setError] = useState('');
+  const dispatch = useAppDispatch();
 
   const onCreateMyCart = async () => {
     const resp = await createMyCart();
@@ -54,6 +58,19 @@ export const Basket = () => {
     }
   };
 
+  const deleteAllCarts = async () => {
+    const resp = await getMyCarts();
+
+    if (typeof resp === 'string') {
+      return setError(resp);
+    }
+
+    resp.results.map((element) => {
+      deleteCartById(element.version, element.id);
+    });
+    dispatch(resetCartData());
+  };
+
   return (
     <>
       <Breadcrumb />
@@ -63,6 +80,7 @@ export const Basket = () => {
         <Button title="Get my active cart" onClick={onGetCart} />
         <Button title="Get cart by id" onClick={onGetCartById} />
         <Button title="Get my carts" onClick={onGetMycatrs} />
+        <Button title="Delete all carts" onClick={deleteAllCarts} />
         <pre>{JSON.stringify(cart, null, 2)}</pre>
         {error && <p>{error}</p>}
       </div>

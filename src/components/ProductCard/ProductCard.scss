@@ -56,6 +56,25 @@
     }
     &__addButton{
         display: flex;
+        align-items: center;
         justify-content: space-between;
+    }
+    &__button{
+        padding: 0.3em;
+        width: 2em;
+        height: 2em;
+        outline: none;
+        border: none;
+        border-radius: .2em;
+        background: var(--active-color) url('../../assets/cart.svg') no-repeat center;
+        background-size: 1.5em;
+        transition: .3s;
+        cursor: pointer;
+        &:hover{
+            background-color: var(--hover-color);
+        }
+        &:disabled{
+            background-color: grey;
+        }
     }
 }
