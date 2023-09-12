@@ -103,7 +103,8 @@ export const CatalogPage = (): React.JSX.Element => {
 
       if (event.target instanceof HTMLButtonElement && typeof id === 'string') {
         event.target.classList.add('red');
-        addProductToCart(id);
+        await addProductToCart(id);
+        event.target.classList.remove('red');
         return;
       }
 
