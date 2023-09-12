@@ -7,6 +7,11 @@
   }
 }
 
+.contribution-info {
+  max-width: 70em;
+  margin: 1em auto;
+}
+
 .additional-info {
   li {
     list-style: square;
@@ -19,4 +24,8 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.rsschool-logo {
+    width: 300px;
 }

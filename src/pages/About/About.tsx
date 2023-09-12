@@ -4,12 +4,15 @@ import TeamMember from '../../components/common/TeamMember/TeamMember';
 import michaelScottImg from '../../assets/michaelscott.jpg';
 import jimHalpertImg from '../../assets/jimhalpert.jpg';
 import dwightschruteImg from '../../assets/dwightschrute.jpg';
+import rsslogo from '../../assets/rs_school-og.png';
 import './About.scss';
 
 export const About = () => {
   const additionalInfo = 'additional-info';
   const ourContribution = 'contribution';
   const teamCards = 'team-cards';
+  const rsschoolLogo = 'rsschool-logo';
+  const contributionInfo = 'contribution-info';
 
   return (
     <>
@@ -33,7 +36,7 @@ export const About = () => {
           />
           <TeamMember
             name="Egor Berezhnov"
-            role="Frontend-Developer, Assistant Regional Manager"
+            role="Frontend-Developer"
             bio="Egor the mastermind behind our coordinated efforts. He has successfully assembled and led our team to successful completion of the project. Egor ensures everyone is in sync, and helps coordinate our actions. His commitment to teamwork and communication has been a driving force in our project's success."
             img={dwightschruteImg}
             githubLink="https://github.com/ygrcore"
@@ -79,7 +82,7 @@ export const About = () => {
           </div>
         </div>
         <h2>Effective Collaboration</h2>
-        <p>
+        <p className={contributionInfo}>
           Our success is not only a result of our individual skills but also our
           strong collaborative efforts. We believe in open communication,
           knowledge sharing, and mutual support. Regular team meetings, code
@@ -87,6 +90,11 @@ export const About = () => {
           workflow. Our collaborative approach has allowed us to tackle
           challenges effectively and deliver exceptional results.
         </p>
+        <div>
+          <a href="https://rs.school/">
+            <img className={rsschoolLogo} src={rsslogo} alt="RsSchool" />
+          </a>
+        </div>
       </div>
     </>
   );
