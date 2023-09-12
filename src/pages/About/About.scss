@@ -1,0 +1,22 @@
+.contribution {
+  display: flex;
+  justify-content: center;
+
+  @media screen and (max-width: 700px) {
+    flex-direction: column;
+  }
+}
+
+.additional-info {
+  li {
+    list-style: square;
+    text-align: left;
+  }
+}
+
+.team-cards {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}

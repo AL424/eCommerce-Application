@@ -1,0 +1,36 @@
+.teamMember {
+  display: flex;
+  align-items: center;
+  max-width: 70em;
+  margin-bottom: 1em;
+  padding: 1em;
+  gap: 1em;
+  background-color: var(--dark-blue-color);
+  color: var(--white-color);
+  &__img {
+    width: 300px;
+  }
+  &__bio {
+    text-align: left;
+  }
+  &__info {
+    a {
+      float: right;
+      text-decoration: none;
+      color: var(--active-color);
+      cursor: pointer;
+      transition: color .3s linear;
+    }
+    a:hover {
+      color: var(--hover-color);
+    }
+  }
+  &__name {
+    text-transform: uppercase;
+    color: var(--active-color);
+  }
+
+  @media screen and (max-width: 700px) {
+    flex-direction: column;
+  }
+}
