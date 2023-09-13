@@ -1,88 +1,45 @@
 import './Basket.scss';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Breadcrumb } from '../../components/LocationPages/Breadcrumb';
-import { Button } from '../../components/buttons/button';
-import { Cart } from '@commercetools/platform-sdk';
-import {
-  createMyCart,
-  deleteCartById,
-  getCartById,
-  getMyActiveCart,
-  getMyCarts
-} from '../../services/eCommerceService/Cart';
-import { LocalStorage } from '../../services/localStorage/LocalStorage.service';
-import { useAppDispatch } from '../../services/store/hooks';
-import { resetCartData } from '../../services/store/cartSlice';
+import { useAppSelector } from '../../services/store/hooks';
+import { NavLink } from 'react-router-dom';
+import { Route } from '../../Router/Router';
+import { BasketProduct } from '../../components/BasketProduct';
 
 export const Basket = () => {
-  const [cart, setCart] = useState({} as Cart);
-  const [error, setError] = useState('');
-  const dispatch = useAppDispatch();
+  const [isCartEmpty, setIsCartEmpty] = useState(true);
+  const cart = useAppSelector((state) => state.cartData.value);
 
-  const onCreateMyCart = async () => {
-    const resp = await createMyCart();
-    if (typeof resp === 'string') {
-      setError(resp);
-    } else {
-      setCart(resp);
-    }
-  };
-
-  const onGetCart = async () => {
-    const resp = await getMyActiveCart();
-    if (typeof resp === 'string') {
-      setError(resp);
-    } else {
-      setCart(resp);
-    }
-  };
-
-  const onGetCartById = async () => {
-    const id = LocalStorage.get('cart-id');
-    if (id) {
-      const resp = await getCartById(id);
-      if (typeof resp === 'string') {
-        setError(resp);
-      } else {
-        setCart(resp);
-      }
-    }
-  };
-
-  const onGetMycatrs = async () => {
-    const resp = await getMyCarts();
-    if (typeof resp === 'string') {
-      setError(resp);
-    } else {
-      console.log(resp);
-    }
-  };
-
-  const deleteAllCarts = async () => {
-    const resp = await getMyCarts();
-
-    if (typeof resp === 'string') {
-      return setError(resp);
-    }
-
-    resp.results.map((element) => {
-      deleteCartById(element.version, element.id);
-    });
-    dispatch(resetCartData());
-  };
+  useEffect(() => {
+    if (!cart) setIsCartEmpty(true);
+    else if (cart.lineItems.length === 0) setIsCartEmpty(true);
+    else setIsCartEmpty(false);
+  }, [cart]);
 
   return (
     <>
       <Breadcrumb />
       <div className="basket-page">
         <h1>Basket</h1>
-        <Button title="Create my cart" onClick={onCreateMyCart} />
-        <Button title="Get my active cart" onClick={onGetCart} />
-        <Button title="Get cart by id" onClick={onGetCartById} />
-        <Button title="Get my carts" onClick={onGetMycatrs} />
-        <Button title="Delete all carts" onClick={deleteAllCarts} />
+        {isCartEmpty && (
+          <>
+            <p className="basket__info">Shopping cart is empty</p>
+            <p className="basket__info">
+              <NavLink to={Route.catalog}>Go to the Catalog</NavLink>
+              to add products to the Cart
+            </p>
+          </>
+        )}
+        {!isCartEmpty && (
+          <div className="basket__wrap">
+            <div className="basket__products">
+              {cart?.lineItems.map((item) => <BasketProduct lineItem={item} />)}
+            </div>
+            <div className="basket__price">Price</div>
+            <div className="basket__discount">Discount</div>
+          </div>
+        )}
         <pre>{JSON.stringify(cart, null, 2)}</pre>
-        {error && <p>{error}</p>}
       </div>
     </>
   );
