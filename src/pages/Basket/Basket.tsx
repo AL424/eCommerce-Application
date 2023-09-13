@@ -4,7 +4,7 @@ import { Breadcrumb } from '../../components/LocationPages/Breadcrumb';
 import { useAppSelector } from '../../services/store/hooks';
 import { NavLink } from 'react-router-dom';
 import { Route } from '../../Router/Router';
-import { BasketProduct } from '../../components/BasketProduct';
+import { BasketProduct } from '../../components/BasketProduct/BasketProduct';
 
 export const Basket = () => {
   const [isCartEmpty, setIsCartEmpty] = useState(true);
@@ -39,7 +39,7 @@ export const Basket = () => {
             <div className="basket__discount">Discount</div>
           </div>
         )}
-        <pre>{JSON.stringify(cart, null, 2)}</pre>
+        {/* <pre>{JSON.stringify(cart, null, 2)}</pre> */}
       </div>
     </>
   );
