@@ -3,23 +3,24 @@ import {
   getCategoryById,
   getProductById
 } from '../../services/eCommerceService/Client';
-import { ProductData, Category } from '@commercetools/platform-sdk';
+import { Category, ProductProjection } from '@commercetools/platform-sdk';
 import Slider, { Settings } from 'react-slick';
 import Modal from '../common/Modal/Modal';
-import { Button } from '../buttons/button';
 import formatCurrency from '../../utils/helpers/currency.helpers';
 import { useParams } from 'react-router-dom';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import './ProductDetails.scss';
+import { BasketControls } from '../BasketControls/BasketControls';
 
 export const ProductDetails = () => {
   const { id } = useParams();
-  const [product, setProduct] = useState<ProductData | null>(null);
+  const [product, setProduct] = useState<ProductProjection | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [imageUrls, setImageUrls] = useState<string[]>([]);
   const [productCategory, setProductCategory] = useState<Category | null>(null);
+  const [error, setError] = useState('');
 
   const largeSliderRef = useRef<Slider | null>(null);
   const smallSliderRef = useRef<Slider | null>(null);
@@ -29,17 +30,20 @@ export const ProductDetails = () => {
     setModalOpen(true);
   };
 
+  const getProduct = async (productId: string) => {
+    const resp = await getProductById(productId);
+    if (typeof resp === 'string') {
+      setProduct(null);
+      setError(resp);
+    } else {
+      setProduct(resp);
+      setError('');
+    }
+  };
+
   useEffect(() => {
     if (id) {
-      getProductById(id)
-        .then((res) => {
-          if (res) {
-            setProduct(JSON.parse(res));
-          }
-        })
-        .catch((error) => {
-          console.error('Error occurred:', error);
-        });
+      getProduct(id);
     }
   }, [id]);
 
@@ -64,10 +68,6 @@ export const ProductDetails = () => {
       return;
     }
   }, [product]);
-
-  const handleButtonClick = () => {
-    console.log(`Added to Cart: ${id}`);
-  };
 
   const largeSliderSettings: Settings = {
     dots: false,
@@ -189,7 +189,7 @@ export const ProductDetails = () => {
                   ))}
                 </div>
               ))}
-              <Button title={'🛒'} onClick={handleButtonClick} />
+              <BasketControls productId={product.id} />
             </div>
             {/* {product.variants.map((variant) => (
               <div key={variant.id}>
@@ -208,6 +208,7 @@ export const ProductDetails = () => {
       ) : (
         <p>Loading...</p>
       )}
+      {error && <p>{error}</p>}
     </div>
   );
 };

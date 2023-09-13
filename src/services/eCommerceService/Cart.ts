@@ -1,6 +1,7 @@
 import { FetchError } from 'node-fetch';
 import { getApiRoot } from './ApiRoot';
 import { LocalStorage } from '../localStorage/LocalStorage.service';
+import { LineItemDraft, MyCartUpdate } from '@commercetools/platform-sdk';
 
 // обе функции создают корзину для авторизированных не авторизированных пользователей
 // без endpoin me не удается привязать к customer при входе или регистрации
@@ -19,12 +20,17 @@ export const createCart = async () => {
   }
 };
 
-export const createMyCart = async () => {
+export const createMyCart = async (lineItem?: LineItemDraft) => {
   try {
     const response = await getApiRoot()
       .me()
       .carts()
-      .post({ body: { currency: 'USD' } })
+      .post({
+        body: {
+          currency: 'USD',
+          lineItems: lineItem ? [lineItem] : undefined
+        }
+      })
       .execute();
 
     const cart = response.body;
@@ -112,27 +118,13 @@ export const deleteCartById = async (version: number, cartId: string) => {
   }
 };
 
-export const updateCartById = async (
-  version: number,
-  cartId: string,
-  productId: string
-) => {
+export const updateCartById = async (cartId: string, data: MyCartUpdate) => {
   try {
     const response = await getApiRoot()
       .carts()
       .withId({ ID: cartId })
       .post({
-        body: {
-          version,
-          actions: [
-            {
-              action: 'addLineItem',
-              productId,
-              variantId: 1,
-              quantity: 1
-            }
-          ]
-        }
+        body: data
       })
       .execute();
 

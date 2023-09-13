@@ -10,13 +10,13 @@ import { Range } from '../../components/common/Range/Range';
 import { CategoryNav } from '../../components/CategoryNav/CategoryNav';
 import { CategoryBreadcrumb } from '../../components/CategoryNav/CategoryBreadcrumb';
 import { useNavigate } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../../services/store/hooks';
+/* import { useAppDispatch, useAppSelector } from '../../services/store/hooks';
 import {
   createMyCart,
   updateCartById
 } from '../../services/eCommerceService/Cart';
 import { setCartData } from '../../services/store/cartSlice';
-
+ */
 const containerClass = 'catalog';
 const filterClass = 'catalog__filter';
 const cardsContainerClass = 'catalog__cards';
@@ -41,8 +41,8 @@ export const CatalogPage = (): React.JSX.Element => {
   const [keyForm, setKeyForm] = useState(Date.now());
   const [priceRange, setPriceRange] = useState('0 to 10');
   const navigate = useNavigate();
-  const cartData = useAppSelector((state) => state.cartData.value);
-  const dispatch = useAppDispatch();
+  // const cartData = useAppSelector((state) => state.cartData.value);
+  // const dispatch = useAppDispatch();
 
   // Работа с категориями
   const [activeCategory, setActiveCategory] = useState('');
@@ -82,7 +82,7 @@ export const CatalogPage = (): React.JSX.Element => {
     setSearchString(event.target.value);
   };
 
-  const addProductToCart = async (productId: string) => {
+  /* const addProductToCart = async (productId: string) => {
     let data = cartData;
 
     if (cartData === null) {
@@ -94,7 +94,7 @@ export const CatalogPage = (): React.JSX.Element => {
       const cart = await updateCartById(data.version, data.id, productId);
       if (typeof cart !== 'string') dispatch(setCartData(cart));
     }
-  };
+  }; */
 
   const cartHandle = async (event: React.MouseEvent) => {
     event.preventDefault();
@@ -103,7 +103,7 @@ export const CatalogPage = (): React.JSX.Element => {
 
       if (event.target instanceof HTMLButtonElement && typeof id === 'string') {
         event.target.classList.add('red');
-        await addProductToCart(id);
+        // await addProductToCart(id);
         event.target.classList.remove('red');
         return;
       }
