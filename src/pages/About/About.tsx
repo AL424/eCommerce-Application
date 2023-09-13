@@ -3,7 +3,7 @@ import { Breadcrumb } from '../../components/LocationPages/Breadcrumb';
 import TeamMember from '../../components/common/TeamMember/TeamMember';
 import teamMembersData from './About.constants';
 import { teamTasksData } from './About.constants';
-import rsslogo from '../../assets/rs_school-og.png';
+import { ReactComponent as RsschoolSVG } from '../../assets/rs_school.svg';
 import './About.scss';
 
 export const About = () => {
@@ -60,7 +60,7 @@ export const About = () => {
         </p>
         <div>
           <a href="https://rs.school/">
-            <img className={rsschoolLogo} src={rsslogo} alt="RsSchool" />
+            <RsschoolSVG className={rsschoolLogo} data-testid="rsSchoolLogo" />
           </a>
         </div>
       </div>

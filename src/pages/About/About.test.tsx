@@ -5,7 +5,7 @@ import { BrowserRouter } from 'react-router-dom';
 
 describe('About Component', () => {
   it('should render the About Us page', () => {
-    const { getByText, getAllByText, getByAltText } = render(
+    const { getByText, getAllByText, getByTestId } = render(
       <BrowserRouter>
         <About />
       </BrowserRouter>
@@ -23,9 +23,9 @@ describe('About Component', () => {
     const collaborationHeader = getByText('Effective Collaboration');
     expect(collaborationHeader).toBeInTheDocument();
 
-    // Check if the RS School logo is rendered with a link
-    const rsSchoolLogo = getByAltText('RsSchool');
-    expect(rsSchoolLogo).toBeInTheDocument();
-    expect(rsSchoolLogo.parentElement?.tagName).toBe('A');
+    // Check if the RS School logo is rendered in a link tag
+    const svgElement = getByTestId('rsSchoolLogo');
+    expect(svgElement).toBeInTheDocument();
+    expect(svgElement.parentElement?.tagName).toBe('A');
   });
 });
