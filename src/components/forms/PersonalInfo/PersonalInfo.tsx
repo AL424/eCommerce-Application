@@ -12,7 +12,7 @@ import Input from '../../common/Input/Input';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { emailValidation } from '../../../utils/validation/emailValidation';
 import { nameValidation } from '../../../utils/validation/nameValidation';
-import { Button } from '../../buttons/button';
+import { Button } from '../../Button/Button';
 import { ageValidation } from '../../../utils/validation/ageValidation';
 import { customerUpdate } from '../../../services/eCommerceService/Customer';
 import { toast } from 'react-toastify';

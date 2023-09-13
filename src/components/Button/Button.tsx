@@ -9,11 +9,11 @@ interface ButtonProps {
 
 export const Button: React.FC<ButtonProps> = ({
   title,
-  classList,
+  classList = [],
   onClick,
   type = 'button'
 }) => {
-  const className = `button ${classList?.join(' ')}`;
+  const className = `button ${classList?.join(' ')}`.trim();
   return (
     <button type={type} className={className} onClick={onClick}>
       {title}
