@@ -1,7 +1,8 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import './menu.scss';
 import { Route } from '../../Router/Router';
+import BasketButton from '../BasketButton/BasketButton';
+import './menu.scss';
 
 const containerClass = 'menu';
 const menuListClass = 'menu__item';
@@ -27,7 +28,7 @@ export const Menu: React.FC = () => {
       </li>
       <li className={menuListClass}>
         <NavLink to={Route.basket} className={menuLinkClass}>
-          Basket
+          <BasketButton />
         </NavLink>
       </li>
     </ul>
