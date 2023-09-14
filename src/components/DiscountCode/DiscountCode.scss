@@ -1,0 +1,39 @@
+.discount-code {
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+  p {
+    margin: 0;
+    margin-bottom: 5px;
+    line-height: 1.5;
+    max-width: 320px;
+    text-align: left;
+  }
+  button {
+    font-size: 0.8rem;
+    align-self: end;
+  }
+  &__form {
+    display: flex;
+    justify-content: space-between;
+    column-gap: 5px;
+    input {
+      color: var(--dark-blue-color);
+      font-size: 1.2rem;
+      padding: 0 10px 0 5px;
+      border-radius: 0;
+      border: 1px solid var(--hover-color);
+      &:focus {
+        outline: 2px solid var(--active-color);
+      }
+      &::placeholder {
+        font-size: 1rem;
+        opacity: 0.8;
+      }
+    }
+    button {
+      flex-grow: 1;
+      font-size: 0.8rem;
+    }
+  }
+}

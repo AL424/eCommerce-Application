@@ -69,21 +69,21 @@ export const Basket = () => {
               <DiscountCode />
               <div className="basket__cost">
                 <span>cost</span>
-                <span>{createCostString(cost)}</span>
+                <span className="cost">{createCostString(cost)}</span>
               </div>
               <div className="basket__discount">
                 <span>discount</span>
-                <span>{createCostString(discount)}</span>
+                <span className="cost">{createCostString(discount)}</span>
               </div>
               <div className="basket__final-cost">
                 <span>final cost</span>
-                <span>{createCostString(discountCost)}</span>
+                <span className="cost">{createCostString(discountCost)}</span>
               </div>
             </div>
           </div>
         )}
         <Button title="Get my carts" onClick={onGetMyCarts} />
-        <pre>{JSON.stringify(cart, null, 2)}</pre>
+        {/* <pre>{JSON.stringify(cart, null, 2)}</pre> */}
       </div>
     </>
   );

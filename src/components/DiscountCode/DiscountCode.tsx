@@ -1,3 +1,4 @@
+import './DiscountCode.scss';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import React, { useState, useEffect } from 'react';
 import { Button } from '../Button/Button';
@@ -23,14 +24,10 @@ export const DiscountCode: React.FC = () => {
     else setUseDiscountCode(false);
   }, [cart]);
 
-  const {
-    register,
-    reset,
-    handleSubmit,
-    formState: { errors }
-  } = useForm<MyCartAddDiscountCodeAction>({
-    mode: 'onChange'
-  });
+  const { register, reset, handleSubmit } =
+    useForm<MyCartAddDiscountCodeAction>({
+      mode: 'onChange'
+    });
 
   const onSubmit: SubmitHandler<MyCartAddDiscountCodeAction> = async (code) => {
     if (!cart) return;
@@ -76,20 +73,24 @@ export const DiscountCode: React.FC = () => {
   };
 
   return (
-    <form className="discount-code" onSubmit={handleSubmit(onSubmit)}>
+    <div className="discount-code">
       {!useDiscountCode && (
         <>
           <p>Do you have a discount code? Use it.</p>
-          <input
-            type="text"
-            className="discount-code__input"
-            placeholder="Enter dicount code..."
-            {...register('code', {
-              required: 'Discount code is required'
-            })}
-          />
-          {errors.code && <p>{errors.code.message}</p>}
-          <Button title="add code" type="submit" />
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="discount-code__form"
+          >
+            <input
+              type="text"
+              className="discount-code__input"
+              placeholder="Enter dicount code..."
+              {...register('code', {
+                required: true
+              })}
+            />
+            <Button title="add code" type="submit" />
+          </form>
         </>
       )}
       {useDiscountCode && (
@@ -101,6 +102,6 @@ export const DiscountCode: React.FC = () => {
           <Button title="delete code" onClick={onDeleteCode} />
         </>
       )}
-    </form>
+    </div>
   );
 };

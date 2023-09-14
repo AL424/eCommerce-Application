@@ -3,3 +3,33 @@
     text-align: start;
   }
 }
+
+.basket__cost-wrap {
+  max-width: 350px;
+  margin: 15px 0 15px auto;
+  @media (max-width: 680px) {
+    margin: 15px auto;
+  }
+  @media (max-width: 440px) {
+    max-width: none;
+  }
+  .basket__cost,
+  .basket__discount,
+  .basket__final-cost {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.2rem;
+    .cost {
+      font-size: 1.4rem;
+    }
+    &:not(:last-child) {
+      margin-bottom: 15px;
+    }
+  }
+  .basket__final-cost {
+    .cost {
+      font-size: 1.8rem;
+      color: var(--active-color);
+    }
+  }
+}
