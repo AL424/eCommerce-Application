@@ -5,6 +5,10 @@ import { useAppSelector } from '../../services/store/hooks';
 import { NavLink } from 'react-router-dom';
 import { Route } from '../../Router/Router';
 import { BasketProduct } from '../../components/BasketProduct/BasketProduct';
+import { DiscountCode } from '../../components/DiscountCode/DiscountCode';
+import { createCostString } from '../../utils/functions/createCostString';
+import { getMyCarts } from '../../services/eCommerceService/Cart';
+import { Button } from '../../components/Button/Button';
 
 export const Basket = () => {
   const [isCartEmpty, setIsCartEmpty] = useState(true);
@@ -15,6 +19,30 @@ export const Basket = () => {
     else if (cart.lineItems.length === 0) setIsCartEmpty(true);
     else setIsCartEmpty(false);
   }, [cart]);
+
+  const cost =
+    cart?.lineItems.reduce((totalCost, lineItem) => {
+      const discountPrice = lineItem.price.discounted?.value.centAmount;
+      const productPrice = lineItem.price.value.centAmount;
+      const quantity = lineItem.quantity;
+
+      const price = discountPrice || productPrice;
+      const productCost = price * quantity;
+
+      return totalCost + productCost;
+    }, 0) || 0;
+
+  const discountCost = cart?.totalPrice.centAmount || cost;
+  const discount = cost - discountCost;
+
+  const onGetMyCarts = async () => {
+    const resp = await getMyCarts();
+    if (typeof resp === 'string') {
+      console.log(resp);
+    } else {
+      console.log(resp);
+    }
+  };
 
   return (
     <>
@@ -33,13 +61,29 @@ export const Basket = () => {
         {!isCartEmpty && (
           <div className="basket__wrap">
             <div className="basket__products">
-              {cart?.lineItems.map((item) => <BasketProduct lineItem={item} />)}
+              {cart?.lineItems.map((item) => (
+                <BasketProduct lineItem={item} key={item.id} />
+              ))}
             </div>
-            <div className="basket__price">Price</div>
-            <div className="basket__discount">Discount</div>
+            <div className="basket__cost-wrap">
+              <DiscountCode />
+              <div className="basket__cost">
+                <span>cost</span>
+                <span>{createCostString(cost)}</span>
+              </div>
+              <div className="basket__discount">
+                <span>discount</span>
+                <span>{createCostString(discount)}</span>
+              </div>
+              <div className="basket__final-cost">
+                <span>final cost</span>
+                <span>{createCostString(discountCost)}</span>
+              </div>
+            </div>
           </div>
         )}
-        {/* <pre>{JSON.stringify(cart, null, 2)}</pre> */}
+        <Button title="Get my carts" onClick={onGetMyCarts} />
+        <pre>{JSON.stringify(cart, null, 2)}</pre>
       </div>
     </>
   );
