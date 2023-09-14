@@ -2,6 +2,7 @@ import './BasketProduct.scss';
 import React from 'react';
 import { LineItem } from '@commercetools/platform-sdk';
 import { BasketControls } from '../BasketControls/BasketControls';
+import { createCostString } from '../../utils/functions/createCostString';
 
 interface Props {
   lineItem: LineItem;
@@ -14,13 +15,11 @@ export const BasketProduct: React.FC<Props> = ({ lineItem }) => {
     : '';
   const discountPrice = lineItem.price.discounted?.value.centAmount;
   const productPrice = lineItem.price.value.centAmount;
-  const totalPrice = lineItem.totalPrice.centAmount;
   const productId = lineItem.productId;
+  const quantity = lineItem.quantity;
 
-  const price = discountPrice
-    ? `${(discountPrice / 100).toFixed(2)} $`
-    : `${(productPrice / 100).toFixed(2)} $`;
-  const cost = `${(totalPrice / 100).toFixed(2)} $`;
+  const price = discountPrice || productPrice;
+  const cost = price * quantity;
 
   return (
     <div className="basket-product">
@@ -37,7 +36,7 @@ export const BasketProduct: React.FC<Props> = ({ lineItem }) => {
                 <br />
                 per unit
               </span>
-              <span className="price">{price}</span>
+              <span className="price">{createCostString(price)}</span>
             </div>
             <div className="prices__total">
               <span className="info">
@@ -45,7 +44,7 @@ export const BasketProduct: React.FC<Props> = ({ lineItem }) => {
                 <br />
                 the product
               </span>
-              <span className="price">{cost}</span>
+              <span className="price">{createCostString(cost)}</span>
             </div>
           </div>
         </div>
