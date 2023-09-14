@@ -101,8 +101,7 @@ export const Basket = () => {
             </div>
             <div className="basket__clear">
               <p>
-                Don't need any items in your cart? Let's start from the
-                beginning.
+                Don't need goods in your cart? Let's start from the beginning.
               </p>
               <Button title="clear cart" onClick={onDeleteCart} />
             </div>
