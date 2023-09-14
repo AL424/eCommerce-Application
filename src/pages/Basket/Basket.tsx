@@ -54,6 +54,12 @@ export const Basket = () => {
     carts.results.forEach((item) => deleteCartById(item.version, item.id));
   };
 
+  const onOrder = () => {
+    toast.success(
+      'Thanks!!! Your order will be made when such functionality appears.'
+    );
+  };
+
   /* const onGetMyCarts = async () => {
     const resp = await getMyCarts();
     if (typeof resp === 'string') {
@@ -98,6 +104,7 @@ export const Basket = () => {
                 <span>final cost</span>
                 <span className="cost">{createCostString(discountCost)}</span>
               </div>
+              <Button title="make an order" onClick={onOrder} />
             </div>
             <div className="basket__clear">
               <p>

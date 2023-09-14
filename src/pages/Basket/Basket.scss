@@ -32,6 +32,9 @@
 .basket__cost-wrap {
   max-width: 350px;
   margin: 15px 0 15px auto;
+  & > button {
+    width: 100%;
+  }
   @media (max-width: 680px) {
     margin: 15px auto;
   }
@@ -53,6 +56,7 @@
   }
   .basket__final-cost {
     .cost {
+      font-weight: bold;
       font-size: 1.8rem;
       color: var(--active-color);
     }
