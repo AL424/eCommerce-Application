@@ -1,7 +1,7 @@
 import './Basket.scss';
 import React, { useState, useEffect } from 'react';
 import { Breadcrumb } from '../../components/LocationPages/Breadcrumb';
-import { useAppSelector } from '../../services/store/hooks';
+import { useAppDispatch, useAppSelector } from '../../services/store/hooks';
 import { NavLink } from 'react-router-dom';
 import { Route } from '../../Router/Router';
 import { BasketProduct } from '../../components/BasketProduct/BasketProduct';
@@ -9,10 +9,14 @@ import { DiscountCode } from '../../components/DiscountCode/DiscountCode';
 import { createCostString } from '../../utils/functions/createCostString';
 import { getMyCarts } from '../../services/eCommerceService/Cart';
 import { Button } from '../../components/Button/Button';
+import { deleteCartById } from '../../services/eCommerceService/Cart';
+import { toast } from 'react-toastify';
+import { resetCartData } from '../../services/store/cartSlice';
 
 export const Basket = () => {
   const [isCartEmpty, setIsCartEmpty] = useState(true);
   const cart = useAppSelector((state) => state.cartData.value);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (!cart) setIsCartEmpty(true);
@@ -35,14 +39,29 @@ export const Basket = () => {
   const discountCost = cart?.totalPrice.centAmount || cost;
   const discount = cost - discountCost;
 
-  const onGetMyCarts = async () => {
+  const onDeleteCart = async () => {
+    if (!cart) return;
+    const resp = await deleteCartById(cart.version, cart.id);
+    if (typeof resp === 'string') {
+      toast.error(resp);
+    } else {
+      toast.info('Сart successfully emptied.');
+      dispatch(resetCartData());
+    }
+    // удаление всех корзин пользователя
+    const carts = await getMyCarts();
+    if (typeof carts === 'string') return;
+    carts.results.forEach((item) => deleteCartById(item.version, item.id));
+  };
+
+  /* const onGetMyCarts = async () => {
     const resp = await getMyCarts();
     if (typeof resp === 'string') {
       console.log(resp);
     } else {
       console.log(resp);
     }
-  };
+  }; */
 
   return (
     <>
@@ -59,7 +78,7 @@ export const Basket = () => {
           </>
         )}
         {!isCartEmpty && (
-          <div className="basket__wrap">
+          <>
             <div className="basket__products">
               {cart?.lineItems.map((item) => (
                 <BasketProduct lineItem={item} key={item.id} />
@@ -80,11 +99,17 @@ export const Basket = () => {
                 <span className="cost">{createCostString(discountCost)}</span>
               </div>
             </div>
-          </div>
+            <div className="basket__clear">
+              <p>
+                Don't need any items in your cart? Let's start from the
+                beginning.
+              </p>
+              <Button title="clear cart" onClick={onDeleteCart} />
+            </div>
+          </>
         )}
-        <Button title="Get my carts" onClick={onGetMyCarts} />
-        {/* <pre>{JSON.stringify(cart, null, 2)}</pre> */}
       </div>
+      {/* <Button title="Get my carts" onClick={onGetMyCarts} /> */}
     </>
   );
 };

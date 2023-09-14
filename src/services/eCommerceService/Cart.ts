@@ -111,6 +111,7 @@ export const deleteCartById = async (version: number, cartId: string) => {
       .execute();
 
     const cart = response.body;
+    LocalStorage.remove('cart-id');
     return cart;
   } catch (err) {
     const error = err as FetchError;
