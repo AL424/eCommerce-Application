@@ -78,6 +78,8 @@ export const BasketControls: React.FC<Props> = ({ productId }) => {
     const resp = await updateCartById(cart.id, data);
     if (typeof resp === 'string') toast.error(resp);
     else dispatch(setCartData(resp));
+
+    toast.success('This item has been completely removed from your cart.');
   };
 
   const onAddQuantity = async () => {
