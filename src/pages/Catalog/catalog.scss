@@ -97,6 +97,19 @@
             margin-top: 0.5em;
         }
     }
+    &__loading {
+        height: 2em;
+        margin-top: .5em;
+        & > *{
+            width: 2em;
+            height: 2em;
+            border-radius: 50%;
+            background: url('../../assets/loading.svg') no-repeat center;
+            background-size: contain;
+            animation:  2s linear infinite spin;
+            margin: 0 auto;
+        }
+    }
 }
 
 .breadcrumb{
@@ -124,5 +137,18 @@
                 margin-left: 0.5em;
             }
         }
+    }
+}
+
+
+@keyframes spin{
+    0% {
+        transform: rotate(0);
+    }
+    50% {
+        transform: rotate(180deg);
+    }
+    100% {
+        transform: rotate(360deg);
     }
 }

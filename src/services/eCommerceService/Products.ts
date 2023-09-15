@@ -22,7 +22,8 @@ export const getProductsByFilter = (
   category: string,
   priceRange: string,
   sortData: string,
-  searchString: string
+  searchString: string,
+  limit?: number
 ): Promise<ClientResponse<ProductProjectionPagedSearchResponse>> => {
   return getApiRoot()
     .productProjections()
@@ -34,7 +35,8 @@ export const getProductsByFilter = (
           `variants.price.centAmount:range (${priceRange})`
         ],
         sort: [sortData],
-        'text.en-US': `${searchString}`
+        'text.en-US': `${searchString}`,
+        limit
       }
     })
     .execute();
