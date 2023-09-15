@@ -20,7 +20,7 @@ interface Props {
 }
 
 export const BasketControls: React.FC<Props> = ({ productId }) => {
-  const [productInCart, setPdoductInCart] = useState(false);
+  const [productInCart, setProductInCart] = useState(false);
   const [product, setProduct] = useState<LineItem | null>(null);
   const [quantity, setQuantity] = useState(product?.quantity || 0);
   const cart = useAppSelector((state) => state.cartData.value);
@@ -34,16 +34,16 @@ export const BasketControls: React.FC<Props> = ({ productId }) => {
   }, [quantity]);
 
   useEffect(() => {
-    if (!cart) setPdoductInCart(false);
+    if (!cart) setProductInCart(false);
     else {
       const lineItems = cart.lineItems;
       const lineItem = lineItems.find((item) => item.productId === productId);
       if (lineItem) {
-        setPdoductInCart(true);
+        setProductInCart(true);
         setProduct(lineItem);
         setQuantity(lineItem.quantity);
       } else {
-        setPdoductInCart(false);
+        setProductInCart(false);
         setProduct(null);
         setQuantity(0);
       }
