@@ -20,6 +20,7 @@ import {
   updateCartById
 } from '../../services/eCommerceService/Cart';
 import { setCartData } from '../../services/store/cartSlice';
+import { toast } from 'react-toastify';
 
 const containerClass = 'catalog';
 const filterClass = 'catalog__filter';
@@ -35,7 +36,7 @@ export const CatalogPage = (): React.JSX.Element => {
     ru: 'ru',
     en: 'en-US'
   };
-  const initialLimit = 5;
+  const initialLimit = 12;
   const initialProductData: ProductProjection[] = [];
   const initialCategoriesData: Category[] = [];
   const [productsData, setProductsData] = useState(initialProductData);
@@ -134,7 +135,7 @@ export const CatalogPage = (): React.JSX.Element => {
       if (event.target instanceof HTMLButtonElement && typeof id === 'string') {
         event.target.classList.add('red');
         await addProductToCart(id);
-        event.target.classList.remove('red');
+        toast('Added to cart');
         return;
       }
 
