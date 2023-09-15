@@ -1,0 +1,16 @@
+.basket-controls {
+  .count {
+    margin: 0 10px;
+  }
+  
+  .button {
+    min-width: 42px;
+    &_remove {
+      margin-top: 10px;
+    }
+    &.not-active {
+      background: #76696e;
+      pointer-events: none;
+    }
+  }
+}

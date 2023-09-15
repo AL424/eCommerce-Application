@@ -6,7 +6,7 @@ import React, { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import PasswordInput from '../../common/PasswordInput/PasswordInput';
 import { passwordValidation } from '../../../utils/validation/passwordValidation';
-import { Button } from '../../buttons/button';
+import { Button } from '../../Button/Button';
 import { toast } from 'react-toastify';
 import { changePassword } from '../../../services/eCommerceService/Customer';
 

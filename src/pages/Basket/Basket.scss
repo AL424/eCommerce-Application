@@ -1,5 +1,64 @@
 .basket-page {
-  pre {
-    text-align: start;
+  .basket__info a {
+    margin-right: 0.4em;
+  }
+
+  .basket__clear {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    column-gap: 10px;
+    margin-top: 3rem;
+    @media (max-width: 620px) {
+      flex-direction: column;
+    }
+    p {
+      margin: 0;
+      @media (max-width: 620px) {
+        margin-bottom: 5px;
+      }
+    }
+    button {
+      font-size: 0.8rem;
+      padding: 0.5em 1em;
+      background: var(--gray-color);
+      &:hover {
+        background: var(--gray-hover);
+      }
+    }
+  }
+}
+
+.basket__cost-wrap {
+  max-width: 350px;
+  margin: 15px 0 15px auto;
+  & > button {
+    width: 100%;
+  }
+  @media (max-width: 680px) {
+    margin: 15px auto;
+  }
+  @media (max-width: 440px) {
+    max-width: none;
+  }
+  .basket__cost,
+  .basket__discount,
+  .basket__final-cost {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.2rem;
+    .cost {
+      font-size: 1.4rem;
+    }
+    &:not(:last-child) {
+      margin-bottom: 15px;
+    }
+  }
+  .basket__final-cost {
+    .cost {
+      font-weight: bold;
+      font-size: 1.8rem;
+      color: var(--active-color);
+    }
   }
 }
