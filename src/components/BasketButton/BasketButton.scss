@@ -1,0 +1,24 @@
+.basket-counter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.6rem;
+  position: absolute;
+  top: -1em;
+  right: -1em;
+  width: 15px;
+  height: 15px;
+  color: var(--active-color);
+  background-color: var(--white-color);
+  border-radius: 50%;
+}
+
+.mobile-menu .basket-counter {
+  top: 0.3em;
+  right: -1.6em;
+}
+
+.basket-counter-img {
+  top: -0.8em;
+  right: -0.8em;
+}
