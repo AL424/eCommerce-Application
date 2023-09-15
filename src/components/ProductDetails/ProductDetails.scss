@@ -5,6 +5,25 @@
     flex-direction: column;
   }
 }
+
+.product__info {
+  h2,
+  p {
+    text-shadow: var(--white-color) 3px 3px 5px,
+    var(--white-color) 3px -3px 5px,
+    var(--white-color) -3px 3px 5px,
+    var(--white-color) -3px -3px 5px;
+  }
+
+  span {
+    text-shadow: none;
+  }
+
+  p {
+    line-height: 1.5;
+  }
+}
+
 .product__slider {
   width: 50%;
   @media screen and (max-width: 780px) {
