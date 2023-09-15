@@ -7,61 +7,79 @@ import BasketButton from './BasketButton';
 const mockStore = configureStore([]);
 
 describe('BasketButton Component', () => {
-  it('should display total quantity if cart is not empty', () => {
-    // Начальное состояние корзины
+  it('should display "Basket" when withImg is false', () => {
     const initialState = {
       cartData: {
         value: {
-          lineItems: [
-            {
-              quantity: 2
-            },
-            {
-              quantity: 1
-            }
-          ]
+          totalLineItemQuantity: 0
         }
       }
     };
     const store = mockStore(initialState);
 
-    const { getByText, getByTestId } = render(
+    const { getByText } = render(
       <Provider store={store}>
-        <BasketButton />
+        <BasketButton withImg={false} />
       </Provider>
     );
 
-    // Span у значка корзины
-    const span = getByTestId('basket-counter');
+    expect(getByText('Basket')).toBeInTheDocument();
+  });
 
-    // Проверьте, что span не отображается если в корзине нет товаров
-    expect(span).toBeInTheDocument();
+  it('should display the cart item count when withImg is false and cart is not empty', () => {
+    const initialState = {
+      cartData: {
+        value: {
+          totalLineItemQuantity: 3
+        }
+      }
+    };
+    const store = mockStore(initialState);
 
-    // Проверьте, что общее количество отображается
+    const { getByText } = render(
+      <Provider store={store}>
+        <BasketButton withImg={false} />
+      </Provider>
+    );
+
     expect(getByText('3')).toBeInTheDocument();
   });
 
-  it('should not display span with total quantity if cart is empty', () => {
-    // Пустая корзина
+  it('should render the cart button with image when withImg is true', () => {
     const initialState = {
       cartData: {
         value: {
-          lineItems: []
+          totalLineItemQuantity: 0
         }
       }
     };
     const store = mockStore(initialState);
 
-    const { getByRole } = render(
+    const { getByTestId } = render(
       <Provider store={store}>
-        <BasketButton />
+        <BasketButton withImg={true} />
       </Provider>
     );
 
-    // Поиск кнопки
-    const basketButton = getByRole('button');
+    expect(getByTestId('basket-button-img')).toBeInTheDocument();
+  });
 
-    // Проверьте, что span не отображается если в корзине нет товаров
-    expect(basketButton.closest('span')).not.toBeInTheDocument();
+  it('should display the cart item count when withImg is true and cart is not empty', () => {
+    const initialState = {
+      cartData: {
+        value: {
+          totalLineItemQuantity: 5
+        }
+      }
+    };
+    const store = mockStore(initialState);
+
+    const { getByTestId } = render(
+      <Provider store={store}>
+        <BasketButton withImg={true} />
+      </Provider>
+    );
+
+    expect(getByTestId('basket-counter')).toHaveTextContent('5');
   });
 });

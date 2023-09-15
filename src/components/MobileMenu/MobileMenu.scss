@@ -10,7 +10,7 @@
     right: 0;
     z-index: -10;
     transition: 0.3s;
-    @media screen and (max-width: 500px){
+    @media screen and (max-width: 560px){
         display: block;
     }
     &__show{

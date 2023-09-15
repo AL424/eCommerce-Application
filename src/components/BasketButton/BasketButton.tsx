@@ -2,24 +2,33 @@ import React from 'react';
 import { useAppSelector } from '../../services/store/hooks';
 import './BasketButton.scss';
 
-const BasketButton = () => {
+const BasketButton = ({ withImg = false }) => {
   const buttonClass = 'card__button';
   const basketCounter = 'basket-counter';
+  const basketCounterForImg = 'basket-counter-img';
 
   const cartDataItems = useAppSelector(
-    (state) => state.cartData.value?.lineItems
+    (state) => state.cartData.value?.totalLineItemQuantity
   );
-
-  const totalQuantity = cartDataItems?.reduce((accumulator, product) => {
-    return accumulator + product.quantity;
-  }, 0);
 
   return (
     <>
-      <button className={buttonClass}></button>
-      {cartDataItems && cartDataItems.length ? (
-        <span className={basketCounter} data-testid="basket-counter">
-          {totalQuantity}
+      {withImg ? (
+        <button
+          className={buttonClass}
+          data-testid="basket-button-img"
+        ></button>
+      ) : (
+        <span>Basket</span>
+      )}
+      {cartDataItems && cartDataItems > 0 ? (
+        <span
+          className={
+            withImg ? `${basketCounterForImg} ${basketCounter}` : basketCounter
+          }
+          data-testid="basket-counter"
+        >
+          {cartDataItems}
         </span>
       ) : null}
     </>
