@@ -2,14 +2,16 @@
   .count {
     margin: 0 10px;
   }
-  
   .button {
     min-width: 42px;
+    &_add {
+      margin: 5px;
+    }
     &_remove {
       margin-top: 10px;
     }
     &.not-active {
-      background: #76696e;
+      background: var(--gray-color);
       pointer-events: none;
     }
   }

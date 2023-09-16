@@ -84,9 +84,10 @@ export const BasketControls: React.FC<Props> = ({ productId }) => {
     };
     const resp = await updateCartById(cart.id, data);
     if (typeof resp === 'string') toast.error(resp);
-    else dispatch(setCartData(resp));
-
-    toast.success('This item has been completely removed from your cart.');
+    else {
+      dispatch(setCartData(resp));
+      toast.success('This item has been completely removed from your cart.');
+    }
   };
 
   const onAddQuantity = async () => {
@@ -125,11 +126,18 @@ export const BasketControls: React.FC<Props> = ({ productId }) => {
 
   return (
     <div className="basket-controls">
-      {!productInCart && (
+      {!productInCart ? (
         <Button
           title="Add to Basket"
           onClick={onAddToBasket}
           classList={['button_add']}
+        />
+      ) : (
+        <Button
+          disabled={true}
+          title="Add to Basket"
+          onClick={onAddToBasket}
+          classList={['button_add', 'not-active']}
         />
       )}
       {productInCart && (
