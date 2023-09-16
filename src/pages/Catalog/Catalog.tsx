@@ -81,7 +81,7 @@ export const CatalogPage = (): React.JSX.Element => {
 
   const resetForm = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
-
+    setActiveCategory('');
     setKeyForm(Date.now());
   };
   const switchSort = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -117,7 +117,6 @@ export const CatalogPage = (): React.JSX.Element => {
             setActiveCategory={setActiveCategory}
           />
           <div className={filterClass}>
-            <h3>Filters</h3>
             <form onReset={resetForm} key={keyForm}>
               <fieldset>
                 <legend>Price</legend>

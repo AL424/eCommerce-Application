@@ -1,7 +1,7 @@
 .card {
     background: var(--dark-blue-color);
     border: 1px solid var(--dark-blue-color);
-    border-radius: .5em;
+    border-radius: .4em;
     overflow: hidden;
     transition: .3s;
     text-decoration: none;
@@ -24,19 +24,23 @@
     }
     &__price{
         display: flex;
+        position: relative;
         flex-direction: column;
         align-items: flex-start;
+        font-size: 1.4rem;
         color:  var(--active-color);
         font-weight: bold;
         margin: 0;
         &-old{
-            font-size: .7rem;
+            position: absolute;
+            top: -1.05em;
+            font-size: .95rem;
             margin-right: 0.5em;
             text-decoration: line-through;
             &+*{
                 display: inline-block;
-                padding: .2em 0.5em;
-                border-radius: .3em;
+                padding: .15em 0.5em;
+                border-radius: .2em;
                 background-color:  var(--active-color);
                 color: var(--white-color);
             }
@@ -44,15 +48,28 @@
     }
     &__text{
         text-align: left;
-        padding: 0 1em;
+        padding: 1em 1em 0;
         color: var(--white-color) 
     }
     &__title{
-        margin: 1em 0;
+        margin: 0;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-size: 1.1rem;
         min-height: 2.3em;
+        margin-bottom: 0.7em;
     }
     &__description{
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
         font-size: .8rem;
+        opacity: .7;
     }
     &__addButton{
         display: flex;
@@ -65,9 +82,16 @@
             width: 2em;
             height: 2em;
             border-radius: .2em;
+            &:hover{
+                background-color: var(--hover-color);
+            }
         }
         &__remove{
-            background: var(--hover-color) url('../../assets/remove-cart.svg') no-repeat center;
+            opacity: .5;
+            background: var(--active-color) url('../../assets/remove-cart.svg') no-repeat center;
+            &:hover{
+                opacity: 1;
+            }
         }
         &__add{
             background: var(--active-color) url('../../assets/cart.svg') no-repeat center;
