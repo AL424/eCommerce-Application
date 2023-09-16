@@ -1,3 +1,8 @@
+.registration__sub-title {
+  margin: 0;
+  color: var(--white-color);
+}
+
 .addresses {
   display: flex;
   gap: .5em;
@@ -9,7 +14,7 @@
 }
 
 .addressTitle {
-  color: white;
+  color: var(--white-color);
 }
 
 .shipping select,
@@ -18,7 +23,7 @@
 }
 
 .addressSettings {
-  color: white;
+  color: var(--white-color);
   margin-bottom: 0.5em;
 
   input,
