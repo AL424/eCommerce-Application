@@ -59,22 +59,18 @@
         align-items: center;
         justify-content: space-between;
     }
-    &__button{
-        padding: 0.3em;
-        width: 2em;
-        height: 2em;
-        outline: none;
-        border: none;
-        border-radius: .2em;
-        background: var(--active-color) url('../../assets/cart.svg') no-repeat center;
-        background-size: 1.5em;
-        transition: .3s;
-        cursor: pointer;
-        &:hover{
-            background-color: var(--hover-color);
+    & .basket-controls{
+        &__remove,
+        &__add{
+            width: 2em;
+            height: 2em;
+            border-radius: .2em;
         }
-        &:disabled{
-            background-color: grey;
+        &__remove{
+            background: var(--hover-color) url('../../assets/remove-cart.svg') no-repeat center;
+        }
+        &__add{
+            background: var(--active-color) url('../../assets/cart.svg') no-repeat center;
         }
     }
 }

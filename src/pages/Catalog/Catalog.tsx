@@ -4,23 +4,12 @@ import {
   getCategories,
   getProductsByFilter
 } from '../../services/eCommerceService/Products';
-import {
-  Category,
-  MyCartAddLineItemAction,
-  ProductProjection
-} from '@commercetools/platform-sdk';
+import { Category, ProductProjection } from '@commercetools/platform-sdk';
 import { ProductCard } from '../../components/ProductCard/ProductCard';
 import { Range } from '../../components/common/Range/Range';
 import { CategoryNav } from '../../components/CategoryNav/CategoryNav';
 import { CategoryBreadcrumb } from '../../components/CategoryNav/CategoryBreadcrumb';
 import { useNavigate } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../../services/store/hooks';
-import {
-  createMyCart,
-  updateCartById
-} from '../../services/eCommerceService/Cart';
-import { setCartData } from '../../services/store/cartSlice';
-import { toast } from 'react-toastify';
 
 const containerClass = 'catalog';
 const filterClass = 'catalog__filter';
@@ -48,8 +37,6 @@ export const CatalogPage = (): React.JSX.Element => {
   const [loader, setLoader] = useState(false);
   const [limit, setLimit] = useState(initialLimit);
   const navigate = useNavigate();
-  const cartData = useAppSelector((state) => state.cartData.value);
-  const dispatch = useAppDispatch();
 
   // Работа с категориями
   const [activeCategory, setActiveCategory] = useState('');
@@ -105,40 +92,12 @@ export const CatalogPage = (): React.JSX.Element => {
     setSearchString(event.target.value);
   };
 
-  const addProductToCart = async (productId: string) => {
-    let data = cartData;
-
-    if (cartData === null) {
-      const newData = await createMyCart();
-      data = typeof newData === 'string' ? null : newData;
-    }
-
-    if (data) {
-      const action: MyCartAddLineItemAction = {
-        action: 'addLineItem',
-        productId
-      };
-
-      const cart = await updateCartById(data.id, {
-        version: data.version,
-        actions: [action]
-      });
-      if (typeof cart !== 'string') dispatch(setCartData(cart));
-    }
-  };
-
   const cartHandle = async (event: React.MouseEvent) => {
     event.preventDefault();
     if (event.target instanceof HTMLElement) {
       const id = event.target.closest('.card')?.getAttribute('id');
 
-      if (event.target instanceof HTMLButtonElement && typeof id === 'string') {
-        event.target.classList.add('red');
-        await addProductToCart(id);
-        toast('Added to cart');
-        return;
-      }
-
+      if (event.target instanceof HTMLButtonElement) return;
       if (typeof id === 'string') navigate(id);
     }
   };

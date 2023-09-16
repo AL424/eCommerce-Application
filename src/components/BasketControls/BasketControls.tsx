@@ -17,9 +17,10 @@ import {
 
 interface Props {
   productId: string;
+  min?: boolean;
 }
 
-export const BasketControls: React.FC<Props> = ({ productId }) => {
+export const BasketControls: React.FC<Props> = ({ productId, min }) => {
   const [productInCart, setPdoductInCart] = useState(false);
   const [product, setProduct] = useState<LineItem | null>(null);
   const [quantity, setQuantity] = useState(product?.quantity || 0);
@@ -116,17 +117,26 @@ export const BasketControls: React.FC<Props> = ({ productId }) => {
 
   return (
     <div className="basket-controls">
-      {!productInCart && (
-        <Button title="Add to Basket" onClick={onAddToBasket} />
+      {productInCart ? (
+        <Button
+          title={min ? '' : 'Remove from Basket'}
+          onClick={onRemoveLineItem}
+          classList={['basket-controls__remove']}
+        />
+      ) : (
+        <Button
+          title={min ? '' : 'Add to Basket'}
+          onClick={onAddToBasket}
+          classList={['basket-controls__add']}
+        />
       )}
-      {productInCart && (
+      {productInCart && !min && (
         <>
           <div className="count">
             <Button title="-" onClick={onTakeAwayQuantity} />
             <span className="basket-controls__count">{quantity}</span>
             <Button title="+" onClick={onAddQuantity} />
           </div>
-          <Button title="Remove from Basket" onClick={onRemoveLineItem} />
         </>
       )}
     </div>
