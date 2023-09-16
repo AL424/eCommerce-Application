@@ -1,6 +1,6 @@
 import './BasketControls.scss';
 import React, { useState, useEffect } from 'react';
-import { Button } from '../buttons/button';
+import { Button } from '../Button/Button';
 import { useAppDispatch, useAppSelector } from '../../services/store/hooks';
 import {
   createMyCart,
@@ -20,23 +20,30 @@ interface Props {
 }
 
 export const BasketControls: React.FC<Props> = ({ productId }) => {
-  const [productInCart, setPdoductInCart] = useState(false);
+  const [productInCart, setProductInCart] = useState(false);
   const [product, setProduct] = useState<LineItem | null>(null);
   const [quantity, setQuantity] = useState(product?.quantity || 0);
   const cart = useAppSelector((state) => state.cartData.value);
   const dispatch = useAppDispatch();
 
+  const [btnClassList, setBtnClassList] = useState<string[]>([]);
+
   useEffect(() => {
-    if (!cart) setPdoductInCart(false);
+    if (quantity < 2) setBtnClassList(['not-active']);
+    else setBtnClassList([]);
+  }, [quantity]);
+
+  useEffect(() => {
+    if (!cart) setProductInCart(false);
     else {
       const lineItems = cart.lineItems;
       const lineItem = lineItems.find((item) => item.productId === productId);
       if (lineItem) {
-        setPdoductInCart(true);
+        setProductInCart(true);
         setProduct(lineItem);
         setQuantity(lineItem.quantity);
       } else {
-        setPdoductInCart(false);
+        setProductInCart(false);
         setProduct(null);
         setQuantity(0);
       }
@@ -119,16 +126,28 @@ export const BasketControls: React.FC<Props> = ({ productId }) => {
   return (
     <div className="basket-controls">
       {!productInCart && (
-        <Button title="Add to Basket" onClick={onAddToBasket} />
+        <Button
+          title="Add to Basket"
+          onClick={onAddToBasket}
+          classList={['button_add']}
+        />
       )}
       {productInCart && (
         <>
-          <div className="count">
-            <Button title="-" onClick={onTakeAwayQuantity} />
-            <span className="basket-controls__count">{quantity}</span>
+          <div className="count-wrap">
+            <Button
+              title="-"
+              onClick={onTakeAwayQuantity}
+              classList={btnClassList}
+            />
+            <span className="count">{quantity}</span>
             <Button title="+" onClick={onAddQuantity} />
           </div>
-          <Button title="Remove from Basket" onClick={onRemoveLineItem} />
+          <Button
+            title="Remove from Basket"
+            onClick={onRemoveLineItem}
+            classList={['button_remove']}
+          />
         </>
       )}
     </div>

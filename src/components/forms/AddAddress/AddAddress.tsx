@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button } from '../../buttons/button';
+import { Button } from '../../Button/Button';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import {
   Address,
