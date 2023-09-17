@@ -5,7 +5,10 @@
   .button {
     min-width: 42px;
     &_add {
-      margin: 5px;
+      margin: 0px;
+      @media screen and (max-width: 760px) {
+        margin: 0 0 5px 5px;
+      }
     }
     &_remove {
       margin-top: 10px;
