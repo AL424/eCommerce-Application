@@ -126,20 +126,12 @@ export const BasketControls: React.FC<Props> = ({ productId }) => {
 
   return (
     <div className="basket-controls">
-      {!productInCart ? (
-        <Button
-          title="Add to Basket"
-          onClick={onAddToBasket}
-          classList={['button_add']}
-        />
-      ) : (
-        <Button
-          disabled={true}
-          title="Add to Basket"
-          onClick={onAddToBasket}
-          classList={['button_add', 'not-active']}
-        />
-      )}
+      <Button
+        title="Add to Basket"
+        onClick={onAddToBasket}
+        classList={['button_add', productInCart ? 'not-active' : '']}
+        disabled={productInCart}
+      />
       {productInCart && (
         <>
           <div className="count-wrap">
