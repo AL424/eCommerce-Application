@@ -25,7 +25,7 @@ export const CatalogPage = (): React.JSX.Element => {
     ru: 'ru',
     en: 'en-US'
   };
-  const initialLimit = 12;
+  const initialLimit = 6;
   const initialProductData: ProductProjection[] = [];
   const initialCategoriesData: Category[] = [];
   const [productsData, setProductsData] = useState(initialProductData);
@@ -35,29 +35,39 @@ export const CatalogPage = (): React.JSX.Element => {
   const [keyForm, setKeyForm] = useState(Date.now());
   const [priceRange, setPriceRange] = useState('0 to 10');
   const [loader, setLoader] = useState(false);
-  const [limit, setLimit] = useState(initialLimit);
+  const [limit] = useState(initialLimit);
+  const [offset, setOffset] = useState(0);
   const navigate = useNavigate();
 
   // Работа с категориями
   const [activeCategory, setActiveCategory] = useState('');
 
-  useEffect(() => setLimit(initialLimit), [activeCategory]);
   useEffect(() => {
-    const handleScroll = () => {
+    setProductsData([]);
+    setOffset(0);
+  }, [activeCategory, sortValue, searchString]);
+
+  useEffect(() => {
+    const handleScroll = async () => {
       if (
-        window.innerHeight + document.documentElement.scrollTop >=
+        window.innerHeight + document.documentElement.scrollTop + 100 >=
           document.documentElement.scrollHeight &&
-        limit === productsData.length
+        !loader &&
+        productsData.length > offset
       ) {
-        setLimit(limit + 1);
+        setOffset(offset + limit);
       }
     };
+    window.addEventListener('wheel', handleScroll);
     window.addEventListener('scroll', handleScroll);
     getCategories().then((data) => {
       setCategoriesData(data.body.results);
     });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [limit, productsData.length]);
+    return () => {
+      window.removeEventListener('wheel', handleScroll);
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [limit, loader, offset, productsData.length]);
 
   useEffect(() => {
     const getData = setTimeout(async () => {
@@ -67,13 +77,18 @@ export const CatalogPage = (): React.JSX.Element => {
         priceRange,
         sortValue,
         searchString,
-        limit
+        limit,
+        offset
       );
-      setProductsData(data.body.results);
+      if (offset === 0) {
+        setProductsData(data.body.results);
+      } else {
+        setProductsData([...productsData, ...data.body.results]);
+      }
       setLoader(false);
     }, 100);
     return () => clearTimeout(getData);
-  }, [activeCategory, sortValue, searchString, priceRange, limit]);
+  }, [activeCategory, sortValue, searchString, priceRange, limit, offset]);
 
   const getPriceRange = ({ min, max }: { min: number; max: number }) => {
     setPriceRange(`${min * 100} to ${max * 100}`);
