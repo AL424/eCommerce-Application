@@ -16,7 +16,7 @@ import {
 import React, { useState, useEffect } from 'react';
 import Select from '../../common/Select/Select';
 import Input from '../../common/Input/Input';
-import { Button } from '../../buttons/button';
+import { Button } from '../../Button/Button';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import citiesByCountry from '../../../utils/constants/countries.constants';
 import { cityValidation } from '../../../utils/validation/cityValidation';

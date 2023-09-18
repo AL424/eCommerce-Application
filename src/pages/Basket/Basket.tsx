@@ -1,7 +1,7 @@
 import './Basket.scss';
 import React, { useState } from 'react';
 import { Breadcrumb } from '../../components/LocationPages/Breadcrumb';
-import { Button } from '../../components/buttons/button';
+import { Button } from '../../components/Button/Button';
 import { Cart } from '@commercetools/platform-sdk';
 import {
   createMyCart,
