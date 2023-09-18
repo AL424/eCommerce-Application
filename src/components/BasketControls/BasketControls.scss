@@ -8,6 +8,9 @@
       width: 40px;
       height: 40px;
       background: var(--active-color) url('../../assets/cart.svg') no-repeat center;
+      &:hover{
+        background: var(--hover-color) url('../../assets/cart.svg') no-repeat center;
+      }
     }
     &:disabled {
       background-color: var(--gray-color);

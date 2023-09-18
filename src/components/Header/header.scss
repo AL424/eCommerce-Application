@@ -54,7 +54,7 @@
     }
     & > span {
       display: block;
-      height: 3px;
+      height: 2px;
       width: 100%;
       background-color: var(--active-color);
       border-radius: .5em;
@@ -64,7 +64,7 @@
         content: '';
         display: block;
         position: absolute;
-        height: 3px;
+        height: 2px;
         width: 100%;
         background-color: var(--active-color);
         border-radius: .5em;
