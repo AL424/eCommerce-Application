@@ -52,6 +52,7 @@ export const CatalogPage = (): React.JSX.Element => {
   useEffect(() => {
     setProductsData([]);
     setOffset(0);
+    setTotalProducts(0);
   }, [activeCategory, sortValue, searchString]);
 
   useEffect(() => {
@@ -67,7 +68,11 @@ export const CatalogPage = (): React.JSX.Element => {
       }
     };
     window.addEventListener('wheel', handleScroll);
-    return () => window.removeEventListener('wheel', handleScroll);
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('wheel', handleScroll);
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, [limit, loader, offset, productsData.length, totalProducts]);
 
   useEffect(() => {
