@@ -30,6 +30,7 @@
   cursor: pointer;
   border: none;
   border-radius: 0.1em;
+  transition: background-color 0.3s;
   &:hover {
     background: var(--hover-color) url('../../assets/cart.svg') no-repeat center;
   }
