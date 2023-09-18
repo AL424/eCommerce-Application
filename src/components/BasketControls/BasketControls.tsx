@@ -26,6 +26,7 @@ export const BasketControls: React.FC<Props> = ({ productId, min }) => {
   const [quantity, setQuantity] = useState(product?.quantity || 0);
   const cart = useAppSelector((state) => state.cartData.value);
   const dispatch = useAppDispatch();
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (!cart) setProductInCart(false);
@@ -45,10 +46,12 @@ export const BasketControls: React.FC<Props> = ({ productId, min }) => {
   }, [cart, productId]);
 
   const onAddToBasket = async () => {
+    setLoading(true);
     if (!cart) {
       const resp = await createMyCart({ productId });
       if (typeof resp === 'string') toast.error(resp);
       else dispatch(setCartData(resp));
+      setLoading(false);
     } else {
       const action: MyCartAddLineItemAction = {
         action: 'addLineItem',
@@ -61,6 +64,7 @@ export const BasketControls: React.FC<Props> = ({ productId, min }) => {
       const resp = await updateCartById(cart.id, data);
       if (typeof resp === 'string') toast.error(resp);
       else dispatch(setCartData(resp));
+      setLoading(false);
     }
   };
 
@@ -123,8 +127,14 @@ export const BasketControls: React.FC<Props> = ({ productId, min }) => {
       <Button
         title={min ? '' : 'Add to Basket'}
         onClick={onAddToBasket}
-        classList={min ? ['button_add', 'button_add-min'] : ['button_add']}
-        disabled={productInCart}
+        classList={
+          min
+            ? loading
+              ? ['button_add', 'button_add-min', 'loading']
+              : ['button_add', 'button_add-min']
+            : ['button_add']
+        }
+        disabled={productInCart || loading}
       />
       {productInCart && (
         <>

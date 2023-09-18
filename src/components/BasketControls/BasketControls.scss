@@ -5,8 +5,8 @@
   .button {
     min-width: 42px;
     &_add-min {
-      width: 2em;
-      height: 2em;
+      width: 40px;
+      height: 40px;
       background: var(--active-color) url('../../assets/cart.svg') no-repeat center;
     }
     &:disabled {
@@ -16,6 +16,11 @@
         transform: none;
         opacity: 1;
       }
+    }
+    &.loading {
+      border-radius: 50%;
+      background: url('../../assets/loading.svg') no-repeat center / contain;
+      animation:  2s linear infinite spin;
     }
   }
 }
