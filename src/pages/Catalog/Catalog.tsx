@@ -37,6 +37,7 @@ export const CatalogPage = (): React.JSX.Element => {
   const [loader, setLoader] = useState(false);
   const [limit] = useState(initialLimit);
   const [offset, setOffset] = useState(0);
+  const [totalProducts, setTotalProducts] = useState(0);
   const navigate = useNavigate();
 
   // Работа с категориями
@@ -59,18 +60,18 @@ export const CatalogPage = (): React.JSX.Element => {
         window.innerHeight + document.documentElement.scrollTop + 100 >=
           document.documentElement.scrollHeight &&
         !loader &&
-        productsData.length > offset
+        productsData.length < totalProducts
       ) {
+        setLoader(true);
         setOffset((prev) => prev + limit);
       }
     };
     window.addEventListener('wheel', handleScroll);
     return () => window.removeEventListener('wheel', handleScroll);
-  }, [limit, loader, offset, productsData.length]);
+  }, [limit, loader, offset, productsData.length, totalProducts]);
 
   useEffect(() => {
     const getData = setTimeout(async () => {
-      setLoader(true);
       const data = await getProductsByFilter(
         activeCategory,
         priceRange,
@@ -80,6 +81,7 @@ export const CatalogPage = (): React.JSX.Element => {
         offset
       );
       setProductsData((prev) => [...prev, ...data.body.results]);
+      setTotalProducts(data.body.total || 0);
       setLoader(false);
     }, 100);
     return () => clearTimeout(getData);
