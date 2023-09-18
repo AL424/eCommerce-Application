@@ -64,7 +64,8 @@ export const CatalogPage = (): React.JSX.Element => {
         productsData.length < totalProducts
       ) {
         setLoader(true);
-        setOffset((prev) => prev + limit);
+        if (!(offset + limit >= totalProducts))
+          setOffset((prev) => prev + limit);
       }
     };
     window.addEventListener('wheel', handleScroll);
