@@ -19,12 +19,12 @@ export const emailValidation = {
     ) {
       return 'Invalid e-mail user name (e.g. username@example.com)';
     }
-    const domianName = value.slice(index + 1);
-    if (!domianName) {
-      return 'E-mail must contain domian name (e.g. username@example.com)';
+    const domainName = value.slice(index + 1);
+    if (!domainName) {
+      return 'E-mail must contain domain name (e.g. username@example.com)';
     }
-    if (!/[a-z0-9.-]+\.[a-z]{2,}$/.test(domianName)) {
-      return 'Invalid e-mail domian name (e.g. username@example.com)';
+    if (!/[a-z0-9.-]+\.[a-z]{2,}$/.test(domainName)) {
+      return 'Invalid e-mail domain name (e.g. username@example.com)';
     }
     return true;
   }
