@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route } from '../../Router/Router';
 import { Link } from 'react-router-dom';
-import './Footer.scss';
+import './footer.scss';
 
 const footerClass = 'footer';
 
