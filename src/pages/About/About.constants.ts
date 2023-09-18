@@ -1,13 +1,13 @@
-import michaelScottImg from '../../assets/michaelscott.jpg';
+import alexImg from '../../assets/alexImg.jpg';
 import jimHalpertImg from '../../assets/jimhalpert.jpg';
 import egorImg from '../../assets/egorberezhnov.jpg';
 
 const teamMembersData = [
   {
-    name: 'Alexander',
+    name: 'Alexandr Hradovich',
     role: 'Frontend-Developer, Team Lead',
-    bio: "Alexander is our visionary leader and chief problem solver. With a passion for innovation and a knack for solving complex technical challenges, he's the driving force behind our projects. Alexander's leadership skills have been instrumental in our team's success",
-    img: michaelScottImg,
+    bio: "Alexandr is our visionary leader and chief problem solver. With a passion for innovation and a knack for solving complex technical challenges, he's the driving force behind our projects. Alexander's leadership skills have been instrumental in our team's success",
+    img: alexImg,
     githubLink: 'https://github.com/al424'
   },
   {
@@ -28,7 +28,7 @@ const teamMembersData = [
 
 export const teamTasksData = [
   {
-    name: 'Alexander',
+    name: 'Alexandr',
     tasks: [
       'Repository Setup',
       'Task Board Setup',
