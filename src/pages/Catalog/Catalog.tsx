@@ -25,7 +25,7 @@ export const CatalogPage = (): React.JSX.Element => {
     ru: 'ru',
     en: 'en-US'
   };
-  const initialLimit = 6;
+  const limit = 6;
   const initialProductData: ProductProjection[] = [];
   const initialCategoriesData: Category[] = [];
   const [productsData, setProductsData] = useState(initialProductData);
@@ -35,7 +35,6 @@ export const CatalogPage = (): React.JSX.Element => {
   const [keyForm, setKeyForm] = useState(Date.now());
   const [priceRange, setPriceRange] = useState('0 to 10');
   const [loader, setLoader] = useState(false);
-  const [limit] = useState(initialLimit);
   const [offset, setOffset] = useState(0);
   const [totalProducts, setTotalProducts] = useState(0);
   const navigate = useNavigate();
@@ -65,7 +64,8 @@ export const CatalogPage = (): React.JSX.Element => {
         offset < totalProducts &&
         productsData.length < totalProducts
       ) {
-        setOffset((prev) => prev + limit);
+        setLoader(true);
+        setOffset(productsData.length);
       }
     };
     window.addEventListener('wheel', handleScroll);
