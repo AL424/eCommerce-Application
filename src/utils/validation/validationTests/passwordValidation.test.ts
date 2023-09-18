@@ -1,4 +1,4 @@
-import { passwordValidation } from './passwordValidation';
+import { passwordValidation } from '../passwordValidation';
 
 describe('passwordValidation', () => {
   it('should return error message when value is empty', () => {

@@ -1,4 +1,4 @@
-import { emailValidation } from './emailValidation';
+import { emailValidation } from '../emailValidation';
 
 describe('emailValidation', () => {
   it('should return error message when value contains spaces', () => {

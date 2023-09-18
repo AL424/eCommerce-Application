@@ -1,4 +1,4 @@
-import { ageValidation } from './ageValidation';
+import { ageValidation } from '../ageValidation';
 
 describe('ageValidation', () => {
   it('should return error message when age is less than 13', () => {

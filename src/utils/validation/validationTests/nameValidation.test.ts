@@ -1,4 +1,4 @@
-import { nameValidation } from './nameValidation';
+import { nameValidation } from '../nameValidation';
 
 describe('nameValidation', () => {
   it('should return error message when value is empty', () => {

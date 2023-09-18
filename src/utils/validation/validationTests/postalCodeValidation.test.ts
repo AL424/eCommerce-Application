@@ -1,4 +1,4 @@
-import { postalCodeValidation } from './postalCodeValidation';
+import { postalCodeValidation } from '../postalCodeValidation';
 
 describe('postalCodeValidation', () => {
   it('should return error message when value is empty', () => {

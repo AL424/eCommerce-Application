@@ -1,4 +1,4 @@
-import { cityValidation } from './cityValidation';
+import { cityValidation } from '../cityValidation';
 
 describe('cityValidation', () => {
   it('should return error message when value has leading or trailing spaces', () => {
