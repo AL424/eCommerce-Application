@@ -1,12 +1,16 @@
 .menu {
     margin: 0;
     display: flex;
+    align-items: center;
     list-style-type: none;
     & > *+* {
         margin-left: 0.5em;
     }
     &__link {
         position: relative;
+        &:hover svg path {
+            fill: var(--active-color);
+        }
         &:hover,
         &.active{
             color: var(--active-color);

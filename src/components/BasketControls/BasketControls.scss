@@ -1,0 +1,12 @@
+.basket-controls {
+  .count {
+    margin: 0 10px;
+  }
+  .button {
+    min-width: 42px;
+    &:disabled {
+      background: var(--gray-color);
+      pointer-events: none;
+    }
+  }
+}

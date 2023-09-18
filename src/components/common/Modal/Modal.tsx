@@ -20,6 +20,7 @@ const Modal: React.FC<ModalProps> = ({
 }) => {
   const sliderSettings: Settings = {
     dots: true,
+    fade: true,
     infinite: true,
     arrows: true,
     speed: 500,

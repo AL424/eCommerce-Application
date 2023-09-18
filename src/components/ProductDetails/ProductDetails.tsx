@@ -25,7 +25,7 @@ export const ProductDetails = () => {
   const largeSliderRef = useRef<Slider | null>(null);
   const smallSliderRef = useRef<Slider | null>(null);
 
-  const handleImageClick = (imageUrl: string, index: number) => {
+  const handleImageClick = (index: number) => {
     setSelectedImageIndex(index);
     setModalOpen(true);
   };
@@ -71,6 +71,7 @@ export const ProductDetails = () => {
 
   const largeSliderSettings: Settings = {
     dots: false,
+    // fade: true,
     infinite: true,
     arrows: imageUrls.length > 1 ? true : false,
     speed: 500,
@@ -81,6 +82,8 @@ export const ProductDetails = () => {
   };
 
   const smallSliderSettings: Settings = {
+    centerMode: true,
+    centerPadding: '0px',
     dots: false,
     infinite: imageUrls.length > 3 ? true : false,
     arrows: false,
@@ -108,7 +111,7 @@ export const ProductDetails = () => {
                       src={image.url}
                       alt={image.label}
                       style={{ width: '350px', height: '350px' }}
-                      onClick={() => handleImageClick(image.url, index)}
+                      onClick={() => handleImageClick(index)}
                     />
                   </div>
                 ))}
@@ -146,13 +149,13 @@ export const ProductDetails = () => {
             <p>{product.description?.['en-US'] || 'There is no description'}</p>
             <div>
               <p>
-                Category:{' '}
+                <span className="bold-text">Category:</span>{' '}
                 {productCategory?.name['en-US'] || 'Product without category'}
               </p>
               {product.masterVariant.prices?.map((price, index) => (
                 <div key={index}>
                   <p>
-                    Price:{' '}
+                    <span className="bold-text">Price:</span>{' '}
                     <span
                       className={
                         price.discounted ? 'discounted-available' : 'real-price'
@@ -167,7 +170,7 @@ export const ProductDetails = () => {
 
                   {price.discounted && (
                     <p>
-                      Discounted Price:{' '}
+                      <span className="bold-text">Discounted Price:</span>{' '}
                       <span className="discounted-price">
                         {formatCurrency(
                           price.discounted.value.centAmount / 100,
@@ -179,7 +182,7 @@ export const ProductDetails = () => {
 
                   {price.tiers?.map((tier, tierIndex) => (
                     <p key={tierIndex}>
-                      Tier {tierIndex + 1}:{' '}
+                      <span className="bold-text">Tier {tierIndex + 1}:</span>{' '}
                       {formatCurrency(
                         tier.value.centAmount / 100,
                         tier.value.currencyCode

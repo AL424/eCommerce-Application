@@ -1,0 +1,33 @@
+.promo {
+  position: relative;
+
+  .slick-dots {
+    position: absolute;
+    bottom: 1.2rem;
+
+    li {
+      width: 0.8rem;
+      height: 0.8rem;
+      margin: 0 2rem;
+      border-radius: 50%;
+      background-color: var(--white-color);
+      transition: 0.5s;
+      
+      &:hover {
+        background-color: var(--active-color);
+      }
+
+      &.slick-active {
+        transform: scale(1.3);
+        background-color: var(--hover-color);
+        &:hover {
+          background-color: var(--active-color);
+        }
+      }
+      
+      button {
+        opacity: 0;
+      }
+    }
+  }
+}

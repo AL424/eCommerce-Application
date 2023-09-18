@@ -23,7 +23,9 @@ export const MobileMenu: React.FC = () => {
       (element.classList.contains(closedButtonClass) ||
         element.classList.contains(popupClass) ||
         element.classList.contains(linkClass) ||
-        element.classList.contains(buttonClass))
+        element.classList.contains(buttonClass) ||
+        element.innerText === 'Basket' ||
+        element.classList.contains('basket-counter'))
     ) {
       event.currentTarget.classList.remove(popupShowClass);
     }

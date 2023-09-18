@@ -1,22 +1,41 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
+
 :root{
   --white-color: #F6F8FC;
   --dark-blue-color: #1D2328;
   --active-color: #bf1650;
   --hover-color: #f5558d;
+  --gray-color: #7B7C81;
+  --gray-hover: #7B586B;
   box-sizing: border-box;
 }
+
 *,
 *::after,
 *::before{
   box-sizing: inherit;
 }
+
 body{
   margin: 0;
   font-family: 'Roboto', sans-serif;
   color: var(--dark-blue-color);
   min-width: 320px;
 }
+
+main {
+  background: bottom right / cover no-repeat url('./assets/main-bg2.jpg'), var(--white-color);
+  &:has(.basket-page),
+  &:has(.error-page) {
+    background: bottom left / cover no-repeat url('./assets/main-bg.jpg'), var(--white-color);
+  }
+  &:has(.login-page),
+  &:has(.registration-page),
+  &:has(.profile-page) {
+    background: bottom left / cover no-repeat url('./assets/main-bg3.jpg'), var(--white-color);
+  }
+}
+
 .button {
   font-family: 'Roboto', sans-serif;
   font-size: .9rem;
@@ -26,14 +45,14 @@ body{
 }
 
 .form-container {
-    padding: 1rem;
-    width: 100%;
-    max-width: 500px;
-    background: var(--dark-blue-color);
-    margin: 0 auto;
-    border: 1px solid var(--white-color);
-    border-radius: .7em;
+  padding: 1rem;
+  width: 100%;
+  max-width: 500px;
+  background: var(--dark-blue-color);
+  margin: 0 auto;
+  border-radius: .7em;
 }
+
 .description-message {
   font-size: .8rem;
   color: var(--dark-blue-color);
@@ -46,11 +65,13 @@ body{
     }
   }
 }
+
 .error-message {
   margin-top: 0.2em;
   color: var(--active-color);
   font-size: .7rem;
 }
+
 .form-label {
   display: block;
   margin-bottom: 0.5em;
@@ -64,6 +85,7 @@ body{
     margin-left: .3em;
   }
 }
+
 .form-input {
   display: block;
   width: 100%;
@@ -77,6 +99,7 @@ body{
     cursor: context-menu;
   }
 }
+
 .button {
   background: var(--active-color);
   color: var(--white-color);
@@ -112,6 +135,7 @@ body{
     background: var(--hover-color);
   }
 }
+
 .login-page,
 .registration-page{
   display: flex;
@@ -119,6 +143,7 @@ body{
   justify-content: center;
   align-items: center;
 }
+
 .login-page .form-container{
   max-width: 320px;
 }

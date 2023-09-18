@@ -120,13 +120,15 @@ export const BasketControls: React.FC<Props> = ({ productId, min }) => {
 
   return (
     <div className="basket-controls">
-      <Button
-        title={'Add to Basket'}
-        onClick={onAddToBasket}
-        classList={['button_add']}
-        disabled={productInCart}
-      />
-      {productInCart && !min && (
+      {!productInCart && (
+        <Button
+          title={min ? '' : 'Add to Basket'}
+          onClick={onAddToBasket}
+          classList={min ? ['button_add', 'button_add-min'] : ['button_add']}
+          disabled={productInCart}
+        />
+      )}
+      {productInCart && (
         <>
           <div className="count-wrap">
             <Button
@@ -138,9 +140,11 @@ export const BasketControls: React.FC<Props> = ({ productId, min }) => {
             <Button title="+" onClick={onAddQuantity} />
           </div>
           <Button
-            title="Remove from Basket"
+            title={min ? '' : 'Remove from Basket'}
             onClick={onRemoveLineItem}
-            classList={['button_remove']}
+            classList={
+              min ? ['button_remove', 'button_remove-min'] : ['button_remove']
+            }
           />
         </>
       )}
