@@ -91,7 +91,9 @@
   font-weight: bold;
 }
 
-.product__info > div > .basket-controls > .button_add {
-  margin-bottom: 5px;
+.product__info {
+  .basket-controls > *:not(:last-child) {
+    margin-bottom: 10px;
+  }
 }
 

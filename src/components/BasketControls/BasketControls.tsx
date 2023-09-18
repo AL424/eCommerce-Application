@@ -26,13 +26,6 @@ export const BasketControls: React.FC<Props> = ({ productId }) => {
   const cart = useAppSelector((state) => state.cartData.value);
   const dispatch = useAppDispatch();
 
-  const [btnClassList, setBtnClassList] = useState<string[]>([]);
-
-  useEffect(() => {
-    if (quantity < 2) setBtnClassList(['not-active']);
-    else setBtnClassList([]);
-  }, [quantity]);
-
   useEffect(() => {
     if (!cart) setProductInCart(false);
     else {
@@ -127,9 +120,9 @@ export const BasketControls: React.FC<Props> = ({ productId }) => {
   return (
     <div className="basket-controls">
       <Button
-        title={productInCart ? 'Added to Basket' : 'Add to Basket'}
+        title={'Add to Basket'}
         onClick={onAddToBasket}
-        classList={['button_add', productInCart ? 'not-active' : '']}
+        classList={['button_add']}
         disabled={productInCart}
       />
       {productInCart && (
@@ -138,7 +131,7 @@ export const BasketControls: React.FC<Props> = ({ productId }) => {
             <Button
               title="-"
               onClick={onTakeAwayQuantity}
-              classList={btnClassList}
+              disabled={quantity < 2}
             />
             <span className="count">{quantity}</span>
             <Button title="+" onClick={onAddQuantity} />
