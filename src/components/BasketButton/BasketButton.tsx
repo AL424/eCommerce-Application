@@ -3,7 +3,7 @@ import { useAppSelector } from '../../services/store/hooks';
 import './BasketButton.scss';
 
 const BasketButton = ({ withImg = false }) => {
-  const buttonClass = 'card__button';
+  const buttonClass = 'basket-button';
   const basketCounter = 'basket-counter';
   const basketCounterForImg = 'basket-counter-img';
 
