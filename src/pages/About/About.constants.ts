@@ -1,5 +1,5 @@
 import alexImg from '../../assets/alexImg.jpg';
-import jimHalpertImg from '../../assets/jimhalpert.jpg';
+import dmitriy from '../../assets/dmitry.jpg';
 import egorImg from '../../assets/egorberezhnov.jpg';
 
 const teamMembersData = [
@@ -11,10 +11,10 @@ const teamMembersData = [
     githubLink: 'https://github.com/al424'
   },
   {
-    name: 'Dmitriy',
+    name: 'Dmitriy Chistiakov',
     role: 'Frontend-Developer',
     bio: "Dmitriy is a frontend wizard who turns design concepts into stunning user interfaces. His attention to detail and commitment to creating user-friendly experiences are unmatched. Dmitriy's extensive experience in web development have been instrumental in our team's success",
-    img: jimHalpertImg,
+    img: dmitriy,
     githubLink: 'https://github.com/dmitriyrim'
   },
   {
