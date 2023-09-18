@@ -76,16 +76,12 @@
         align-items: center;
         justify-content: space-between;
     }
-    & .basket-controls{
-        & .button_add{
-            padding: .4em .6em;
-            border-radius: .2em;
-            &:hover{
-                background-color: var(--hover-color);
-            }
-            &:disabled {
-                background-color: var(--gray-color);
-            }
+    .basket-controls {
+        .count-wrap {
+            display: none;
+        }
+        .button_remove {
+            display: none;
         }
     }
 }

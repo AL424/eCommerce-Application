@@ -4,9 +4,18 @@
   }
   .button {
     min-width: 42px;
+    &_add-min {
+      width: 2em;
+      height: 2em;
+      background: var(--active-color) url('../../assets/cart.svg') no-repeat center;
+    }
     &:disabled {
-      background: var(--gray-color);
-      pointer-events: none;
+      background-color: var(--gray-color);
+      cursor: auto;
+      &:active {
+        transform: none;
+        opacity: 1;
+      }
     }
   }
 }
