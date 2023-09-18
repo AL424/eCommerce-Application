@@ -43,6 +43,12 @@ export const CatalogPage = (): React.JSX.Element => {
   const [activeCategory, setActiveCategory] = useState('');
 
   useEffect(() => {
+    getCategories().then((data) => {
+      setCategoriesData(data.body.results);
+    });
+  }, []);
+
+  useEffect(() => {
     setProductsData([]);
     setOffset(0);
   }, [activeCategory, sortValue, searchString]);
@@ -55,18 +61,11 @@ export const CatalogPage = (): React.JSX.Element => {
         !loader &&
         productsData.length > offset
       ) {
-        setOffset(offset + limit);
+        setOffset((prev) => prev + limit);
       }
     };
     window.addEventListener('wheel', handleScroll);
-    window.addEventListener('scroll', handleScroll);
-    getCategories().then((data) => {
-      setCategoriesData(data.body.results);
-    });
-    return () => {
-      window.removeEventListener('wheel', handleScroll);
-      window.removeEventListener('scroll', handleScroll);
-    };
+    return () => window.removeEventListener('wheel', handleScroll);
   }, [limit, loader, offset, productsData.length]);
 
   useEffect(() => {
@@ -80,11 +79,7 @@ export const CatalogPage = (): React.JSX.Element => {
         limit,
         offset
       );
-      if (offset === 0) {
-        setProductsData(data.body.results);
-      } else {
-        setProductsData([...productsData, ...data.body.results]);
-      }
+      setProductsData((prev) => [...prev, ...data.body.results]);
       setLoader(false);
     }, 100);
     return () => clearTimeout(getData);
