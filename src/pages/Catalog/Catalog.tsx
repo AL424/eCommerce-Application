@@ -37,6 +37,7 @@ export const CatalogPage = (): React.JSX.Element => {
   const [loader, setLoader] = useState(false);
   const [limit] = useState(initialLimit);
   const [offset, setOffset] = useState(0);
+  const [totalProducts, setTotalProducts] = useState(0);
   const navigate = useNavigate();
 
   // Работа с категориями
@@ -45,33 +46,39 @@ export const CatalogPage = (): React.JSX.Element => {
   useEffect(() => {
     setProductsData([]);
     setOffset(0);
-  }, [activeCategory, sortValue, searchString]);
+    setTotalProducts(0);
+  }, [activeCategory, sortValue, searchString, priceRange]);
+
+  useEffect(() => {
+    getCategories().then((data) => {
+      setCategoriesData(data.body.results);
+    });
+  }, []);
 
   useEffect(() => {
     const handleScroll = async () => {
+      if (loader) return;
       if (
         window.innerHeight + document.documentElement.scrollTop + 100 >=
           document.documentElement.scrollHeight &&
         !loader &&
-        productsData.length > offset
+        offset < totalProducts &&
+        productsData.length < totalProducts
       ) {
-        setOffset(offset + limit);
+        setOffset((prev) => prev + limit);
       }
     };
     window.addEventListener('wheel', handleScroll);
     window.addEventListener('scroll', handleScroll);
-    getCategories().then((data) => {
-      setCategoriesData(data.body.results);
-    });
     return () => {
       window.removeEventListener('wheel', handleScroll);
       window.removeEventListener('scroll', handleScroll);
     };
-  }, [limit, loader, offset, productsData.length]);
+  }, [limit, loader, offset, productsData.length, totalProducts]);
 
   useEffect(() => {
+    setLoader(true);
     const getData = setTimeout(async () => {
-      setLoader(true);
       const data = await getProductsByFilter(
         activeCategory,
         priceRange,
@@ -80,12 +87,9 @@ export const CatalogPage = (): React.JSX.Element => {
         limit,
         offset
       );
-      if (offset === 0) {
-        setProductsData(data.body.results);
-      } else {
-        setProductsData([...productsData, ...data.body.results]);
-      }
+      setProductsData((prev) => [...prev, ...data.body.results]);
       setLoader(false);
+      setTotalProducts(data.body.total || 0);
     }, 100);
     return () => clearTimeout(getData);
   }, [activeCategory, sortValue, searchString, priceRange, limit, offset]);
