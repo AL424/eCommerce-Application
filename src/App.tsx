@@ -3,23 +3,28 @@ import './App.scss';
 import { RouterProvider } from 'react-router-dom';
 import { router } from './Router/Router';
 import { getCartById, getMyActiveCart } from './services/eCommerceService/Cart';
-import { useAppDispatch } from './services/store/hooks';
-import { setCartData } from './services/store/cartSlice';
-import { Cart } from '@commercetools/platform-sdk';
+import { useAppDispatch, useAppSelector } from './services/store/hooks';
+import { resetCartData, setCartData } from './services/store/cartSlice';
 
 function App() {
+  const auth = useAppSelector((state) => state.auth.value);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    const cartId = localStorage.getItem('cart-id');
-    const customerId = localStorage.getItem('customer-id');
-    const setData = (data: Cart | string) => {
-      if (typeof data !== 'string') dispatch(setCartData(data));
+    const upadateCart = async () => {
+      const cartId = localStorage.getItem('cart-id');
+      if (auth) {
+        const cart = await getMyActiveCart();
+        if (typeof cart === 'string') dispatch(resetCartData());
+        else dispatch(setCartData(cart));
+      } else if (cartId) {
+        const cart = await getCartById(cartId);
+        if (typeof cart === 'string') dispatch(resetCartData());
+        else dispatch(setCartData(cart));
+      } else dispatch(resetCartData());
     };
-
-    if (!customerId && cartId) getCartById(cartId).then(setData);
-    if (customerId) getMyActiveCart().then(setData);
-  }, [dispatch]);
+    upadateCart();
+  }, [auth, dispatch]);
 
   return (
     <div className="App">

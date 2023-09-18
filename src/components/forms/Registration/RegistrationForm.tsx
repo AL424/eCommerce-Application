@@ -18,8 +18,8 @@ import citiesByCountry from '../../../utils/constants/countries.constants';
 import './RegistrationForm.scss';
 import { CustomerDraft } from '@commercetools/platform-sdk';
 import { authOn } from '../../../services/store/authSlice';
-import { modalRegOn } from '../../../services/store/modalRegSlice';
 import { useAppDispatch } from '../../../services/store/hooks';
+import { toast } from 'react-toastify';
 
 const buttonClass = 'button';
 const inputClass = 'form-input';
@@ -30,12 +30,10 @@ const RegistrationForm: React.FC = () => {
   const [defaultShippingAddress, setDefaultShippingAddress] = useState(false);
   const [defaultBillingAddress, setDefaultBillingAddress] = useState(false);
   const dispatch = useAppDispatch();
-  const [registrationError, setRegistrationError] = useState(false);
 
   const {
     register,
     handleSubmit,
-    // reset,
     setValue,
     watch,
     formState: { errors }
@@ -58,15 +56,11 @@ const RegistrationForm: React.FC = () => {
 
     const customer = await singup(registrationData);
     if (typeof customer === 'string') {
-      setRegistrationError(true);
+      toast.error(customer);
     } else {
       dispatch(authOn());
-      dispatch(modalRegOn());
+      toast.success(`${registrationData.email} registration successful`);
     }
-  };
-
-  const onInput = () => {
-    setRegistrationError(false);
   };
 
   const postalCodeWatcher = watch('addresses.0.postalCode');
@@ -106,7 +100,6 @@ const RegistrationForm: React.FC = () => {
         placeholder="email@example.com"
         inputProps={register('email', emailValidation)}
         error={errors.email}
-        onInput={onInput}
       />
 
       <PasswordInput
@@ -140,12 +133,11 @@ const RegistrationForm: React.FC = () => {
         error={errors.dateOfBirth}
       />
 
-      <h4 style={{ color: 'white', marginBottom: '0' }}>Addresses</h4>
+      <h4 className="registration__sub-title">Addresses</h4>
 
       <div className="addresses">
-        {/* shipping******************** */}
+        {/* shipping */}
         <div className="shipping">
-          {/* <p>Shipping Address</p> */}
           <p className="addressTitle">{addressTitle}</p>
           <Select
             label="Country"
@@ -153,14 +145,6 @@ const RegistrationForm: React.FC = () => {
             registerProps={register('addresses.0.country')}
           />
 
-          {/* <Select
-            label="City"
-            options={
-              citiesByCountry[watch('addresses.0.country')] ||
-              citiesByCountry.BY
-            }
-            registerProps={register('addresses.0.city')}
-          /> */}
           <Input
             label="City"
             placeholder="Enter your city"
@@ -191,8 +175,8 @@ const RegistrationForm: React.FC = () => {
             error={errors.addresses?.[0]?.building}
           />
         </div>
-        {/* billing********************* */}
-        {hideBilling ? null : (
+        {/* billing */}
+        {!hideBilling && (
           <div className="billing">
             <p className="addressTitle">Billing Address</p>
             <Select
@@ -201,14 +185,6 @@ const RegistrationForm: React.FC = () => {
               registerProps={register('addresses.1.country')}
             />
 
-            {/* <Select
-              label="City"
-              options={
-                citiesByCountry[watch('addresses.1.country')] ||
-                citiesByCountry.BY
-              }
-              registerProps={register('addresses.1.city')}
-            /> */}
             <Input
               label="City"
               placeholder="Enter your city"
@@ -273,11 +249,6 @@ const RegistrationForm: React.FC = () => {
         value="Sign up"
         type="submit"
       />
-
-      <p className="error-message">
-        {registrationError &&
-          'There is already an existing customer with the provided email'}
-      </p>
     </form>
   );
 };
