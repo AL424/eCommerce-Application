@@ -26,13 +26,6 @@ export const BasketControls: React.FC<Props> = ({ productId }) => {
   const cart = useAppSelector((state) => state.cartData.value);
   const dispatch = useAppDispatch();
 
-  const [btnClassList, setBtnClassList] = useState<string[]>([]);
-
-  useEffect(() => {
-    if (quantity < 2) setBtnClassList(['not-active']);
-    else setBtnClassList([]);
-  }, [quantity]);
-
   useEffect(() => {
     if (!cart) setProductInCart(false);
     else {
@@ -84,7 +77,10 @@ export const BasketControls: React.FC<Props> = ({ productId }) => {
     };
     const resp = await updateCartById(cart.id, data);
     if (typeof resp === 'string') toast.error(resp);
-    else dispatch(setCartData(resp));
+    else {
+      dispatch(setCartData(resp));
+      toast.success('This item has been completely removed from your cart.');
+    }
   };
 
   const onAddQuantity = async () => {
@@ -123,20 +119,19 @@ export const BasketControls: React.FC<Props> = ({ productId }) => {
 
   return (
     <div className="basket-controls">
-      {!productInCart && (
-        <Button
-          title="Add to Basket"
-          onClick={onAddToBasket}
-          classList={['button_add']}
-        />
-      )}
+      <Button
+        title={'Add to Basket'}
+        onClick={onAddToBasket}
+        classList={['button_add']}
+        disabled={productInCart}
+      />
       {productInCart && (
         <>
           <div className="count-wrap">
             <Button
               title="-"
               onClick={onTakeAwayQuantity}
-              classList={btnClassList}
+              disabled={quantity < 2}
             />
             <span className="count">{quantity}</span>
             <Button title="+" onClick={onAddQuantity} />

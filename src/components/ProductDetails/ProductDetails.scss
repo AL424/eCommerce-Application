@@ -124,3 +124,9 @@
   font-weight: bold;
 }
 
+.product__info {
+  .basket-controls > *:not(:last-child) {
+    margin-bottom: 10px;
+  }
+}
+

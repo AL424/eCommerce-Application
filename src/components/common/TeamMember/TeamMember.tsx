@@ -1,4 +1,5 @@
 import React from 'react';
+import { ReactComponent as GithubLogo } from '../../../assets/github-mark-white.svg';
 import './TeamMember.scss';
 
 interface TeamMemberProps {
@@ -32,7 +33,10 @@ const TeamMember: React.FC<TeamMemberProps> = ({
         <h4 className={teamMemberName}>{name}</h4>
         <p className={teamMemberRole}>{role}</p>
         <p className={teamMemberBio}>{bio}</p>
-        <a href={githubLink}>GitHub</a>
+        <a href={githubLink}>
+          <GithubLogo />
+          GitHub
+        </a>
       </div>
     </div>
   );
