@@ -17,14 +17,16 @@ import {
 
 interface Props {
   productId: string;
+  min?: boolean;
 }
 
-export const BasketControls: React.FC<Props> = ({ productId }) => {
+export const BasketControls: React.FC<Props> = ({ productId, min }) => {
   const [productInCart, setProductInCart] = useState(false);
   const [product, setProduct] = useState<LineItem | null>(null);
   const [quantity, setQuantity] = useState(product?.quantity || 0);
   const cart = useAppSelector((state) => state.cartData.value);
   const dispatch = useAppDispatch();
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (!cart) setProductInCart(false);
@@ -44,10 +46,12 @@ export const BasketControls: React.FC<Props> = ({ productId }) => {
   }, [cart, productId]);
 
   const onAddToBasket = async () => {
+    setLoading(true);
     if (!cart) {
       const resp = await createMyCart({ productId });
       if (typeof resp === 'string') toast.error(resp);
       else dispatch(setCartData(resp));
+      setLoading(false);
     } else {
       const action: MyCartAddLineItemAction = {
         action: 'addLineItem',
@@ -59,7 +63,11 @@ export const BasketControls: React.FC<Props> = ({ productId }) => {
       };
       const resp = await updateCartById(cart.id, data);
       if (typeof resp === 'string') toast.error(resp);
-      else dispatch(setCartData(resp));
+      else {
+        dispatch(setCartData(resp));
+        toast.success('The product added on your cart.');
+      }
+      setLoading(false);
     }
   };
 
@@ -120,10 +128,16 @@ export const BasketControls: React.FC<Props> = ({ productId }) => {
   return (
     <div className="basket-controls">
       <Button
-        title={'Add to Basket'}
+        title={min ? '' : 'Add to Basket'}
         onClick={onAddToBasket}
-        classList={['button_add']}
-        disabled={productInCart}
+        classList={
+          min
+            ? loading
+              ? ['button_add', 'button_add-min', 'loading']
+              : ['button_add', 'button_add-min']
+            : ['button_add']
+        }
+        disabled={productInCart || loading}
       />
       {productInCart && (
         <>
@@ -137,9 +151,11 @@ export const BasketControls: React.FC<Props> = ({ productId }) => {
             <Button title="+" onClick={onAddQuantity} />
           </div>
           <Button
-            title="Remove from Basket"
+            title={min ? '' : 'Remove from Basket'}
             onClick={onRemoveLineItem}
-            classList={['button_remove']}
+            classList={
+              min ? ['button_remove', 'button_remove-min'] : ['button_remove']
+            }
           />
         </>
       )}
