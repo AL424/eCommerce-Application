@@ -63,7 +63,10 @@ export const BasketControls: React.FC<Props> = ({ productId, min }) => {
       };
       const resp = await updateCartById(cart.id, data);
       if (typeof resp === 'string') toast.error(resp);
-      else dispatch(setCartData(resp));
+      else {
+        dispatch(setCartData(resp));
+        toast.success('The product added on your cart.');
+      }
       setLoading(false);
     }
   };
