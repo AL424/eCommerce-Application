@@ -1,14 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
 import authReducer from './authSlice';
-import modalLoginReducer from './modalLoginSlice';
-import modalRegReducer from './modalRegSlice';
 import cartSlice from './cartSlice';
 
 const store = configureStore({
   reducer: {
     auth: authReducer,
-    modalLogin: modalLoginReducer,
-    modalReg: modalRegReducer,
     cartData: cartSlice
   }
 });
