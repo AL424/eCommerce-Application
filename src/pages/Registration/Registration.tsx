@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import RegistrationForm from '../../components/forms/Registration/RegisrationForm';
+import RegistrationForm from '../../components/forms/Registration/RegistrationForm';
 import { Route } from '../../Router/Router';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../services/store/store';
