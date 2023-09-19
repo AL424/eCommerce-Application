@@ -13,10 +13,10 @@
   .basket__button-icon {
     position: relative;
     display: none;
-    &.active .card__button {
+    &.active .basket-button {
       background-color: var(--hover-color);
     }
-    @media screen and (max-width: 560px){
+    @media screen and (max-width: 580px){
       display: block;
       left: 10vw;
     }
@@ -29,7 +29,7 @@
   & .menu,
   & .login,
   & .logout{
-    @media screen and (max-width: 560px){
+    @media screen and (max-width: 580px){
       display: none;
     }
   }
@@ -44,7 +44,7 @@
     background-color: transparent;
     cursor: pointer;
     transition: .3s;
-    @media screen and (max-width: 560px){
+    @media screen and (max-width: 580px){
       display: block;
     }
     &:hover span,
