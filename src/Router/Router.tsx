@@ -37,7 +37,7 @@ export const routesConfig: RouteObject[] = [
         element: <CatalogPage />
       },
       {
-        path: `${Route.product}/:id`,
+        path: `${Route.catalog}/:id`,
         element: <Product />
       },
       {

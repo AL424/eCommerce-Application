@@ -2,11 +2,12 @@ import React, { ReactElement } from 'react';
 import { Link } from 'react-router-dom';
 import { Route } from '../../Router/Router';
 import './main.scss';
+import { Promo } from '../../components/Promo/Promo';
 
 export const Main = (): ReactElement => {
   return (
     <>
-      <h1>Main</h1>
+      <Promo />
       <ul className="main__menu">
         <li>
           <Link to={Route.main} className="button">

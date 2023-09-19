@@ -36,6 +36,7 @@ export const CategoryBreadcrumb: React.FC<Props> = ({
       {chain.map((item) => {
         return (
           <li
+            key={item.id}
             className="breadcrumb__item"
             onClick={() => setActiveCategory(item.id)}
           >

@@ -1,0 +1,46 @@
+.teamMember {
+  display: flex;
+  max-width: 70em;
+  margin-bottom: 1em;
+  padding: 1em;
+  gap: 1em;
+  background-color: var(--dark-blue-color);
+  color: var(--white-color);
+  &__img {
+    width: 300px;
+  }
+  &__bio {
+    text-align: left;
+  }
+  &__info {
+    a {
+      display: flex;
+      gap: 0.2em;
+      float: right;
+      align-items:center;
+      text-decoration: none;
+      color: var(--active-color);
+      cursor: pointer;
+      transition: color .3s linear;
+      & > svg path {
+        fill: var(--active-color);
+        transition: fill 0.3s;
+      }
+    }
+    a:hover {
+      color: var(--hover-color);
+      & > svg path {
+        fill: var(--hover-color);
+      }
+    }
+  }
+  &__name {
+    text-transform: uppercase;
+    color: var(--active-color);
+  }
+
+  @media screen and (max-width: 700px) {
+    align-items: center;
+    flex-direction: column;
+  }
+}

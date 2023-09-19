@@ -10,6 +10,6 @@ test('renders learn react link', () => {
       <App />
     </Provider>
   );
-  const linkElement = screen.getByText(/Logo/i);
-  expect(linkElement).toBeInTheDocument();
+  const logoImage = screen.getByAltText('The Wonderful World');
+  expect(logoImage).toBeInTheDocument();
 });

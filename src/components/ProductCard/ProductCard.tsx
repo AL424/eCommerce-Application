@@ -1,8 +1,7 @@
 import React from 'react';
 import './ProductCard.scss';
 import { ProductProjection } from '@commercetools/platform-sdk';
-import { Link } from 'react-router-dom';
-import { Route } from '../../Router/Router';
+import { BasketControls } from '../BasketControls/BasketControls';
 
 const containerClass = 'card';
 const productImageClass = 'card__img';
@@ -11,6 +10,7 @@ const titleClass = 'card__title';
 const priceClass = 'card__price';
 const oldPriceClass = 'card__price-old';
 const descpiptionClass = 'card__description';
+const buttonContainer = 'card__addButton';
 
 export const ProductCard: React.FC<{ data: ProductProjection }> = ({
   data
@@ -19,6 +19,7 @@ export const ProductCard: React.FC<{ data: ProductProjection }> = ({
     ru: 'ru',
     en: 'en-US'
   };
+
   const imgUrl = data.masterVariant.images;
   const title = data.name ? data.name[languages.en] : '';
   const decription = data.description;
@@ -31,7 +32,7 @@ export const ProductCard: React.FC<{ data: ProductProjection }> = ({
     : null;
 
   return (
-    <Link className={containerClass} to={`${Route.product}/${data.id}`}>
+    <div className={containerClass} id={data.id}>
       <div className={productImageClass}>
         <img
           src={
@@ -42,14 +43,17 @@ export const ProductCard: React.FC<{ data: ProductProjection }> = ({
       </div>
       <div className={textContainerClass}>
         <h4 className={titleClass}>{title}</h4>
-        <p className={priceClass}>
-          <span className={discond ? oldPriceClass : ''}>{price}</span>
-          {discond && <span>{discond}</span>}
-        </p>
+        <div className={buttonContainer}>
+          <p className={priceClass}>
+            <span className={discond ? oldPriceClass : ''}>{price}</span>
+            {discond && <span>{discond}</span>}
+          </p>
+          <BasketControls productId={data.id} min={true} />
+        </div>
         <p className={descpiptionClass}>
           {decription && decription[languages.en]}
         </p>
       </div>
-    </Link>
+    </div>
   );
 };

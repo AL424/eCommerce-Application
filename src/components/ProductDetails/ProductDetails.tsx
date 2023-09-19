@@ -3,8 +3,7 @@ import {
   getCategoryById,
   getProductById
 } from '../../services/eCommerceService/Client';
-import { ProductData, Category } from '@commercetools/platform-sdk';
-// import { checkProductExists } from '../../services/eCommerceService/Client';
+import { Category, ProductProjection } from '@commercetools/platform-sdk';
 import Slider, { Settings } from 'react-slick';
 import Modal from '../common/Modal/Modal';
 import formatCurrency from '../../utils/helpers/currency.helpers';
@@ -12,47 +11,41 @@ import { useParams } from 'react-router-dom';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import './ProductDetails.scss';
-
-// const id = '12236346-a8dd-40b5-ba11-6077e197f5e0'; // test 1 underpants
-// const id = '30eb4525-39a5-4982-b4ab-9b0ea5c7c5a1'; // test 2 stickers Sloths
-
-// const check = async () => {
-//   const exists = await checkProductExists(id);
-//   console.log('Product exists: ', exists);
-// };
-// check();
+import { BasketControls } from '../BasketControls/BasketControls';
 
 export const ProductDetails = () => {
   const { id } = useParams();
-  const [product, setProduct] = useState<ProductData | null>(null);
+  const [product, setProduct] = useState<ProductProjection | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
-  // const [selectedImage, setSelectedImage] = useState('');
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [imageUrls, setImageUrls] = useState<string[]>([]);
   const [productCategory, setProductCategory] = useState<Category | null>(null);
+  const [error, setError] = useState('');
 
   const largeSliderRef = useRef<Slider | null>(null);
   const smallSliderRef = useRef<Slider | null>(null);
 
-  const handleImageClick = (imageUrl: string, index: number) => {
-    // setSelectedImage(imageUrl);
+  const handleImageClick = (index: number) => {
     setSelectedImageIndex(index);
     setModalOpen(true);
   };
 
+  const getProduct = async (productId: string) => {
+    const resp = await getProductById(productId);
+    if (typeof resp === 'string') {
+      setProduct(null);
+      setError(resp);
+    } else {
+      setProduct(resp);
+      setError('');
+    }
+  };
+
   useEffect(() => {
     if (id) {
-      getProductById(id)
-        .then((res) => {
-          if (res) {
-            setProduct(JSON.parse(res));
-          }
-        })
-        .catch((error) => {
-          console.error('Error occurred:', error);
-        });
+      getProduct(id);
     }
-  }, [id]); // routeProductId
+  }, [id]);
 
   useEffect(() => {
     if (product) {
@@ -78,6 +71,7 @@ export const ProductDetails = () => {
 
   const largeSliderSettings: Settings = {
     dots: false,
+    // fade: true,
     infinite: true,
     arrows: imageUrls.length > 1 ? true : false,
     speed: 500,
@@ -88,6 +82,8 @@ export const ProductDetails = () => {
   };
 
   const smallSliderSettings: Settings = {
+    centerMode: true,
+    centerPadding: '0px',
     dots: false,
     infinite: imageUrls.length > 3 ? true : false,
     arrows: false,
@@ -115,7 +111,7 @@ export const ProductDetails = () => {
                       src={image.url}
                       alt={image.label}
                       style={{ width: '350px', height: '350px' }}
-                      onClick={() => handleImageClick(image.url, index)}
+                      onClick={() => handleImageClick(index)}
                     />
                   </div>
                 ))}
@@ -124,7 +120,6 @@ export const ProductDetails = () => {
             {modalOpen && (
               <Modal
                 images={imageUrls}
-                // imageUrl={selectedImage}
                 selectedImageIndex={selectedImageIndex}
                 onClick={() => setModalOpen(false)}
               />
@@ -154,15 +149,13 @@ export const ProductDetails = () => {
             <p>{product.description?.['en-US'] || 'There is no description'}</p>
             <div>
               <p>
-                Category:{' '}
+                <span className="bold-text">Category:</span>{' '}
                 {productCategory?.name['en-US'] || 'Product without category'}
               </p>
-              {/* <p>SKU: {product.masterVariant.sku}</p> */}
               {product.masterVariant.prices?.map((price, index) => (
                 <div key={index}>
                   <p>
-                    {/* Main price */}
-                    Price:{' '}
+                    <span className="bold-text">Price:</span>{' '}
                     <span
                       className={
                         price.discounted ? 'discounted-available' : 'real-price'
@@ -177,8 +170,7 @@ export const ProductDetails = () => {
 
                   {price.discounted && (
                     <p>
-                      {/* Discounted price */}
-                      Discounted Price:{' '}
+                      <span className="bold-text">Discounted Price:</span>{' '}
                       <span className="discounted-price">
                         {formatCurrency(
                           price.discounted.value.centAmount / 100,
@@ -190,8 +182,7 @@ export const ProductDetails = () => {
 
                   {price.tiers?.map((tier, tierIndex) => (
                     <p key={tierIndex}>
-                      {/* Wholesale price */}
-                      Tier {tierIndex + 1}:{' '}
+                      <span className="bold-text">Tier {tierIndex + 1}:</span>{' '}
                       {formatCurrency(
                         tier.value.centAmount / 100,
                         tier.value.currencyCode
@@ -201,6 +192,7 @@ export const ProductDetails = () => {
                   ))}
                 </div>
               ))}
+              <BasketControls productId={product.id} />
             </div>
             {/* {product.variants.map((variant) => (
               <div key={variant.id}>
@@ -219,6 +211,7 @@ export const ProductDetails = () => {
       ) : (
         <p>Loading...</p>
       )}
+      {error && <p>{error}</p>}
     </div>
   );
 };

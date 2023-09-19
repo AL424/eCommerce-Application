@@ -1,3 +1,4 @@
+import { FetchError } from 'node-fetch';
 import { getApiRoot } from './ApiRoot';
 // import { ProductDraft } from '@commercetools/platform-sdk';
 
@@ -14,17 +15,20 @@ export const getProducts = () => {
 };
 
 // Получить продукт по его Id
-export const getProductById = (productId: string) => {
-  return getApiRoot()
-    .productProjections()
-    .withId({ ID: productId })
-    .get()
-    .execute()
-    .then(({ body }) => {
-      // console.log(JSON.stringify(body));
-      return JSON.stringify(body);
-    })
-    .catch(console.error);
+export const getProductById = async (productId: string) => {
+  try {
+    const response = await getApiRoot()
+      .productProjections()
+      .withId({ ID: productId })
+      .get()
+      .execute();
+
+    const product = response.body;
+    return product;
+  } catch (err) {
+    const error = err as FetchError;
+    return error.message;
+  }
 };
 
 export const getCategoryById = (productId: string) => {
