@@ -96,7 +96,7 @@ This page includes a slider with information about available promotional offers 
 This page is designed to display all products available for purchase. Clicking on a product card takes the user to the product detail page. Users can filter products by price and sort them by price or name. Additionally, a search functionality is implemented, allowing users to search for products by keywords in descriptions and names.
 ### Product Page:
 This page provides detailed descriptions of specific products. Users can manage the availability of the product in their cart, allowing them to add, remove, or change the quantity of items in the cart.
-### Shopping Cart:
+### Basket page:
 This page displays the items added by the user in shopping cart, provides options for removing items, changing quantities, and shows the final order cost. Here users can apply promo codes for discounts and clear the cart.
 ### Registration Page:
 This page allows users to register in the system. All form fields have mandatory validation to ensure correct information.
