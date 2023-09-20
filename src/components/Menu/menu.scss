@@ -1,0 +1,40 @@
+.menu {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    list-style-type: none;
+    & > *+* {
+        margin-left: 0.5em;
+    }
+    &__link {
+        position: relative;
+        &:hover svg path {
+            fill: var(--active-color);
+        }
+        &:hover,
+        &.active{
+            color: var(--active-color);
+        }
+        &:hover:after,
+        &.active:after {
+            width: 100%;
+        }
+        &::after{
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin: auto;
+            width: 0%;
+            content: ".";
+            color: transparent;
+            background: var(--active-color);
+            height: 1px;
+        }
+    }
+    &__link,
+    &__link::after,
+    &__link::before{
+        transition: all 0.5s;
+    }
+}

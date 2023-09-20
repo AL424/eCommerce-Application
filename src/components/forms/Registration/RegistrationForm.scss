@@ -1,0 +1,42 @@
+.registration__sub-title {
+  margin: 0;
+  color: var(--white-color);
+}
+
+.addresses {
+  display: flex;
+  gap: .5em;
+}
+
+.shipping,
+.billing {
+  width: 100%;
+}
+
+.addressTitle {
+  color: var(--white-color);
+}
+
+.shipping select,
+.billing select {
+  width: 100%;
+}
+
+.addressSettings {
+  color: var(--white-color);
+  margin-bottom: 0.5em;
+
+  input,
+  label {
+    cursor: pointer;
+  }
+
+  input:disabled {
+    cursor: auto;
+
+    & + label {
+      cursor: auto;
+      opacity: 0.3;
+    }
+  }
+}

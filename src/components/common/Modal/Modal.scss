@@ -1,0 +1,54 @@
+.overlay {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: var(--dark-blue-color);
+  opacity: 0.5;
+  z-index: 10;
+}
+
+.modal-window {
+  width: auto;
+  max-width: 90%; // Слик-Слайдер в модалке ломается, если сильно ограничивать макс ширину
+  // max-width: 400px;
+  padding: 20px;
+  z-index: 10;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--white-color);
+  color: var(--dark-blue-color);
+}
+.product__slider > .modal > .modal-window {
+  padding: 0px;
+}
+
+.modal-window img {
+  width: 100%;
+  // max-width: 80vw;
+  max-height: 80vh;
+  display: block;
+  margin: 0 auto;
+}
+
+.closeButton {
+  position: absolute;
+  color: var(--white-color);
+  font-weight: bold;
+  background-color: var(--dark-blue-color);
+  border: 1px solid;
+  // top: 0;
+  // left: 100%;
+  bottom: 100%;
+  right: 0px;
+  line-height: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.closeButton:hover {
+  background-color: var(--hover-color);
+}
